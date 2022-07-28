@@ -1,0 +1,3 @@
+/.idea
+/docker/postgres/pg-data/*
+/docker/nginx/logs/*
