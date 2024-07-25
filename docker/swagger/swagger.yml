@@ -1,0 +1,1828 @@
+openapi: 3.0.3
+info:
+  title: Swagger Studia3D - OpenAPI 3.0
+  description: |-
+    Документация по главному Backend API
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: baglansariev@mail.ru
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://studia3d-api.mysandbox.kz/api
+  - url: http://localhost:9001/api
+paths:
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Аутентификация пользователя
+      description: Получить токен текущего пользователя
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@user.ru
+                password:
+                  type: string
+                  example: password
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/UserTokenData'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Incorrect user password.
+  /logout:
+    post:
+      tags:
+        - Auth
+      summary: Выход из системы
+      description: Удалить текущий токен пользователя
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Получить список пользователей
+      description: Метод позволяет получить список пользователей
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: limit
+          in: query
+          description: Кол-во записей
+          example: 20
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: Номер страницы
+          example: 1
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  link:
+                    $ref: '#/components/schemas/Link'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+
+    post:
+      tags:
+        - Users
+      summary: Создать пользователя
+      description: Метод позволяет создать пользователя
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password, password_confirmation]
+              properties:
+                name:
+                  type: string
+                  example: Иван Иванов
+                email:
+                  type: string
+                  example: ivanov@ivan.com
+                password:
+                  type: string
+                  example: 1234325
+                password_confirmation:
+                  type: string
+                  example: 1234325
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '422':
+          description: Draft - Validation exception
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The name field is required. (and 1 more error)"
+  
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Получить пользователя по ID
+      description: Метод позволяет получить пользователя по ID
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+
+    put:
+      tags:
+        - Users
+      summary: Изменить пользователя по ID
+      description: Метод позволяет изменить пользователя по ID
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Иван Иванов
+                email:
+                  type: string
+                  example: ivanov@ivan.com
+                password:
+                  type: string
+                  example: 1234325
+                password_confirmation:
+                  type: string
+                  example: 1234325
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+        '422':
+          description: Draft - Validation exception
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The name field is required. (and 1 more error)"
+
+    delete:
+      tags:
+        - Users
+      summary: Удалить пользователя по ID
+      description: Метод позволяет удалить пользователя по ID
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+
+  /detail-statuses:
+    get:
+      tags:
+        - DetailStatuses
+      summary: Получить список статусов деталей
+      description: Метод позволяет получить список статусов деталей
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: limit
+          in: query
+          description: Кол-во записей
+          example: 20
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: Номер страницы
+          example: 1
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DetailStatus'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  link:
+                    $ref: '#/components/schemas/Link'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+    post:
+      tags:
+        - DetailStatuses
+      summary: Создать статус деталей
+      description: Метод позволяет создать статус деталей
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                  example: Выполнено
+                color:
+                  type: string
+                  example: green
+                sort:
+                  type: integer
+                  example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailStatus'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '422':
+          description: Draft - Validation exception
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The name field is required. (and 1 more error)"
+
+  /detail-statuses/{id}:
+    get:
+      tags:
+        - DetailStatuses
+      summary: Получить статус деталей по ID
+      description: Метод позволяет получить статус деталей по ID
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailStatus'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+    put:
+      tags:
+        - DetailStatuses
+      summary: Изменить статус деталей по ID
+      description: Метод позволяет изменить статус деталей по ID
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Выполнено
+                color:
+                  type: string
+                  example: red
+                sort:
+                  type: integer
+                  example: 3
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailStatus'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+        '422':
+          description: Draft - Validation exception
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The name field is required. (and 1 more error)"
+
+    delete:
+      tags:
+        - DetailStatuses
+      summary: Удалить статус деталей по ID
+      description: Метод позволяет удалить статус деталей по ID
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+    
+  /details:
+    get:
+      tags:
+        - Details
+      summary: Получить список деталей
+      description: Метод позволяет получить список деталей
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: limit
+          in: query
+          description: Кол-во записей
+          example: 20
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: Номер страницы
+          example: 1
+          schema:
+            type: integer
+            format: int64
+        - name: search
+          in: query
+          description: Строка для поиска (ID, name, nfc_code)
+          example: 3D Model
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: Строка для сортирвки (ID, name, nfc_code, detail_status_id, created_at, updated_at)
+          example: 3D Model
+          schema:
+            type: string
+        - name: order_type
+          in: query
+          description: Порядок сортировки (ASC, DESC)
+          example: ASC
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DetailShort'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  link:
+                    $ref: '#/components/schemas/Link'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+    post:
+      tags:
+        - Details
+      summary: Создать деталь
+      description: Метод позволяет создать деталь
+      security:
+        - bearer: []
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+          example: multipart/form-data
+        - name: name
+          in: formData
+          required: true
+          schema:
+            type: string
+          example: 3D Model name
+        - name: nfc_code
+          in: formData
+          required: true
+          schema:
+            type: string
+          example: ZBBQE2DQYZ
+        - name: detail_status_id
+          in: formData
+          required: true
+          schema:
+            type: integer
+          example: 2
+        - name: zone
+          in: formData
+          required: false
+          schema:
+            type: string
+          example: Test zone
+        - name: group
+          in: formData
+          required: false
+          schema:
+            type: string
+          example: Test group
+        - name: image
+          in: formData
+          required: false
+          schema:
+            type: file
+          description: Preview image
+        - name: stl
+          in: formData
+          required: false
+          schema:
+            type: file
+          description: Model STL file
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailShort'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '422':
+          description: Draft - Validation exception
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The name field is required. (and 1 more error)"
+  
+  /details/{id}:
+    get:
+      tags:
+        - Details
+      summary: Получить деталь по ID
+      description: Метод позволяет получить деталь по ID
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailWithHistory'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+    post:
+      tags:
+        - Details
+      summary: Изменить деталь по ID
+      description: Метод позволяет изменить деталь по ID
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+          example: multipart/form-data
+        - name: name
+          in: formData
+          schema:
+            type: string
+          example: 3D Model name
+        - name: nfc_code
+          in: formData
+          schema:
+            type: string
+          example: ZBBQE2DQYZ
+        - name: detail_status_id
+          in: formData
+          schema:
+            type: integer
+          example: 2
+        - name: zone
+          in: formData
+          required: false
+          schema:
+            type: string
+          example: Test zone
+        - name: group
+          in: formData
+          required: false
+          schema:
+            type: string
+          example: Test group
+        - name: image
+          in: formData
+          required: false
+          schema:
+            type: file
+          description: Preview image
+        - name: stl
+          in: formData
+          required: false
+          schema:
+            type: file
+          description: Model STL file
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailWithHistory'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+        '422':
+          description: Draft - Validation exception
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The name field is required. (and 1 more error)"
+
+    delete:
+      tags:
+        - Details
+      summary: Удалить деталь по ID
+      description: Метод позволяет удалить деталь по ID
+      security:
+        - bearer: []
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+
+  /detail-histories:
+    get:
+      tags:
+        - DetailHistories
+      summary: Получить историю изменения статусов (список)
+      description: Метод позволяет получить историю изменения статусов (список)
+      security:
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: limit
+          in: query
+          description: Кол-во записей
+          example: 20
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: Номер страницы
+          example: 1
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DetailHistory'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                  link:
+                    $ref: '#/components/schemas/Link'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Detail not found!
+    post:
+      tags:
+        - DetailHistories
+      summary: Создать историю изменения статусов
+      description: Метод позволяет создать историю изменения статусов
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+          example: multipart/form-data
+        - name: detail_id
+          in: formData
+          required: true
+          schema:
+            type: integer
+          example: 2
+        - name: new_status_id
+          in: formData
+          required: false
+          schema:
+            type: integer
+          example: 1
+        - name: comment
+          in: formData
+          required: false
+          schema:
+            type: string
+          example: 3D Model name changed
+        - name: images
+          in: formData
+          required: false
+          schema:
+            type: array
+            items:
+              type: file
+          description: History images
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailHistory'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '422':
+          description: Draft - Validation exception
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The name field is required. (and 1 more error)"
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Detail not found!
+
+  /detail-histories/{id}:
+    get:
+      tags:
+        - DetailHistories
+      summary: Получить историю изменения статусов по ID
+      description: Метод позволяет получить историю изменения статусов по ID
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailHistory'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+    post:
+      tags:
+        - DetailHistories
+      summary: Изменить историю изменения статусов по ID
+      description: Метод позволяет изменить историю изменения статусов по ID
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+          example: multipart/form-data
+        - name: detail_id
+          in: formData
+          required: true
+          schema:
+            type: integer
+          example: 2
+        - name: new_status_id
+          in: formData
+          required: false
+          schema:
+            type: integer
+          example: 1
+        - name: comment
+          in: formData
+          required: false
+          schema:
+            type: string
+          example: 3D Model name changed
+        - name: images
+          in: formData
+          required: false
+          schema:
+            type: array
+            items:
+              type: file
+          description: History images
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DetailHistory'
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '422':
+          description: Draft - Validation exception
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The name field is required. (and 1 more error)"
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Detail not found!
+    delete:
+      tags:
+        - DetailHistories
+      summary: Удалить историю изменения статусов по ID
+      description: Метод позволяет удалить историю изменения статусов по ID
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: (Unauthorized) Ошибка атворизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        '404':
+          description: Сущность не найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 404
+                      message:
+                        type: string
+                        example: Entity not found!
+
+  
+components:
+  schemas:
+    ErrorValidation:
+      type: object
+      properties:
+        message:
+          type: string
+          example: The name field is required. (and 2 more errors)
+        errors:
+          type: object
+          nullable: true
+      xml:
+        name: '##error-validation'
+    Meta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          format: int32
+          example: 1
+        from:
+          type: integer
+          nullable: true
+          format: int32
+          example: 10
+        last_page:
+          type: integer
+          format: int32
+          example: 10
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/MetaLink'
+        path:
+          type: string
+          example: https://stage.api.mazzon.ru/categories
+        per_page:
+          type: integer
+          format: int32
+          example: 10
+        to:
+          type: integer
+          nullable: true
+          format: int32
+          example: 10
+        total:
+          type: integer
+          format: int32
+          example: 10
+      xml:
+        name: '##meta'
+    Link:
+      type: object
+      properties:
+        first:
+          type: string
+          nullable: true
+          example: https://stage.api.mazzon.ru/categories?page=1
+        next:
+          type: string
+          nullable: true
+          example: https://stage.api.mazzon.ru/categories?page=2
+        last:
+          type: string
+          nullable: true
+          example: https://stage.api.mazzon.ru/categories?page=10
+        prev:
+          type: string
+          nullable: true
+          example: https://stage.api.mazzon.ru/categories
+      xml:
+        name: '##link'
+    MetaLink:
+      type: object
+      properties:
+        url:
+          type: string
+          nullable: true
+          example: https://stage.api.mazzon.ru/categories?page=1
+        label:
+          type: string
+          nullable: true
+          example: Next &raquo;
+        active:
+          type: boolean
+          nullable: true
+          example: true
+      xml:
+        name: '##metalink'
+    UserTokenData:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          type: string
+          nullable: true
+          example: "4|MKwytytimtAsuTZBJoHxRob6cW2xioOw8YVxFNU7ecc39fda"
+      xml:
+        name: '##token_data'
+
+    DetailHistory:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        detail_id:
+          type: integer
+          format: int64
+          example: 3
+        user_id:
+          type: integer
+          format: int64
+          example: 2
+          nullable: true
+        previous_status_id:
+          type: integer
+          format: int64
+          example: 1
+          nullable: true
+        comment:
+          type: string
+          example: Test comment
+          nullable: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetailHistoryImage'
+        new_status:
+          nullable: true
+          $ref: '#/components/schemas/DetailStatus'
+        previous_status:
+          nullable: true
+          $ref: '#/components/schemas/DetailStatus'
+        detail:
+          $ref: '#/components/schemas/DetailShort'
+        created_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+        updated_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+      xml:
+        name: '##detail_history'
+
+    DetailWithHistory:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        detail_status_id:
+          type: integer
+          format: int64
+          example: 2
+        name:
+          type: string
+          example: 3D Detail
+        nfc_code:
+          type: string
+          example: EKBOHGEIVQ
+        zone:
+          type: string
+          example: New zone
+          nullable: true
+        group:
+          type: string
+          example: Group 1
+          nullable: true
+        description:
+          type: string
+          example: Test model description
+          nullable: true
+        image:
+          type: string
+          example: http://localhost:9001/storage/detail-histories/2024-05-19_08-41-39_печать.png
+        stl:
+          type: string
+          example: http://localhost:9001/storage/details/2024-05-17_02-59-31_Skull_model1.stl
+          nullable: true
+        detail_status:
+          $ref: '#/components/schemas/DetailStatus'
+        histories:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetailHistory'
+        created_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+        updated_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+      xml:
+        name: '##detail_with_history'
+
+    DetailHistoryImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        detail_history_id:
+          type: integer
+          format: int64
+          example: 2
+        path:
+          type: string
+          example: http://localhost:9001/storage/detail-histories/2024-05-19_08-41-39_печать.png
+        created_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+        updated_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+      xml:
+        name: '##detail_with_history_image'
+
+    DetailShort:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        detail_status_id:
+          type: integer
+          format: int64
+          example: 2
+        name:
+          type: string
+          example: 3D Detail
+        nfc_code:
+          type: string
+          example: EKBOHGEIVQ
+        zone:
+          type: string
+          example: New zone
+          nullable: true
+        group:
+          type: string
+          example: Group 1
+          nullable: true
+        description:
+          type: string
+          example: Test model description
+          nullable: true
+        image:
+          type: string
+          example: http://localhost:9001/storage/details/2024-05-17_03-19-42_1622836_checkmark_done_explore_find_magnifier_icon.png
+          nullable: true
+        stl:
+          type: string
+          example: http://localhost:9001/storage/details/2024-05-17_02-59-31_Skull_model1.stl
+          nullable: true
+        detail_status:
+          $ref: '#/components/schemas/DetailStatus'
+        created_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+        updated_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+      xml:
+        name: '##detail_short'
+
+    DetailStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Выполнено
+        color:
+          type: string
+          example: green
+          nullable: true
+        sort:
+          type: integer
+          example: 0
+          nullable: true
+        created_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+        updated_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+      xml:
+        name: '##detail_status'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Admin
+        email:
+          type: string
+          example: ivan@test.com
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        created_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+        updated_at:
+          type: string
+          example: "2024-05-03T11:01:13.000000Z"
+      xml:
+        name: '##user'
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Администратор
+        slug:
+          type: string
+          example: admin
+        created_at:
+          type: string
+          example: "2024-04-02T11:01:13.000000Z"
+        updated_at:
+          type: string
+          example: "2024-04-02T11:01:13.000000Z"
+      xml:
+        name: '##role'
+  securitySchemes:
+    bearer:
+      type: apiKey
+      description: Bearer Token to authorize requests. If you don't have an User API Token, use method `/login` for get Bearer token.
+      name: Authorization
+      in: header

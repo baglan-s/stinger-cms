@@ -6,3 +6,6 @@ docker-up-d:
 
 docker-down:
 	docker-compose --env-file ./src/.env down
+
+docker-build:
+	docker-compose --env-file ./src/.env build
