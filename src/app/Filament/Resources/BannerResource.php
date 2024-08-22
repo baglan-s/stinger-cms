@@ -59,7 +59,7 @@ class BannerResource extends Resource
                 FileUpload::make('image')
                     ->label('Image')
                     ->required()
-                    ->directory('banners/images'),
+                    ->directory('images/banners'),
                 Toggle::make('active')
                     ->default(true),
                 TextInput::make('sort')

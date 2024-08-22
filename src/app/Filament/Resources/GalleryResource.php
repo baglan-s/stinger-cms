@@ -61,7 +61,7 @@ class GalleryResource extends Resource
                 FileUpload::make('images')
                     ->label('Images')
                     ->multiple()
-                    ->directory('galleries/images'),
+                    ->directory('images/galleries'),
                 Toggle::make('active')
                     ->default(true),
                 Tabs::make('translations')

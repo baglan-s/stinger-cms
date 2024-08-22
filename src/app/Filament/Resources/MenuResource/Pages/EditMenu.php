@@ -45,13 +45,19 @@ class EditMenu extends EditRecord
         ]);
 
         foreach ($data['translations'] as $translation) {
-            $menuTranslation = $menu->translations()->firstOrCreate([
-                'language_id' => $translation['language_id'],
-            ]);
-
-            $menuTranslation->update([
+            $updates = [
                 'name' => $translation['name'],
-            ]);
+            ];
+            $menuTranslation = $menu->translations()
+                ->where('language_id', $translation['language_id'])
+                ->first();
+
+            if (!$menuTranslation) {
+                $updates['language_id'] = $translation['language_id'];
+                $menuTranslation = $menu->translations()->create($updates);
+            } else {
+                $menuTranslation->update($updates);
+            }
         }
 
         return $menu;

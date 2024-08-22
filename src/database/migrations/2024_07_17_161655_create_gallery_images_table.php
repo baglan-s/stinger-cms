@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gallery_images', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->uuid('gallery_id');
+            $table->id('id');
+            $table->unsignedBigInteger('gallery_id');
             $table->text('path');
             $table->text('thumbnail')->nullable();
             $table->integer('sort')->default(0);

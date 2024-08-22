@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('menu_translations', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->uuid('menu_id');
-            $table->uuid('language_id');
+            $table->id('id');
+            $table->unsignedBigInteger('menu_id');
+            $table->unsignedBigInteger('language_id');
             $table->string('name');
             $table->timestamps();
 

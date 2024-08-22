@@ -3,44 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Role;
-use App\Repositories\RepositoryInterface;
+use App\Repositories\Repository;
 
-class RoleRepository implements RepositoryInterface
+class RoleRepository extends Repository
 {
-    public function model()
-    {
-        return new Role;
-    }
+    protected $model = Role::class;
 
-    public function all()
-    {
-        return $this->model()->all();
-    }
-
-    public function active()
-    {
-        return $this->model()
-            ->where('active', true)
-            ->get();
-    }
-
-    public function find($id)
-    {
-        return $this->model()->find($id);
-    }
-
-    public function create()
-    {
-        
-    }
-
-    public function update()
-    {
-        
-    }
-
-    public function delete()
-    {
-
-    }
 }

@@ -52,7 +52,7 @@ class PageResource extends Resource
                         ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.content')
                         ->label('Content')
-                        ->fileAttachmentsDirectory('pages/images')
+                        ->fileAttachmentsDirectory('images/pages')
                         ->toolbarButtons([
                             'attachFiles',
                             'blockquote',

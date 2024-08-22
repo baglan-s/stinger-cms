@@ -20,6 +20,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TextArea;
 use Filament\Forms\Components\Hidden;
 use Illuminate\Validation\Rules\Unique;
+use App\Helpers\CategoryHelper;
 
 class PostCategoryResource extends Resource
 {
@@ -33,8 +34,7 @@ class PostCategoryResource extends Resource
     {
         $languages = Language::where('active', true)->get();
         $tabs = [];
-        $categories = PostCategory::all();
-        $categoryOptions = [];
+        $categoryOptions = CategoryHelper::getCategoriesTree(PostCategory::all());
 
         foreach ($languages as $language) {
             $tabs[] = Tabs\Tab::make($language->name)
@@ -52,10 +52,6 @@ class PostCategoryResource extends Resource
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->default($language->id),
                 ]);
-        }
-
-        foreach ($categories as $category) {
-            $categoryOptions[$category->id] = $category->translation()?->name;
         }
 
         return $form

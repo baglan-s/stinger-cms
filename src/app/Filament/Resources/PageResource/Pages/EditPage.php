@@ -48,17 +48,23 @@ class EditPage extends EditRecord
         ]);
 
         foreach ($data['translations'] as $key => $translation) {
-            $pageTranslation = $page->translations()->firstOrCreate([
-                'language_id' => $translation['language_id'],
-            ]);
-
-            $pageTranslation->update([
+            $updates = [
                 'title' => $translation['title'],
                 'content' => $translation['content'],
-                'slug' => $translation['slug'] ?? Str::slug($translation['title']) . '_' . $key,
+                'slug' => $translation['slug'] ?? Str::slug($translation['title']),
                 'meta_title' => $translation['meta_title'],
                 'meta_description' => $translation['meta_description'],
-            ]);
+            ];
+            $pageTranslation = $page->translations()
+                ->where('language_id', $translation['language_id'])
+                ->first();
+
+            if (!$pageTranslation) {
+                $updates['language_id'] = $translation['language_id'];
+                $page->translations()->create($updates);
+            } else {
+                $pageTranslation->update($updates);
+            }
         }
 
         return $page;

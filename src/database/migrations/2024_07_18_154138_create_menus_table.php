@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('menus', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->uuid('parent_id')->nullable();
+            $table->id('id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('link');
             $table->integer('sort')->default(0);
             $table->timestamps();

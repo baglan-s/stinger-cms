@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Menu;
+use Illuminate\Support\Str;
 
 class CreateMenu extends CreateRecord
 {

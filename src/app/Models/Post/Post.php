@@ -3,7 +3,6 @@
 namespace App\Models\Post;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Post\PostCategory;
 use App\Models\Post\PostTranslation;
@@ -11,7 +10,7 @@ use App\Models\User;
 
 class Post extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $guarded = [];
 

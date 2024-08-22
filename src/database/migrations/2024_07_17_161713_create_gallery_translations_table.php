@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gallery_translations', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->uuid('gallery_id');
-            $table->uuid('language_id');
+            $table->id('id');
+            $table->unsignedBigInteger('gallery_id');
+            $table->unsignedBigInteger('language_id');
             $table->string('name');
             $table->string('slug');
             $table->text('description')->nullable();

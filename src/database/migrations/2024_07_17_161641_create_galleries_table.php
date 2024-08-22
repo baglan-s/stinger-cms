@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('galleries', function (Blueprint $table) {
-            $table->uuid('id')->unique();
+            $table->id('id');
             $table->integer('sort')->default(0);
             $table->boolean('active')->default(true);
-            $table->uuid('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

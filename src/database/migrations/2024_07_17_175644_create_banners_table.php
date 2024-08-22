@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('banners', function (Blueprint $table) {
-            $table->uuid('id')->unique();
+            $table->id('id');
             $table->string('name');
             $table->integer('sort')->default(0);
             $table->boolean('active')->default(true);
