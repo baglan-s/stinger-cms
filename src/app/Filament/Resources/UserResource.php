@@ -46,13 +46,13 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->unique(table: User::class)
+                    ->unique(table: User::class, ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->mask('+7(999)-999-99-99')
                     ->placeholder('+7(999)-999-99-99')
-                    ->unique(table: User::class)
+                    ->unique(table: User::class, ignoreRecord: true)
                     ->maxLength(255),
                 Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
