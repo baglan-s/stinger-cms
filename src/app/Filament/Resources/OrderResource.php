@@ -78,7 +78,7 @@ class OrderResource extends Resource
                     ->state(fn (Order $order) => $order->user?->name)
                     ->label('User'),
                 Tables\Columns\TextColumn::make('delivery_address')
-                    ->state(fn (Order $order) => $order->deliveryAddress?->getFulAddress())
+                    ->state(fn (Order $order) => $order->deliveryAddress?->getFullAddress())
                     ->label('Delivery address'),
                 Tables\Columns\TextColumn::make('store')
                     ->state(fn (Order $order) => $order->store?->translation()?->name)
