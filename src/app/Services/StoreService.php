@@ -28,6 +28,7 @@ class StoreService extends Service
         try {
             $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
             $synchronized = 0;
+            $oneCStoreIds = [];
 
             foreach ($stores as $store) {
                 $existedStore = $this->repository->model()
@@ -41,11 +42,11 @@ class StoreService extends Service
                     $existedStore = $this->repository->create(StoreAdapter::adaptOneCStore($store, $city));
                     $existedStore->translations()->create(StoreAdapter::adaptOneCStoreTranslation($store, $defaultLanguage->id));
                 } else {
-                    $existedStore->update([
-                        'guid' => $store['guid'],
-                        'id_1c' => $store['id'],
-                    ]);
+                    $existedStore->update(StoreAdapter::adaptOneCStore($store, $city));
+                    $existedStore->translations()->where('language_id', $defaultLanguage->id)->update(StoreAdapter::adaptOneCStoreTranslation($store, $defaultLanguage->id));
                 }
+
+                $oneCStoreIds[] = $store['id'];
             }
 
             $synchronized++;
@@ -53,6 +54,12 @@ class StoreService extends Service
             $this->logService
                 ->log('Store synchronization', '1c', "{$city->id}: Stores synchronized: $synchronized")
                 ->write();
+
+            $this->repository->model()
+                ->where('city_id', $city->id)
+                ->whereNotIn('id_1c', $oneCStoreIds)
+                ->update(['active' => false]);
+
         } catch (\Exception $e) {
             $this->logService
                 ->log('Store synchronization error', '1c', $e)
