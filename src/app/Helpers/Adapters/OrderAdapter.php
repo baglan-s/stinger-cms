@@ -8,7 +8,7 @@ class OrderAdapter
 {
     public static function adaptOneCOrder(Order $order): array
     {
-        return [
+        $orderData = [
             'id' => $order->id,
             'customer' => [
                 'firstName' => $order->user->name,
@@ -24,5 +24,7 @@ class OrderAdapter
             'delivery' => $order->is_delivery,
             'created' => $order->created_at,
         ];
+
+        return $orderData;
     }
 }
