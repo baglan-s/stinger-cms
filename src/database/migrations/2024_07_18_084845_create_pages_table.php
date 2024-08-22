@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pages', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->uuid('user_id')->nullable();
+            $table->id('id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->boolean('active')->default(true);
             $table->integer('views')->default(0);
             $table->timestamps();

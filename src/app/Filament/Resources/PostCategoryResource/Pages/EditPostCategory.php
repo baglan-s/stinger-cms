@@ -48,15 +48,21 @@ class EditPostCategory extends EditRecord
         ]);
 
         foreach ($data['translations'] as $key => $translation) {
-            $categoryTranslation = $postCategory->translations()->firstOrCreate([
-                'language_id' => $translation['language_id'],
-            ]);
-
-            $categoryTranslation->update([
+            $updates = [
                 'name' => $translation['name'],
                 'slug' => $translation['slug'] ?? Str::slug($translation['name']) . '_' . $key,
                 'description' => $translation['description'] ?? null,
-            ]);
+            ];
+            $categoryTranslation = $postCategory->translations()
+                ->where('language_id', $translation['language_id'])
+                ->first();
+
+            if (!$categoryTranslation) {
+                $updates['language_id'] = $translation['language_id'];
+                $postCategory->translations()->create($updates);
+            } else {
+                $categoryTranslation->update($updates);
+            }
         }
 
         return $postCategory;

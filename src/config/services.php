@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    /**
+     * 1C Integration credentials
+     */
+    '1c' => [
+        'host' => env('1C_HOST'),
+        'login' => env('1C_LOGIN'),
+        'password' => env('1C_PASSWORD'),
+    ]
+
 ];

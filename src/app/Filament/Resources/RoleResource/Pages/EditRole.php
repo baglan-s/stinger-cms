@@ -50,7 +50,7 @@ class EditRole extends EditRecord
         $this->record->permissions = $rolePermissions;
 
         $this->authorizeAccess();
-        dd($this->record);
+        
         $this->fillForm();
 
         $this->previousUrl = url()->previous();
@@ -63,10 +63,19 @@ class EditRole extends EditRecord
         ]);
 
         foreach ($data['translations'] as $translation) {
-            $role->translations()->updateOrCreate([
+            $updates = [
                 'name' => $translation['name'],
-                'language_id' => $translation['language_id'],
-            ]);
+            ];
+            $roleTranslation = $role->translations()
+                ->where('language_id', $translation['language_id'])
+                ->first();
+
+            if (!$roleTranslation) {
+                $updates['language_id'] = $translation['language_id'];
+                $roleTranslation = $role->translations()->create($updates);
+            } else {
+                $roleTranslation->update($updates);
+            }
         }
 
         if (isset($data['permissions'])) {

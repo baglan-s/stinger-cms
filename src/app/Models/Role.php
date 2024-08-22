@@ -3,26 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\RoleTranslation;
 use App\Models\User;
 use App\Models\Permission;
+use App\Models\Traits\HasTranslation;
 
 class Role extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasTranslation;
 
     protected $guarded = [];
 
     protected $with = ['translations', 'permissions'];
 
-    public function translations(): HasMany
-    {
-        return $this->hasMany(RoleTranslation::class);
-    }
+    protected $translationClass = RoleTranslation::class;
 
     public function users(): BelongsToMany
     {

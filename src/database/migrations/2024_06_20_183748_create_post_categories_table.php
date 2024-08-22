@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('post_categories', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->uuid('parent_id')->nullable();
+            $table->id('id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->integer('sort')->default(1);
             $table->timestamps();
         });

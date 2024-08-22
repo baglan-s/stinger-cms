@@ -48,15 +48,21 @@ class EditBanner extends EditRecord
         ]);
 
         foreach ($data['translations'] as $translation) {
-            $bannerTranslation = $banner->translations()->firstOrCreate([
-                'language_id' => $translation['language_id'],
-            ]);
-
-            $bannerTranslation->update([
+            $updates = [
                 'title' => $translation['title'] ?? null,
                 'subtitle' => $translation['subtitle'] ?? null,
                 'link' => $translation['link'] ?? null,
-            ]);
+            ];
+            $bannerTranslation = $banner->translations()
+                ->where('language_id', $translation['language_id'])
+                ->first();
+
+            if (!$bannerTranslation) {
+                $updates['language_id'] = $translation['language_id'];
+                $banner->translations()->create($updates);
+            } else {
+                $bannerTranslation->update($updates);
+            }
         }
 
         return $banner;

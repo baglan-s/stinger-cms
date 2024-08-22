@@ -50,17 +50,23 @@ class EditPost extends EditRecord
         ]);
 
         foreach ($data['translations'] as $key => $translation) {
-            $postTranslation = $post->translations()->firstOrCreate([
-                'language_id' => $translation['language_id'],
-            ]);
-
-            $postTranslation->update([
+            $updates = [
                 'title' => $translation['title'],
                 'content' => $translation['content'],
                 'slug' => $translation['slug'] ?? Str::slug($translation['title']) . '_' . $key,
                 'meta_keywords' => $translation['meta_keywords'],
                 'meta_description' => $translation['meta_description'],
-            ]);
+            ];
+            $postTranslation = $post->translations()
+                ->where('language_id', $translation['language_id'])
+                ->first();
+
+            if (!$postTranslation) {
+                $updates['language_id'] = $translation['language_id'];
+                $post->translations()->create($updates);
+            } else {
+                $postTranslation->update($updates);
+            }
         }
 
         return $post;

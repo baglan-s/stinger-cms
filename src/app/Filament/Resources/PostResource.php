@@ -23,6 +23,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\RichEditor;
+use App\Helpers\CategoryHelper;
 
 class PostResource extends Resource
 {
@@ -35,7 +36,7 @@ class PostResource extends Resource
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
-        $categoryOptions = self::getCategoryOptions(
+        $categoryOptions = CategoryHelper::getCategoriesTree(
             PostCategory::whereNull('parent_id')
                 ->with('children')
                 ->get()
@@ -60,7 +61,7 @@ class PostResource extends Resource
                         ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.content')
                         ->label('Content')
-                        ->fileAttachmentsDirectory('posts/images')
+                        ->fileAttachmentsDirectory('images/posts')
                         ->toolbarButtons([
                             'attachFiles',
                             'blockquote',
@@ -91,7 +92,7 @@ class PostResource extends Resource
                     ->options($categoryOptions),
                 FileUpload::make('image')
                     ->label('Main image')
-                    ->directory('posts/images'),
+                    ->directory('images/posts'),
                 Toggle::make('active')
                     ->default(true),
                 Tabs::make('translations')
@@ -163,33 +164,5 @@ class PostResource extends Resource
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
-    }
-
-    public static function getCategoryOptions(iterable $categories, $iteration = 0): array
-    {
-        $options = [];
-
-        foreach ($categories as $category) {
-            if (!$category->parent_id) {
-                $options[$category->id] = $category->translation()?->name;
-                $iteration = 0;
-            } else {
-                $options[$category->id] = ' ' . str_repeat('-', $iteration) . ' ' . $category->translation()?->name;
-            }
-
-            if ($category->children->count() > 0) {
-                $iteration++;
-
-                foreach ($category->children as $child) {
-                    $options[$child->id] = ' ' . str_repeat('-', $iteration) . ' ' . $child->translation()?->name;
-
-                    if ($child->children->count() > 0) {
-                        $options = array_merge($options, self::getCategoryOptions($child->children, $iteration + 1));
-                    }
-                }
-            }
-        }
-
-        return $options;
     }
 }

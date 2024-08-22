@@ -3,35 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\GalleryImage;
 use App\Models\GalleryTranslation;
+use App\Models\Traits\HasTranslation;
 
 class Gallery extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasTranslation;
 
     protected $guarded = [];
 
     protected $with = ['translations', 'images'];
 
-    public function translations()
-    {
-        return $this->hasMany(GalleryTranslation::class, 'gallery_id');
-    }
+    protected $translationClass = GalleryTranslation::class;
 
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function translation()
-    {
-        return $this->translations()->whereHas('language', function ($q) {
-            $q->where('code', app()->getLocale());
-        })->first();
     }
 
     public function images()

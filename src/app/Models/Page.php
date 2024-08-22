@@ -3,30 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PageTranslation;
 use App\Models\User;
+use App\Models\Traits\HasTranslation;
 
 class Page extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasTranslation;
 
     protected $guarded = [];
 
     protected $with = ['translations'];
 
-    public function translations()
-    {
-        return $this->hasMany(PageTranslation::class);
-    }
-
-    public function translation()
-    {
-        return $this->translations()->whereHas('language', function ($q) {
-            $q->where('code', app()->getLocale());
-        })->first();
-    }
+    protected $translationClass = PageTranslation::class;
 
     public function author()
     {

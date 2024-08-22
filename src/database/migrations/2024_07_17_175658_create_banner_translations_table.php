@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('banner_translations', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->uuid('banner_id');
-            $table->uuid('language_id');
+            $table->id('id');
+            $table->unsignedBigInteger('banner_id');
+            $table->unsignedBigInteger('language_id');
             $table->string('title')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('link')->nullable();

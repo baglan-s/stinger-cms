@@ -49,15 +49,21 @@ class EditGallery extends EditRecord
         ]);
 
         foreach ($data['translations'] as $key => $translation) {
-            $galleryTranslation = $gallery->translations()->firstOrCreate([
-                'language_id' => $translation['language_id'],
-            ]);
-
-            $galleryTranslation->update([
+            $updates = [
                 'name' => $translation['name'],
-                'slug' => $translation['slug'] ?? Str::slug($translation['name']) . '_' . $key,
+                'slug' => $translation['slug'] ?? Str::slug($translation['name']),
                 'description' => $translation['description'] ?? null,
-            ]);
+            ];
+            $galleryTranslation = $gallery->translations()
+                ->where('language_id', $translation['language_id'])
+                ->first();
+
+            if (!$galleryTranslation) {
+                $updates['language_id'] = $translation['language_id'];
+                $gallery->translations()->create($updates);
+            } else {
+                $galleryTranslation->update($updates);
+            }
         }
 
         $gallery->images()->delete();

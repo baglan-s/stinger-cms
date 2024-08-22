@@ -17,12 +17,16 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Models\Setting;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->bootUsing(function (Panel $panel) {
+                app()->setLocale(Setting::getSetting()?->language?->code ?? 'ru');
+            })
             ->default()
             ->id('admin')
             ->path('admin')

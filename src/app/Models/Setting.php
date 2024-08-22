@@ -4,13 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Models\Catalog\Product;
+use App\Models\Language;
 
 class Setting extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $guarded = [];
 
-    
+    public function weeklyProduct()
+    {
+        return $this->belongsTo(Product::class, 'weekly_product_id');
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class, 'language_id');
+    }
+
+    public static function getSetting()
+    {
+        return self::first();
+    }
 }

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('page_translations', function (Blueprint $table) {
-            $table->uuid('id')->unique();
-            $table->uuid('page_id');
-            $table->uuid('language_id');
+            $table->id('id');
+            $table->unsignedBigInteger('page_id');
+            $table->unsignedBigInteger('language_id');
             $table->string('title');
             $table->string('slug');
             $table->text('content')->nullable();
