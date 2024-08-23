@@ -33,14 +33,22 @@ return [
                 'title' => 'Магазины'
         ],
         'system' => [
+            'title' => 'Система',
             'languages' => 'Языки',
             'permissions' => 'Разрешения',
             'roles' => 'Роли',
             'settings' => 'Настройки'
         ],
         'posts' => [
+            'title' => 'Посты',
             'categories' => 'Категории постов',
             'post' => 'Пост'
+        ],
+        'catalog' => [
+            'title' => 'Каталог'
+        ],
+        'components' => [
+            'title' => 'Компоненты'
         ]
     ]
 ];

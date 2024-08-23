@@ -33,6 +33,11 @@ class PostResource extends Resource
 
     protected static ?string $navigationGroup = 'Posts';
 
+    public static function getNavigationGroup(): string
+    {
+        return __('admin.navigation.posts.title');
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('admin.navigation.posts.post');

@@ -26,14 +26,16 @@ class BannerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
 
+    protected static ?string $navigationGroup = 'Components';
+
+    public static function getNavigationGroup(): string
+    {
+        return __('admin.navigation.components.title');
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('admin.navigation.banners');
-    }
-
-    public static function getNavigationGroup(): ?string
-    {
-        return __('Components');
     }
 
     public static function form(Form $form): Form

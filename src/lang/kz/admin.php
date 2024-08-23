@@ -33,14 +33,22 @@ return [
             'title' => 'Дүкендер'
         ],
         'system' => [
+            'title' => 'Система',
             'languages' => 'Тілдер',
             'permissions' => 'Разрешения',
             'roles' => 'Роли',
             'settings' => 'Настройки'
         ],
         'posts' => [
+            'title' => 'Посты',
             'categories' => 'Категории постов',
             'post' => 'Пост'
+        ],
+        'catalog' => [
+            'title' => 'Каталог'
+        ],
+        'components' => [
+            'title' => 'Компонентер'
         ]
     ]
 ];

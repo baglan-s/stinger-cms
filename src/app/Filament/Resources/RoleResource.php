@@ -30,6 +30,11 @@ class RoleResource extends Resource
 
     protected static ?string $navigationGroup = 'System';
 
+    public static function getNavigationGroup(): string
+    {
+        return __('admin.navigation.system.title');
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('admin.navigation.system.roles');

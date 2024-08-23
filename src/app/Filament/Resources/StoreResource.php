@@ -30,6 +30,11 @@ class StoreResource extends Resource
 
     protected static ?string $navigationGroup = 'Catalog';
 
+    public static function getNavigationGroup(): string
+    {
+        return __('admin.navigation.catalog.title');
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('admin.navigation.stores.title');
