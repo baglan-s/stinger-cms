@@ -39,6 +39,7 @@ class EditMenu extends EditRecord
     protected function handleRecordUpdate(Model $menu, array $data): Model
     {
         $menu->update([
+            'menu_type_id' => $data['menu_type_id'],
             'parent_id' => $data['parent_id'] != $menu->id ? $data['parent_id'] : null,
             'link' => $data['link'],
             'sort' => $data['sort'],
