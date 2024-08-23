@@ -1,0 +1,278 @@
+@import url("fonts.css");
+
+.the-personal-addresses {
+  font-family: "ManropeRegular", sans-serif;
+}
+
+.the-personal-addresses__card {
+  margin-bottom: 10px;
+}
+
+.the-personal-addresses-new {
+  position: relative;
+  border-radius: 7px;
+  overflow: hidden;
+  border: none;
+}
+
+.the-personal-addresses-new__icon {
+  position: absolute;
+  z-index: 3;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  transition: border-color 0.2s ease-in;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.the-personal-addresses-new__icon:after,
+.the-personal-addresses-new__icon:before {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 7px;
+  width: 8px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: transform 0.2s ease-in, opacity 0.2s ease-in;
+}
+
+.the-personal-addresses-new__icon:after {
+  transform: rotate(-90deg) translateZ(0);
+}
+
+.the-personal-addresses-new__head {
+  padding: 12px 15px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  background-color: #03a9f4;
+  user-select: none;
+  overflow: hidden;
+}
+
+.the-personal-addresses-card {
+  position: relative;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 18px;
+}
+
+.the-personal-addresses-card__head {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.the-personal-addresses-card__head svg {
+  margin-right: 3px;
+  width: 20px;
+  height: 20px;
+  fill: #40404b;
+}
+
+.the-personal-addresses-card__label {
+  position: relative;
+  display: block;
+}
+
+.the-personal-addresses-card__form .the-personal-addresses-card__label {
+  margin-bottom: 15px;
+}
+
+.the-personal-addresses-new__form .the-personal-addresses-card__label {
+  margin-bottom: 15px;
+}
+
+.the-personal-addresses-card__input {
+  width: 100%;
+  padding: 0;
+  color: #8f90a6;
+  font-size: 16px;
+  line-height: 22px;
+  border: none;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color 0.2s ease-in;
+}
+
+.the-personal-addresses-card__head .the-personal-addresses-card__input {
+  color: var(--Fiord);
+}
+
+.the-personal-addresses-card__form {
+  padding-top: 10px;
+  border-color: #ebebf0;
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-image: 0;
+  border-image-slice: 1;
+}
+
+.the-personal-addresses-card__cities-list {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  width: 100%;
+  max-height: 180px;
+  background-color: #fff;
+  border: 1px solid #f2f2f5;
+  overflow: auto;
+}
+
+.the-personal-addresses-new__icon.opened:after {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+.the-personal-addresses-card--shadow {
+  box-shadow: 0 0 30px #f2f2f5;
+  border: none;
+}
+
+.the-personal-addresses-card__default {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.the-personal-addresses-card__tooltip {
+  display: none;
+}
+
+.the-personal-addresses-card__default svg.icon-star {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+  stroke: rgba(3, 169, 244, 0.5);
+  transition: fill 0.2s ease-in, stroke 0.2s ease-in;
+}
+
+.the-personal-addresses-new__icon,
+.the-personal-addresses-card__default.active svg.icon-star {
+  fill: #03a9f4;
+  stroke: #03a9f4;
+}
+
+.the-personal-tooltip--right {
+  right: -10px;
+}
+
+.the-personal-tooltip--bottom {
+  top: calc(100% + 12px);
+}
+
+.the-personal-tooltip--right svg {
+  right: 15px;
+}
+
+.the-personal-tooltip--bottom svg {
+  top: -8px;
+  transform: rotate(180deg);
+}
+
+.the-personal-addresses-card__input[readonly] {
+  cursor: default;
+}
+
+.the-personal-addresses-card__edit {
+  color: #03a9f4;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.the-personal-addresses-card__delete {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+}
+
+.the-personal-addresses-card__delete svg.icon-delete {
+  width: 24px;
+  height: 24px;
+}
+
+.the-personal-addresses-new__icon.opened {
+  border-color: #03a9f4;
+
+  &:after, &:before {
+    background-color: #03a9f4;
+  }
+}
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+@media only screen and (min-width: 992px) {
+  .the-personal-addresses__inner {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+  }
+
+  .the-personal-addresses__card {
+    flex-basis: 50%;
+    max-width: 50%;
+    margin-bottom: 0;
+    padding: 0 10px 20px;
+  }
+
+  .the-personal-addresses-new {
+    border-radius: 18px;
+    box-shadow: 0 0 50px #f2f2f5;
+  }
+
+  .the-personal-addresses-new__icon {
+    border-color: #03a9f4;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
+
+  .the-personal-addresses-new__icon:after,
+  .the-personal-addresses-new__icon:before {
+    background-color: #03a9f4;
+  }
+
+  .the-personal-addresses-new__head {
+    padding: 22px 20px;
+    color: #03a9f4;
+    font-size: 16px;
+    text-align: left;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  .the-personal-addresses-card {
+    padding: 20px;
+  }
+
+  .the-personal-addresses-card--shadow {
+    box-shadow: 0 0 50px #f2f2f5;
+  }
+
+  .the-personal-addresses-card__default:hover
+    .the-personal-addresses-card__tooltip {
+    display: block;
+  }
+
+  .the-personal-tooltip svg {
+    position: absolute;
+  }
+
+  .the-personal-addresses-card__delete {
+    bottom: 20px;
+    right: 20px;
+  }
+}

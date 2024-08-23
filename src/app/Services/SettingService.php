@@ -24,4 +24,9 @@ class SettingService extends Service
 
         return $setting;
     }
+
+    public function getSetting()
+    {
+        return $this->repository->get();
+    }
 }
