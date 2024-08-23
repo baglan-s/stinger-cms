@@ -23,6 +23,11 @@ class ProductReviewResource extends Resource
 
     protected static ?string $navigationGroup = 'Catalog';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.product.reviews.title');
+    }
+
     public static function form(Form $form): Form
     {
         $productOptions = [];

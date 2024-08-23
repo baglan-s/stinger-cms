@@ -27,7 +27,7 @@ class MenuResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('admin.menus');
+        return __('admin.navigation.menus');
     }
 
     public static function form(Form $form): Form

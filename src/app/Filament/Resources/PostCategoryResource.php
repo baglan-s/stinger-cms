@@ -30,6 +30,11 @@ class PostCategoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Posts';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.posts.categories');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();

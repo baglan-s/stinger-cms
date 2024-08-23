@@ -27,6 +27,11 @@ class SettingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.system.settings');
+    }
+
     public static function form(Form $form): Form
     {
         $products = Product::with([

@@ -23,6 +23,11 @@ class ProductStockResource extends Resource
 
     protected static ?string $navigationGroup = 'Catalog';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.product.stock.title');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -104,10 +109,5 @@ class ProductStockResource extends Resource
             'create' => Pages\CreateProductStock::route('/create'),
             'edit' => Pages\EditProductStock::route('/{record}/edit'),
         ];
-    }
-
-    public static function getNavigationLabel(): string
-    {
-        return __('Product Stocks');
     }
 }

@@ -30,6 +30,11 @@ class StoreResource extends Resource
 
     protected static ?string $navigationGroup = 'Catalog';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.stores.title');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();

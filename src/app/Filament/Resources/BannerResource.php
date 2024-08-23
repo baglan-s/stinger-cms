@@ -26,6 +26,11 @@ class BannerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.banners');
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return __('Components');

@@ -29,6 +29,11 @@ class PageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.pages');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();

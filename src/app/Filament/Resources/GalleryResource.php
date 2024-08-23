@@ -28,6 +28,11 @@ class GalleryResource extends Resource
 
     protected static ?string $navigationGroup = 'Components';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.galleries');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
