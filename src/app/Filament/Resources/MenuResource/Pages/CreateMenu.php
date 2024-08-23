@@ -17,6 +17,7 @@ class CreateMenu extends CreateRecord
     {
         $menu = Menu::create([
             'link' => $data['link'],
+            'menu_type_id' => $data['menu_type_id'] ?? null,
             'parent_id' => $data['parent_id'] ?? null,
             'sort' => $data['sort'] ?? null,
         ]);
