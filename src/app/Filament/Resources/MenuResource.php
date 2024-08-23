@@ -25,6 +25,11 @@ class MenuResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.menus');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
