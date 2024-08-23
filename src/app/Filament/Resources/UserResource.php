@@ -24,6 +24,11 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.users');
+    }
+
     public static function form(Form $form): Form
     {
         $roles = Role::all();
