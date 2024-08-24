@@ -159,6 +159,9 @@ return [
                     ],
                     'languages' => [
                         'language' => 'Язык'
+                    ],
+                    'permissions' => [
+                        'permission' => 'Разрешение'
                     ]
             ]
             ],
