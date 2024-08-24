@@ -85,6 +85,7 @@ return [
                 'guid' => 'Гуид',
                 'created_at' => 'Дата создания',
                 'updated_at' => 'Дата обновления',
+                'translations' => 'Переводы',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
                     'requirements' => 'Требования',
@@ -117,7 +118,10 @@ return [
                     'user' => 'Пользователь',
                     'delivery_address' => 'Адрес доставки',
                     'total' => 'Сумма',
-                    'store' => 'Магазин'
+                    'store' => 'Магазин',
+                    'statuses' => [
+                        'status' => 'Статус заказа'
+                    ]
                 ]
             ]
             ],
