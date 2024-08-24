@@ -10,6 +10,7 @@ return [
         'galleries' => 'Галлерея',
         'brands' => 'Бренды',
         'cities' => 'Города',
+        'menu_types' => 'Типы меню',
         'orders' => [
             'title' => 'Заказы',
             'statuses' => 'Статусы заказов'
@@ -65,7 +66,8 @@ return [
                 'parent' => 'Родитель',
                 'link' => 'Ссылка',
                 'sort' => 'Сортировка',
-                'menu_type' => 'Тип меню'
+                'menu_type' => 'Тип меню',
+                'code' => 'Код'
             ]
         ] 
 ];

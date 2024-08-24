@@ -19,14 +19,31 @@ class MenuTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.menu_types');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.menu_types');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.menu_type');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('admin.crud.create.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('code')
+                    ->label(__('admin.crud.create.code'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -37,10 +54,13 @@ class MenuTypeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+                    ->lable(__('admin.crud.create.id'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('code')
+                    ->label(__('admin.crud.create.code'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

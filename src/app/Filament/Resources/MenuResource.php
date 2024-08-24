@@ -37,9 +37,9 @@ class MenuResource extends Resource
     }
 
     public static function getModelLabel(): string
-{
-    return __('admin.navigation.menus');
-}
+    {
+        return __('admin.navigation.menus');
+    }
 
     public static function form(Form $form): Form
     {
