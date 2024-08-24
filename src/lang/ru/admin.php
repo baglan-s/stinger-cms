@@ -169,6 +169,18 @@ return [
                         'title' => 'Роли',
                         'role' => 'Роль'
                     ],
+                    'settings' => [
+                        'setting' => 'Настройка',
+                        'application_name' => 'Наименование приложения',
+                        'application_email' => 'Электронная почта приложения',
+                        'main_logo' => 'Главный логотип',
+                        'footer_logo' => 'Логотип в футере',
+                        'favicon' => 'Иконка',
+                        'weekly_product_id' => 'Товар недели',
+                        'weekly_product_starts_at' => 'Дата начала товара недели',
+                        'weekly_product_ends_at' => 'Дата окончания товара недели',
+
+                    ]
             ]
             ],
             'seo' => [
