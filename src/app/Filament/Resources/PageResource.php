@@ -60,11 +60,11 @@ class PageResource extends Resource
                         ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                         TextInput::make('translations.' . $language->code . '.meta_title')
-                        ->label(__('admin.crud.create.meta_title'))
+                        ->label(__('admin.seo.meta_title'))
                         ->maxLength(255),
-                    // TextArea::make('translations.' . $language->code . '.meta_description')
-                    //     ->label('Meta Description')
-                    //     ->rows(8),
+                    TextArea::make('translations.' . $language->code . '.meta_description')
+                        ->label(__('admin.seo.meta_description'))
+                        ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.content')
                         ->label(__('admin.crud.create.content'))
                         ->fileAttachmentsDirectory('images/pages')

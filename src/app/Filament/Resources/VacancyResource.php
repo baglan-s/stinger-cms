@@ -32,6 +32,16 @@ class VacancyResource extends Resource
         return __('admin.navigation.vacancies');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.vacancies');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.vacancies.vacancy');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -41,23 +51,23 @@ class VacancyResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.title')
-                        ->label('Title')
+                        ->label(__('admin.crud.create.title'))
                         ->required()
                         ->maxLength(255),
                     TextArea::make('translations.' . $language->code . '.description')
-                        ->label('Description')
+                        ->label(__('admin.crud.create.description'))
                         ->rows(8),
                     TagsInput::make('translations.' . $language->code . '.requirements')
-                        ->label('Requirements')
+                        ->label(__('admin.crud.create.vacancies.requirements'))
                         ->separator(','),
                     TagsInput::make('translations.' . $language->code . '.responsibilities')
-                        ->label('Responsibilities')
+                        ->label(__('admin.crud.create.vacancies.responsibilities'))
                         ->separator(','),
                     TagsInput::make('translations.' . $language->code . '.conditions')
-                        ->label('Conditions')
+                        ->label(__('admin.crud.create.vacancies.conditions'))
                         ->separator(','),
                     TagsInput::make('translations.' . $language->code . '.key_skills')
-                        ->label('Key skills')
+                        ->label(__('admin.crud.create.vacancies.key_skills'))
                         ->separator(','),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->default($language->id),
@@ -67,10 +77,12 @@ class VacancyResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->required()
                     ->numeric()
                     ->default(0),
                 Forms\Components\Toggle::make('active')
+                ->label(__('admin.crud.create.active'))
                     ->required(),
                 Tabs::make('translations')
                     ->label('Translations')

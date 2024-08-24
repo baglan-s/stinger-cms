@@ -77,7 +77,19 @@ return [
                 'user' => 'Пользователя',
                 'email' => 'Электронная почта',
                 'roles' => 'Роли',
-                'choose_roles' => 'Выберите роли'
+                'choose_roles' => 'Выберите роли',
+                'description' => 'Описание',
+                'vacancies' => [
+                    'vacancy' => 'Вакансию',
+                    'requirements' => 'Требования',
+                    'responsibilities' => 'Обязанности',
+                    'conditions' => 'Условия',
+                    'key_skills' => 'Ключевые навыки'
+                ]
             ]
-        ] 
+            ],
+            'seo' => [
+                'meta_title' => 'Мета заголовок',
+                'meta_description' => 'Мета описание'
+            ]
 ];
