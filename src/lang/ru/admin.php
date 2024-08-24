@@ -81,12 +81,19 @@ return [
                 'roles' => 'Роли',
                 'choose_roles' => 'Выберите роли',
                 'description' => 'Описание',
+                'language_id' => 'Идентификатор языка',
+                'image' => 'Изображение',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
                     'requirements' => 'Требования',
                     'responsibilities' => 'Обязанности',
                     'conditions' => 'Условия',
                     'key_skills' => 'Ключевые навыки'
+                ],
+                'banners' => [
+                    'banner' => 'Баннер',
+                    'title' => 'Заголовок',
+                    'subtitle' => 'Под заголовок'
                 ]
             ]
             ],
