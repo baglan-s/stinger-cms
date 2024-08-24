@@ -102,6 +102,10 @@ return [
                 ],
                 'brands' => [
                     'brand' => 'Бренд'
+                ],
+                'cities' => [
+                    'city' => 'Город',
+                    'price_types' => 'Типы цен'
                 ]
             ]
             ],

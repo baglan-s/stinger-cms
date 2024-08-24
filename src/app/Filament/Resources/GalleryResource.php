@@ -64,9 +64,9 @@ class GalleryResource extends Resource
                         ->label('Slug')
                         ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
-                    // TextArea::make('translations.' . $language->code . '.description')
-                    //     ->label(__('admin.crud.create.description'))
-                    //     ->rows(8),
+                    TextArea::make('translations.' . $language->code . '.description')
+                        ->label(__('admin.crud.create.description'))
+                        ->rows(8),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
