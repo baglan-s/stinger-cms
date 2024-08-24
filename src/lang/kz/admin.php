@@ -90,6 +90,7 @@ return [
                 'main_images' => 'Главное изображение',
                 'additional_images' => 'Дополнительное изображение',
                 'is_public' => 'Публичный',
+                'author' => 'Автор',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
                     'requirements' => 'Требования',
@@ -181,6 +182,8 @@ return [
                     ],
                     'posts' => [
                         'posts' => 'Посты',
+                        'post_category_id' => 'Категория поста',
+                        'main_images' => 'Главное изображение',
                         'categories' => [
                             'category' => 'Категорию'
                         ]
@@ -189,6 +192,7 @@ return [
             ],
             'seo' => [
                 'meta_title' => 'Мета заголовок',
-                'meta_description' => 'Мета описание'
+                'meta_description' => 'Мета описание',
+                'meta_keywords' => 'Ключевые слова'
             ]
 ];

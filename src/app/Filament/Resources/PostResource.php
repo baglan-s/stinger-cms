@@ -43,6 +43,16 @@ class PostResource extends Resource
         return __('admin.navigation.posts.post');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.posts.title');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.posts.categories.category');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -57,20 +67,20 @@ class PostResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.title')
-                        ->label('Title')
+                        ->label(__('admin.crud.create.title'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     TagsInput::make('translations.' . $language->code . '.meta_keywords')
-                        ->label('Meta Keywords')
+                        ->label(__('admin.seo.meta_keywords'))
                         ->separator(','),
-                    TextArea::make('translations.' . $language->code . '.meta_description')
-                        ->label('Meta Description')
-                        ->rows(8),
+                    // TextArea::make('translations.' . $language->code . '.meta_description')
+                    //     ->label(__('admin.crud.create.description'))
+                    //     ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.content')
-                        ->label('Content')
+                        ->label(__('admin.crud.create.content'))
                         ->fileAttachmentsDirectory('images/posts')
                         ->toolbarButtons([
                             'attachFiles',
@@ -90,6 +100,7 @@ class PostResource extends Resource
                             'undo',
                         ]),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -97,16 +108,17 @@ class PostResource extends Resource
         return $form
             ->schema([
                 Select::make('post_category_id')
-                    ->label('Category')
+                    ->label(__('admin.crud.create.posts.post_category_id'))
                     ->searchable()
                     ->options($categoryOptions),
                 FileUpload::make('image')
-                    ->label('Main image')
+                    ->label(__('admin.crud.create.posts.main_images'))
                     ->directory('images/posts'),
                 Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->default(true),
                 Tabs::make('translations')
-                    ->label('Translations')
+                    ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs),
             ])->columns(1);
     }
@@ -116,32 +128,35 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('category')
                     ->state(fn (Post $post) => $post->category?->translation()?->name)
-                    ->label('Category')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->state(fn (Post $post) => $post->translation()?->title)
-                    ->label('Title')
+                    ->label(__('admin.crud.create.title'))
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
+                    ->label(__('admin.crud.create.title'))
                     ->square(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('views')
                     ->label('Views'),
                 Tables\Columns\TextColumn::make('author')
                     ->state(fn (Post $post) => $post->author?->name)
-                    ->label('Author')
+                    ->label(__('admin.crud.create.author'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

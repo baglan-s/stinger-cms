@@ -66,9 +66,9 @@ class PostCategoryResource extends Resource
                     TextInput::make('translations.' . $language->code . '.slug')
                         ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
-                    // TextArea::make('translations.' . $language->code . '.description')
-                    //     ->label('Description')
-                    //     ->rows(8),
+                    TextArea::make('translations.' . $language->code . '.description')
+                        ->label(__('admin.crud.create.description'))
+                        ->rows(8),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->default($language->id),
                 ]);
