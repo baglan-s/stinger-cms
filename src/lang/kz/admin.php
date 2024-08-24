@@ -76,7 +76,6 @@ return [
                 'active' => 'Активный',
                 'user' => 'Пользователя',
                 'email' => 'Электронная почта',
-                'roles' => 'Роли',
                 'choose_roles' => 'Выберите роли',
                 'description' => 'Описание',
                 'language_id' => 'Идентификатор языка',
@@ -161,8 +160,13 @@ return [
                         'language' => 'Язык'
                     ],
                     'permissions' => [
-                        'permission' => 'Разрешение'
-                    ]
+                        'permission' => 'Разрешение',
+                        'choose_role_permissions' => 'Выберите права доступа роли'
+                    ],
+                    'roles' => [
+                        'title' => 'Роли',
+                        'role' => 'Роль'
+                    ],
             ]
             ],
             'seo' => [
