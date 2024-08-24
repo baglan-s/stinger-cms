@@ -86,6 +86,7 @@ return [
                 'created_at' => 'Дата создания',
                 'updated_at' => 'Дата обновления',
                 'translations' => 'Переводы',
+                'parent_id' => 'Идентификатор родителя',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
                     'requirements' => 'Требования',
@@ -122,7 +123,11 @@ return [
                     'statuses' => [
                         'status' => 'Статус заказа'
                     ]
-                ]
+                    ],
+                    'product_categories' => [
+                        'category' => 'категорию товара',
+                        'specifications' => 'Спецификации'
+                    ]
             ]
             ],
             'seo' => [
