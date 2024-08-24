@@ -76,9 +76,9 @@ class PostResource extends Resource
                     TagsInput::make('translations.' . $language->code . '.meta_keywords')
                         ->label(__('admin.seo.meta_keywords'))
                         ->separator(','),
-                    // TextArea::make('translations.' . $language->code . '.meta_description')
-                    //     ->label(__('admin.crud.create.description'))
-                    //     ->rows(8),
+                    TextArea::make('translations.' . $language->code . '.meta_description')
+                        ->label(__('admin.crud.create.description'))
+                        ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.content')
                         ->label(__('admin.crud.create.content'))
                         ->fileAttachmentsDirectory('images/posts')
