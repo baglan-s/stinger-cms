@@ -1,0 +1,484 @@
+@import url("fonts.css");
+
+.the-personal-orders {
+  font-family: "ManropeRegular", sans-serif;
+}
+
+.the-personal-orders__select {
+  --Black-Squeeze: #f0f4f9;
+  --Fiord: #424763;
+  --red: #fa0f0c;
+
+  margin-bottom: 10px;
+}
+
+.the-personal-select {
+  width: 100%;
+  position: relative;
+}
+
+.the-personal-select--sm .the-personal-select__name {
+  padding: 5px 30px 5px 10px;
+  font-size: 14px;
+  border-radius: 12px;
+}
+
+.the-personal-orders-table__top {
+  display: none;
+}
+
+.the-personal-orders-table__cell {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.the-personal-orders-table__row {
+  position: relative;
+  padding: 15px;
+  outline: none;
+}
+
+.the-personal-orders-table__order {
+  position: relative;
+  margin-bottom: 10px;
+  border-radius: 18px;
+  box-shadow: 0 0 30px #f2f2f5;
+  border: none;
+}
+
+.the-personal-orders-table__row {
+  position: relative;
+  padding: 15px;
+  outline: none;
+}
+
+.the-personal-orders-table__row svg.icon-arrow.arrow-bottom {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 16px;
+  height: 16px;
+  fill: #03a9f4;
+  transform: rotate(90deg);
+  transition: transform 0.2s ease-in;
+}
+
+.the-personal-orders-table__cell {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.the-personal-orders-table__cell span {
+  width: 80px;
+  color: #555770;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.the-personal-orders-table__text {
+  position: relative;
+  flex-grow: 1;
+  color: #40404b;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: right;
+  transition: color 0.2s ease-in;
+}
+
+.the-personal-orders-table__link {
+  color: #03a9f4;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.the-personal-orders-table__site-name {
+  display: none;
+}
+
+.the-personal div.transition-container {
+  margin-top: 0;
+}
+
+.the-personal-orders-table__detail {
+  padding: 0 10px 5px;
+}
+
+.the-personal-orders-products {
+  margin-bottom: 10px;
+  padding: 10px 10px 15px;
+  border: 1px solid #ebebf0;
+  border-radius: 18px;
+}
+
+.the-personal-orders-products__head {
+  display: none;
+}
+
+.the-personal-orders-products__cell {
+  display: flex;
+}
+
+.the-personal-orders-products__row {
+  padding: 10px 0 2px;
+}
+
+.the-personal-orders-products__link {
+  display: flex;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.the-personal-orders-products__image {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 80px;
+  margin-right: 15px;
+}
+
+.the-personal-orders-products__name {
+  color: #40404b;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.the-personal-orders-products__cell span {
+  color: #555770;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.the-personal-orders-products__text {
+  flex-grow: 1;
+  margin-bottom: 8px;
+  font-size: 14px;
+  text-align: right;
+  color: #40404b;
+}
+
+.the-personal-orders-products__discount {
+  display: inline-block;
+  padding: 3px 5px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  background-color: #eb5757;
+  border-radius: 3px;
+}
+
+.the-personal-orders-detail {
+  margin-bottom: 10px;
+  padding: 10px 10px 5px;
+  border: 1px solid #ebebf0;
+  border-radius: 18px;
+}
+
+.the-personal-orders-detail__head {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ebebf0;
+}
+
+.the-personal-orders-detail__title {
+  color: var(--Fiord);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.the-personal-orders-detail__inner {
+  padding-top: 10px;
+}
+
+.the-personal-orders-detail__item {
+  display: flex;
+  color: #40404b;
+  margin-bottom: 8px;
+}
+
+.the-personal-orders-detail__key {
+  width: 100%;
+  max-width: 80px;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.the-personal-orders-detail__value {
+  font-weight: 400;
+  flex-grow: 1;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: right;
+}
+
+.the-personal-orders-table__row.opened svg.icon-arrow.arrow-bottom {
+  transform: rotate(270deg);
+}
+
+.the-personal-orders-table__status {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.the-personal-orders-detail__inner--block .the-personal-orders-detail__key {
+  max-width: 120px;
+}
+
+@media only screen and (min-width: 992px) {
+  .the-personal-orders-table {
+    padding: 10px 0 20px;
+    background-color: #fff;
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 0 50px #f2f2f5;
+  }
+
+  .the-personal-orders__select {
+    max-width: 240px;
+    margin-bottom: 15px;
+  }
+
+  .the-personal-orders-table__top {
+    display: flex;
+    padding: 0 30px;
+  }
+
+  .the-personal-orders-table__cell {
+    display: block;
+    flex-basis: 20%;
+    max-width: 20%;
+    margin-bottom: 0;
+    padding: 10px 0;
+  }
+
+  .the-personal-orders-table__head {
+    color: var(--Fiord);
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .the-personal-orders-table__row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 30px;
+    transition: background-color 0.2s ease-in;
+  }
+
+  .the-personal-orders-table__row.is-empty-state
+    .the-personal-orders-table__cell {
+    max-width: 100%;
+    flex-basis: 100%;
+  }
+
+  .the-personal-orders-table__order {
+    margin-bottom: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .the-personal-orders-table__row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 30px;
+    transition: background-color 0.2s ease-in;
+  }
+
+  .the-personal-orders-table__row:hover:not(.is-empty-state) {
+    background-color: #f0f4f9;
+    cursor: pointer;
+  }
+
+  .the-personal-orders-table__row svg.icon-arrow.arrow-bottom {
+    bottom: auto;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%) rotate(90deg);
+  }
+
+  .the-personal-orders-table__status {
+    padding-right: 25px;
+    color: var(--z2kad5);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+  }
+
+  .the-personal-orders-table__cell {
+    display: block;
+    flex-basis: 20%;
+    max-width: 20%;
+    margin-bottom: 0;
+    padding: 10px 0;
+  }
+
+  .desktop-hidden {
+    display: none !important;
+  }
+
+  .the-personal-orders-table__text {
+    text-align: left;
+  }
+
+  .the-personal-orders-table__text--icon {
+    padding-left: 30px;
+  }
+
+  .the-personal-orders-table__site-name {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    transform: translateY(-50%);
+  }
+
+  .the-personal-orders-table__detail {
+    padding: 15px;
+  }
+
+  .the-personal-orders-products {
+    margin-bottom: 15px;
+    padding: 15px 15px 25px;
+  }
+
+  .the-personal-orders-products__head {
+    display: flex;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ebebf0;
+  }
+
+  .the-personal-orders-products__cell {
+    display: block;
+    flex-basis: 12%;
+    max-width: 12%;
+  }
+
+  .the-personal-orders-products__cell:first-child {
+    flex-basis: 52%;
+    max-width: 52%;
+  }
+
+  .the-personal-orders-products__title {
+    color: var(--Fiord);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 18px;
+  }
+
+  .the-personal-orders-products__row {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+  }
+
+  .the-personal-orders-products__link {
+    align-items: center;
+    margin-bottom: 0;
+    padding-right: 10px;
+  }
+
+  .the-personal-orders-products__image {
+    margin-right: 60px;
+  }
+
+  .the-personal-orders-products__name {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .the-personal-orders-products__text {
+    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: left;
+  }
+
+  .the-personal-orders-detail {
+    margin-bottom: 15px;
+    padding: 15px 15px 15px;
+  }
+
+  .the-personal-orders-detail__head {
+    padding-bottom: 15px;
+  }
+
+  .the-personal-orders-detail__title {
+    line-height: 22px;
+  }
+
+  .the-personal-orders-detail__inner {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 16px;
+  }
+
+  .the-personal-orders-detail__item {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .the-personal-orders-detail__item:nth-child(odd) {
+    flex-basis: 52%;
+    max-width: 52%;
+  }
+
+  .the-personal-orders-detail__item:nth-child(2n) {
+    flex-basis: 48%;
+    max-width: 48%;
+  }
+
+  .the-personal-orders-detail__key {
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+  .the-personal-orders-detail__item:nth-child(odd)
+    .the-personal-orders-detail__key {
+    max-width: 160px;
+  }
+
+  .the-personal-orders-detail__inner--block {
+    display: block;
+  }
+
+  .the-personal-orders-detail__inner--block
+    .the-personal-orders-detail__item:nth-child(2n),
+  .the-personal-orders-detail__inner--block
+    .the-personal-orders-detail__item:nth-child(odd) {
+    max-width: 100%;
+  }
+
+  .the-personal-orders-detail__item:nth-child(2n)
+    .the-personal-orders-detail__key {
+    max-width: 100px;
+  }
+
+  .the-personal-orders-detail__inner--block
+    .the-personal-orders-detail__item:nth-child(2n)
+    .the-personal-orders-detail__key,
+  .the-personal-orders-detail__inner--block
+    .the-personal-orders-detail__item:nth-child(odd)
+    .the-personal-orders-detail__key {
+    max-width: 160px;
+  }
+
+  .the-personal-orders-detail__value {
+    font-size: 16px;
+    line-height: 20px;
+    text-align: left;
+  }
+
+  .the-personal-orders-table__row.opened svg.icon-arrow.arrow-bottom {
+    transform: translateY(-50%) rotate(270deg);
+  }
+}
+
+@media (max-width: 992px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+}

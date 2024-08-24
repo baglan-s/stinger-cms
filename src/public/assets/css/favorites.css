@@ -1,0 +1,210 @@
+@import url("fonts.css");
+body {
+  --z2kad5: #424763;
+
+  font-family: "ManropeRegular", sans-serif;
+  font-size: 16px;
+  color: var(--z2kad5);
+  min-width: 320px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.svg-icons {
+  fill: var(--z2kad5);
+}
+
+.l-container {
+  max-width: 1292px;
+  width: 100%;
+  padding: 0 16px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0 10px;
+}
+
+.favorites-page {
+  padding: 40px 0 60px;
+  background-color: #e3e9f0;
+}
+
+.favorites-page__inner {
+  position: relative;
+}
+
+.favorites-page__header {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.favorites-page__title {
+  position: relative;
+  font-family: "ManropeExtraBold", sans-serif;
+}
+
+.page-title {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 36px;
+}
+
+.page-title__number {
+  display: inline-block;
+  margin-left: 5px;
+  color: #778ba5;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  vertical-align: top;
+}
+
+.favorites-page__empty {
+  margin: 0 auto;
+}
+
+.product-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.product-empty__image {
+  width: 210px;
+  margin-bottom: 20px;
+  pointer-events: none;
+  position: relative;
+}
+
+.product-empty__title {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 32px;
+}
+
+.product-empty__text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  max-width: 320px;
+}
+
+.favorites-page__clear {
+  display: flex;
+  align-items: center;
+  color: var(--z2kad5);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  transition: color 0.2s ease-in;
+
+  font-family: "ManropeBold", sans-serif;
+}
+
+.svg-icon {
+  fill: currentColor;
+}
+
+.svg-icon--24 {
+  width: 24px;
+  height: 24px;
+}
+
+.favorites-page__clear svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.favorites-page__list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  min-height: 300px;
+  margin: 0 -5px -10px;
+}
+
+.mobile-hidden {
+  display: none;
+}
+
+@media only screen and (min-width: 1365px) {
+  .page-title {
+    font-size: 60px;
+    line-height: 72px;
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .favorites-page__list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+@media only screen and (min-width: 992px) {
+  .l-container {
+    padding: 0 16px;
+  }
+
+  .favorites-page__header {
+    margin-bottom: 30px;
+  }
+
+  .page-title {
+    font-size: 48px;
+    line-height: 60px;
+  }
+
+  .page-title__number {
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  .favorites-page__clear {
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  .favorites-page__clear svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .favorites-page__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (max-width: 639px) {
+  .l-container {
+    overflow: visible;
+  }
+
+  .favorites-page__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .favorites-page__list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

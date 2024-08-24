@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TextArea;
 use Filament\Forms\Components\Hidden;
 use App\Models\Language;
+use App\Models\MenuType;
 
 class MenuResource extends Resource
 {
@@ -33,8 +34,10 @@ class MenuResource extends Resource
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
+        $menuTypes = MenuType::all();
         $menus = Menu::all();
         $menuOptions = [];
+        $menuTypeOptions = [];
         $tabs = [];
 
         foreach ($languages as $language) {
@@ -53,12 +56,21 @@ class MenuResource extends Resource
             $menuOptions[$menu->id] = $menu->translation()?->name;
         }
 
+        foreach ($menuTypes as $menuType) {
+            $menuTypeOptions[$menuType->id] = $menuType->name;
+        }
+
         return $form
             ->schema([
+                Select::make('menu_type_id')
+                    ->label('Menu Type')
+                    ->options($menuTypeOptions)
+                    ->required()
+                    ->columnSpan(1),
                 Select::make('parent_id')
                     ->label(__('admin.crud.create.parent'))
                     ->options($menuOptions)
-                    ->columnSpan(2),
+                    ->columnSpan(1),
                 Forms\Components\TextInput::make('link')
                     ->label(__('admin.crud.create.link'))
                     ->required()

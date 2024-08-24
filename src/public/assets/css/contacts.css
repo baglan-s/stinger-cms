@@ -1,0 +1,204 @@
+/*Start contacts page block*/
+.contacts_page_block {
+    padding: 50px 0;
+    width: 100%;
+    background-color: #e3e9f0;
+    margin-bottom: 50px;
+}
+.page_title {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 36px;
+    margin-bottom: 40px;
+}
+
+.contacts_page {
+    background-color: #f0f4f9;
+    padding: 20px;
+    border-radius: 12px;
+}
+.contacts-employee {
+   display: flex;
+   align-items: center;
+   gap: 15px;
+  margin-bottom: 25px;
+}
+p.contacts-employee_text {
+    font-size: 14px;
+    line-height: 19px;
+
+    span {
+        font-weight: bold;
+    }
+}
+p.contacts_post, .contacts_telegran {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+img.roundeds {
+    margin: 0;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
+.contacts_shops_title {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 36px;
+    color: #424763;
+    padding-top: 50px;
+    margin-bottom: 40px;
+}
+.contacts_shops_page {
+    min-height: 310px;
+    background-color: #f0f4f9;
+    padding: 20px;
+    border-radius: 12px;
+}
+.contacts_shops_page-1 {
+    min-height: 310px;
+    background-color: #f0f4f9;
+    padding: 20px;
+    border-radius: 12px;
+}
+.contacts_shops_page-2 {
+    min-height: 310px;
+    background-color: #f0f4f9;
+    padding: 20px;
+    border-radius: 12px;
+}
+.contacts_shops_page-3 {
+    min-height: 310px;
+    background-color: #f0f4f9;
+    padding: 20px;
+    border-radius: 12px;
+}
+.the_shop_location {
+    display: flex;
+    gap: 10px;
+}
+.the_shop_location_title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24px;
+    margin-bottom: 20px;
+}
+.the_shop_location_icon {
+    width: 30px;
+    height: 30px;
+}
+.contacts-store__table {
+    margin-bottom: 25px;
+}
+.contacts-store__cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 5px;
+}
+.contacts-store__cell:first-child {
+    width: 150px;
+}
+.contacts-store__row{
+    display: flex;
+}
+
+
+
+.contacts-store__path {
+    max-width: 340px;
+}
+
+.contacts-store__row_text {
+    padding-top: 25px;
+}
+
+p.contacts-store__row_text {
+    font-size: 10px;
+ 
+}
+
+h1.requisites_block_title {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 36px;
+    color: #424763;
+    padding-top: 50px;
+    margin-bottom: 40px;
+}
+
+.contacts-requisites__col {
+    background-color: #f0f4f9;
+    padding: 30px;
+    border-radius: 18px;
+    min-height: 392px;
+}
+
+.contacts-requisites__title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24px;
+    margin-bottom: 30px;
+}
+.contacts-requisites__row {
+    display: flex;
+    margin-bottom: 10px;
+}
+.contacts-requisites__cell {
+    font-size: 14px;
+    line-height: 22px;
+}
+.contacts-requisites__cell span {
+    font-size: 14px;
+    font-weight: 600;
+}
+.contacts-requisites__cell:first-child {
+    width: 150px;
+}
+
+
+
+.item-getintouch__button {
+    max-width: 300px;
+	border: none;
+	min-height: 65px;
+	display: flex;
+	font-weight: 600;
+	justify-content: center;
+    font-size: 24px;
+	align-items: center;
+	color: #778ba5;
+	line-height: 142%;
+	padding: 5px 20px;
+	text-align: center;
+	transition: all 0.3s ease 0s;
+	border-radius: 15px;
+    margin-bottom: 16px;
+}
+.item-getintouch__button:hover {
+	background-color: #778ba5;
+	color: #fff;
+}
+
+
+
+.home-categories-card__icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 14px;
+    height: 14px;
+}
+
+/*media*/
+
+@media only screen and (max-width:500px) {
+    .contacts-requisites__row {
+        display: block;
+    }
+}
