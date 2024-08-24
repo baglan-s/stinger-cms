@@ -83,6 +83,7 @@ return [
                 'description' => 'Описание',
                 'language_id' => 'Идентификатор языка',
                 'image' => 'Изображение',
+                'images' => 'Изображения',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
                     'requirements' => 'Требования',
@@ -94,6 +95,9 @@ return [
                     'banner' => 'Баннер',
                     'title' => 'Заголовок',
                     'subtitle' => 'Под заголовок'
+                ],
+                'galleries' => [
+                    'gallery' => 'Галлерею'
                 ]
             ]
             ],
