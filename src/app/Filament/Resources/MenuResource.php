@@ -31,6 +31,16 @@ class MenuResource extends Resource
         return __('admin.navigation.menus');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.menus');
+    }
+
+    public static function getModelLabel(): string
+{
+    return __('admin.navigation.menus');
+}
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -63,7 +73,7 @@ class MenuResource extends Resource
         return $form
             ->schema([
                 Select::make('menu_type_id')
-                    ->label('Menu Type')
+                    ->label(__('admin.crud.create.menu_type'))
                     ->options($menuTypeOptions)
                     ->required()
                     ->columnSpan(1),
