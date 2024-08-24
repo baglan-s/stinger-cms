@@ -89,6 +89,7 @@ return [
                 'updated_at' => 'Дата обновления',
                 'translations' => 'Переводы',
                 'parent_id' => 'Идентификатор родителя',
+                'multiple' => 'Несколько',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
                     'requirements' => 'Требования',
@@ -144,6 +145,9 @@ return [
                         'review' => 'Отзыв',
                         'rating' => 'Рейтинг',
                         'product_id' => 'Товары'
+                    ],
+                    'specifications' => [
+                        'specification' => 'Спецификацию'
                     ]
             ]
             ],
