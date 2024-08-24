@@ -139,6 +139,11 @@ return [
                         'article' => 'Артикул',
                         'choose_specs' => 'Выберите характеристики',
                         'category' => 'Категория'
+                    ],
+                    'product_reviews' => [
+                        'review' => 'Отзыв',
+                        'rating' => 'Рейтинг',
+                        'product_id' => 'Товары'
                     ]
             ]
             ],

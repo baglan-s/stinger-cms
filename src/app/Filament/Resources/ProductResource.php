@@ -84,9 +84,9 @@ class ProductResource extends Resource
                     TextInput::make('translations.' . $language->code . '.meta_title')
                         ->label(__('admin.seo.meta_title'))
                         ->maxLength(255),
-                    // TextArea::make('translations.' . $language->code . '.meta_description')
-                    //     ->label(__('admin.seo.meta_description'))
-                    //     ->rows(8),
+                    TextArea::make('translations.' . $language->code . '.meta_description')
+                        ->label(__('admin.seo.meta_description'))
+                        ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.description')
                         ->label(__('admin.crud.create.description'))
                         ->fileAttachmentsDirectory('images/products/content')
