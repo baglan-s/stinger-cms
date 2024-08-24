@@ -73,7 +73,14 @@ return [
                 'slug' => 'Алиас',
                 'meta_title' => 'Мета заголовок',
                 'content' => 'Контент',
-                'active' => 'Активный'
+                'active' => 'Активный',
+                'user' => 'Пользователя',
+                'email' => 'Электронная почта',
+                'email_verfifed_at' => 'Дата подтверждения email',
+                'password' => 'Пароль',
+                'password_confirm' => 'Подтверждение пароля',
+                'roles' => 'Роли',
+                'choose_roles' => 'Выберите роли'
             ]
         ] 
 ];
