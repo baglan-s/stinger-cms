@@ -38,6 +38,16 @@ class BrandResource extends Resource
         return __('admin.navigation.brands');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.brands');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.brands.brand');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -47,25 +57,30 @@ class BrandResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
 
         return $form
             ->schema([
-                Forms\Components\TextInput::make('guid'),
+                Forms\Components\TextInput::make('guid')
+                    ->label(__('admin.crud.create.guid')),
                 Forms\Components\FileUpload::make('image')
+                    ->label(__('admin.crud.create.images'))
                     ->image(),
                 Forms\Components\Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->required(),
                 Forms\Components\TextInput::make('sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->required()
                     ->numeric()
                     ->default(0),
@@ -82,7 +97,7 @@ class BrandResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID'),
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
+                    ->label(__('admin.crud.create.image'))
                     ->square(),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (Brand $brand) => $brand->translation()?->name)

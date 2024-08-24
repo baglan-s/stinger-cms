@@ -82,6 +82,7 @@ return [
                 'language_id' => 'Идентификатор языка',
                 'image' => 'Изображение',
                 'images' => 'Изображения',
+                'guid' => 'Гуид',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
                     'requirements' => 'Требования',
@@ -96,6 +97,9 @@ return [
                 ],
                 'galleries' => [
                     'gallery' => 'Галлерею'
+                ],
+                'brands' => [
+                    'brand' => 'Бренд'
                 ]
             ]
             ],
