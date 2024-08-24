@@ -129,6 +129,16 @@ return [
                     'product_categories' => [
                         'category' => 'категорию товара',
                         'specifications' => 'Спецификации'
+                    ],
+                    'products' => [
+                        'product' => 'Товар',
+                        'weight' => 'Вес',
+                        'weight_unit' => 'Единица веса',
+                        'volume' => 'Объем',
+                        'volume_unit' => 'Единица объема',
+                        'article' => 'Артикул',
+                        'choose_specs' => 'Выберите характеристики',
+                        'category' => 'Категория'
                     ]
             ]
             ],
