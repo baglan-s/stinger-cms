@@ -180,6 +180,12 @@ return [
                         'weekly_product_starts_at' => 'Дата начала товара недели',
                         'weekly_product_ends_at' => 'Дата окончания товара недели',
 
+                    ],
+                    'posts' => [
+                        'posts' => 'Посты',
+                        'categories' => [
+                            'category' => 'Категорию'
+                        ]
                     ]
             ]
             ],

@@ -40,6 +40,16 @@ class PostCategoryResource extends Resource
         return __('admin.navigation.posts.categories');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.posts.categories');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.posts.categories.category');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -50,15 +60,15 @@ class PostCategoryResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
-                    TextArea::make('translations.' . $language->code . '.description')
-                        ->label('Description')
-                        ->rows(8),
+                    // TextArea::make('translations.' . $language->code . '.description')
+                    //     ->label('Description')
+                    //     ->rows(8),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->default($language->id),
                 ]);
@@ -67,15 +77,15 @@ class PostCategoryResource extends Resource
         return $form
             ->schema([
                 Select::make('parent_id')
-                    ->label('Parent')
+                    ->label(__('admin.crud.create.parent_id'))
                     ->options($categoryOptions),
                 TextInput::make('sort')
-                    ->label('Sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->default(1)
                     ->required()
                     ->integer(),
                 Tabs::make('translations')
-                    ->label('Translations')
+                    ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs),
             ])
             ->columns(1);
@@ -86,24 +96,26 @@ class PostCategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (PostCategory $post) => $post->translation()?->name)
-                    ->label('Name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->state(fn (PostCategory $post) => $post->translation()?->slug)
-                    ->label('Slug')
+                    ->label(__('admin.crud.create.slug'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('parent')
                     ->state(fn (PostCategory $post) => $post->parent?->translation()?->name)
-                    ->label('Parent')
+                    ->label(__('admin.crud.create.parent'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
