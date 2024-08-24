@@ -41,6 +41,16 @@ class OrderResource extends Resource
         return __('admin.navigation.orders.title');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.orders.title');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.orders.order');
+    }
+
     public static function form(Form $form): Form
     {
         $orderStatuses = OrderStatus::all();
@@ -59,22 +69,24 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Select::make('user_id')
-                    ->label('User')
+                    ->label(__('admin.crud.create.orders.user_id'))
                     ->searchable()
                     ->getSearchResultsUsing(fn (string $search): array => User::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
                     ->getOptionLabelUsing(fn ($value): ?string => User::find($value)?->name),
                 Select::make('order_status_id')
-                    ->label('Status')
+                    ->label(__('admin.crud.create.orders.status'))
                     ->options($orderStatusOptions)
                     ->searchable(),
                 Select::make('store_id')
-                    ->label('Store')
+                    ->label(__('admin.crud.create.orders.store'))
                     ->options($storeOptions)
                     ->searchable(),
                 Forms\Components\Toggle::make('is_delivery')
+                    ->label(__('admin.crud.create.orders.is_delivery'))
                     ->required()
                     ->live(),
                 Forms\Components\TextInput::make('delivery_company')
+                    ->label(__('admin.crud.create.orders.delivery_company'))
                     ->maxLength(255)
                     ->hidden(fn (Forms\Get $get): bool => !$get('is_delivery'))
             ]);
@@ -86,28 +98,32 @@ class OrderResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user')
                     ->state(fn (Order $order) => $order->user?->name)
-                    ->label('User'),
+                    ->label(__('admin.crud.create.orders.user')),
                 Tables\Columns\TextColumn::make('delivery_address')
                     ->state(fn (Order $order) => $order->deliveryAddress?->getFullAddress())
-                    ->label('Delivery address'),
+                    ->label(__('admin.crud.create.orders.delivery_address')),
                 Tables\Columns\TextColumn::make('store')
                     ->state(fn (Order $order) => $order->store?->translation()?->name)
                     ->label('Store'),
                 Tables\Columns\TextColumn::make('status')
                     ->state(fn (Order $order) => $order->status?->translation()?->name)
-                    ->label('Status'),
+                    ->label(__('admin.crud.create.orders.status')),
                 Tables\Columns\IconColumn::make('is_delivery')
-                    ->label('Delivery')
+                    ->label(__('admin.crud.create.orders.is_delivery'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('delivery_company')
+                    ->label(__('admin.crud.create.orders.delivery_company'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total')
+                    ->label(__('admin.crud.create.orders.total'))
                     ->state(fn (Order $order) => $order->items->sum('total')),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
