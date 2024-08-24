@@ -40,6 +40,16 @@ class StoreResource extends Resource
         return __('admin.navigation.stores.title');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.stores.title');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.stores.store');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -55,25 +65,26 @@ class StoreResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.address')
-                        ->label('Address')
+                        ->label(__('admin.crud.create.stores.address'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.phone')
-                        ->label('Phone')
+                        ->label(__('admin.crud.create.stores.phone'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.email')
-                        ->label('Email')
+                        ->label(__('admin.crud.create.email'))
                         ->maxLength(255),
                     TextArea::make('translations.' . $language->code . '.description')
                         ->label('Description')
                         ->rows(8),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -81,32 +92,36 @@ class StoreResource extends Resource
         return $form
             ->schema([
                 Select::make('city_id')
-                    ->label('City')
+                    ->label(__('admin.crud.create.cities.city'))
                     ->searchable(true)
                     ->options($cityOptions),
-                Forms\Components\TextInput::make('guid'),
+                Forms\Components\TextInput::make('guid')
+                    ->label(__('admin.crud.create.guid')),
                 Forms\Components\TextInput::make('lon')
-                    ->label('Longitude'),
+                    ->label(__('admin.crud.create.stores.lon')),
                 Forms\Components\TextInput::make('lat')
-                    ->label('Lattitude'),
+                    ->label(__('admin.crud.create.stores.lat')),
                 Forms\Components\TextInput::make('sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->required()
                     ->numeric()
                     ->default(0),
                 FileUpload::make('image')
-                    ->label('Main Image')
+                    ->label(__('admin.crud.create.main_images'))
                     ->directory('images/stores'),
                 FileUpload::make('images')
-                    ->label('Additional Images')
+                    ->label(__('admin.crud.create.additional_images'))
                     ->multiple()
                     ->directory('images/stores')
                     ->columnSpan(2),
                 Forms\Components\Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->required(),
                 Forms\Components\Toggle::make('is_public')
+                    ->label(__('admin.crud.create.is_public'))
                     ->required(),
                 Tabs::make('translations')
-                    ->label('Translations')
+                    ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs)
                     ->columnSpan(2),
             ])->columns(2);
@@ -117,28 +132,32 @@ class StoreResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (Store $store) => $store->translation()?->name)
-                    ->label('Name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
                     ->state(fn (Store $store) => $store->city?->translation()?->name)
-                    ->label('City')
+                    ->label(__('admin.crud.create.city'))
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
+                    ->label(__('admin.crud.create.image'))
                     ->square(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

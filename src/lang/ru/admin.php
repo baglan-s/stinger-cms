@@ -90,6 +90,9 @@ return [
                 'translations' => 'Переводы',
                 'parent_id' => 'Идентификатор родителя',
                 'multiple' => 'Несколько',
+                'main_images' => 'Главное изображение',
+                'additional_images' => 'Дополнительное изображение',
+                'is_public' => 'Публичный',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
                     'requirements' => 'Требования',
@@ -148,6 +151,13 @@ return [
                     ],
                     'specifications' => [
                         'specification' => 'Спецификацию'
+                    ],
+                    'stores' => [
+                        'store' => 'Магазин',
+                        'address' => 'Адрес',
+                        'phone' => 'Телефон',
+                        'lon' => 'Долгота',
+                        'lat' => 'Широта',
                     ]
             ]
             ],
