@@ -3,16 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Panel;
 use App\Models\Role;
+use App\Services\UserService;
 use App\Models\Catalog\Order;
 use App\Models\Catalog\DeliveryAddress;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
@@ -85,5 +88,16 @@ class User extends Authenticatable
         $number = implode('', explode('-', $restParts[1]));
 
         return compact('countryCode', 'operator', 'number');
+    }
+
+    /**
+     * Grant access only to users with certain roles
+     * @param Panel $panel
+     * @return bool
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        $roles = $this->roles->pluck('slug')->toArray();
+        return UserService::checkRoles($roles);
     }
 }
