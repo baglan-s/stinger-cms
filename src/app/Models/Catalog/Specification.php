@@ -2,6 +2,7 @@
 
 namespace App\Models\Catalog;
 
+use App\Models\Traits\HasScopes;
 use App\Models\Traits\HasTranslation;
 use App\Models\Catalog\ProductCategory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Specification extends Model
 {
-    use HasFactory, HasTranslation;
+    use HasFactory, HasTranslation, HasScopes;
 
     protected $guarded = [];
 

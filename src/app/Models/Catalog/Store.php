@@ -2,16 +2,17 @@
 
 namespace App\Models\Catalog;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Catalog\City;
+use App\Models\Traits\HasScopes;
+use App\Models\Catalog\StoreImage;
+use App\Models\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Catalog\StoreTranslation;
-use App\Models\Traits\HasTranslation;
-use App\Models\Catalog\City;
-use App\Models\Catalog\StoreImage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Store extends Model
 {
-    use HasFactory, HasTranslation;
+    use HasFactory, HasTranslation, HasScopes;
 
     protected $guarded = [];
 

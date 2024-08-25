@@ -2,14 +2,15 @@
 
 namespace App\Models\Catalog;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalog\Product;
 use App\Models\User;
+use App\Models\Catalog\Product;
+use App\Models\Traits\HasScopes;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductReview extends Model
 {
-    use HasFactory;
+    use HasFactory, HasScopes;
 
     protected $guarded = [];
 

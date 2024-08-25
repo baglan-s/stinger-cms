@@ -2,17 +2,18 @@
 
 namespace App\Models\Catalog;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Catalog\DeliveryAddress;
-use App\Models\Catalog\OrderStatus;
 use App\Models\Catalog\Store;
+use App\Models\Traits\HasScopes;
 use App\Models\Catalog\OrderItem;
+use App\Models\Catalog\OrderStatus;
+use App\Models\Catalog\DeliveryAddress;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, HasScopes;
 
     protected $guarded = [];
 

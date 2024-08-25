@@ -2,15 +2,16 @@
 
 namespace App\Models\Post;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Post\Post;
+use App\Models\Traits\HasScopes;
+use Illuminate\Database\Eloquent\Model;
 use App\Models\Post\PostCategoryTranslation;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PostCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, HasScopes;
 
     protected $guarded = [];
 

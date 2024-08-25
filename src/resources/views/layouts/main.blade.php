@@ -23,7 +23,7 @@
 
     {!! $footer->render() !!}
 
-    <x-modals.city />
+    <livewire:city-list />
     <x-mobile-panel />
     <x-catalog.mobile-catalog />
 

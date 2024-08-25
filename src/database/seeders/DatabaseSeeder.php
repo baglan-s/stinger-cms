@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\LanguageSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\Catalog\CitySeeder;
+use Database\Seeders\MenuTypeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LanguageSeeder::class,
             RoleSeeder::class,
-            CitySeeder::class
+            CitySeeder::class,
+            MenuTypeSeeder::class
         ]);
     }
 }
