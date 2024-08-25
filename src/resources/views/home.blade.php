@@ -8,24 +8,7 @@
     <div class="wrapper-inner slider-container">
         <div class="main-page-content-section__inner">
             <div class="main-page-content-section-inner">
-                <div class="main-page-content-section-inner__main">
-                    <div class="main-page-content-section-banner">
-                        <div class="main-page-content-section-banner__slider swiper-wrapper-pointer-events mainSwiperSlider">
-                            <div class="swiper-wrapper">
-                                <div class="main-page-content-section-banner__card swiper-slide">
-                                    <a href="https://madrobots.ru/catalog/sale" target="_blank" class="home-banner-card">
-                                        <img alt="Распродажа 2024" class="swiper-lazy swiper-lazy-loaded" src="https://api.madrobots.ru/upload/iblock/4fb/z6nw4036khfor15l7v0lf6y0ubafie25.jpg">
-                                    </a>
-                                </div>
-                                <div class="main-page-content-section-banner__card swiper-slide">
-                                    <a href="https://madrobots.ru/catalog/sale" target="_blank" class="home-banner-card">
-                                        <img alt="Распродажа 2024" class="" src="https://api.madrobots.ru/upload/iblock/4fb/z6nw4036khfor15l7v0lf6y0ubafie25.jpg">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-main-slider />
                 <!-- Right slide -->
                 <div class="main-page-content-section-inner__side">
                     <div class="main-page-content-section-inner__product">
