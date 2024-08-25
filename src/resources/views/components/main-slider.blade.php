@@ -9,7 +9,7 @@
 
                         <div class="main-page-content-section-banner__card swiper-slide">
                             <a href="{{ $slide->translation()->link }}" target="_blank" class="home-banner-card">
-                                <img alt="Распродажа 2024" class="swiper-lazy swiper-lazy-loaded" src="{{ $slide->image }}">
+                                <img alt="Распродажа 2024" class="swiper-lazy swiper-lazy-loaded" src="{{ asset("storage/{$slide->image}") }}">
                             </a>
                         </div>
 
