@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Gallery;
+use App\Models\Traits\HasScopes;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GalleryImage extends Model
 {
-    use HasFactory;
+    use HasFactory, HasScopes;
 
     protected $guarded = [];
 

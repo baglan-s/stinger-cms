@@ -2,15 +2,16 @@
 
 namespace App\Models\Catalog;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\HasScopes;
+use App\Models\Catalog\Specification;
+use App\Models\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Catalog\ProductCategoryTranslation;
-use App\Models\Traits\HasTranslation;
-use App\Models\Catalog\Specification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductCategory extends Model
 {
-    use HasFactory, HasTranslation;
+    use HasFactory, HasTranslation, HasScopes;
 
     protected $guarded = [];
 

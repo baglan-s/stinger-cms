@@ -2,13 +2,14 @@
 
 namespace App\Models\Catalog;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Catalog\Store;
+use App\Models\Traits\HasScopes;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class StoreImage extends Model
 {
-    use HasFactory;
+    use HasFactory, HasScopes;
 
     protected $guarded = [];
 

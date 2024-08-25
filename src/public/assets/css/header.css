@@ -248,6 +248,7 @@ a {
 }
 
 .choose-city-popup__list {
+    width: 100%;
     list-style: none;
     overflow: auto;
     max-height: 464px;
@@ -514,7 +515,8 @@ a {
     top: 83px;
     left: 0;
     width: 100%;
-    height: calc(9.32px * 100 - 84px);
+    min-height: 100vh;
+    /* height: calc(9.32px * 100 - 84px); */
     padding: 10px;
     overflow: auto;
     transform: translateY(-120%);

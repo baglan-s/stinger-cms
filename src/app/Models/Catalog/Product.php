@@ -2,20 +2,21 @@
 
 namespace App\Models\Catalog;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\HasTranslation;
-use App\Models\Catalog\ProductTranslation;
-use App\Models\Catalog\ProductImage;
 use App\Models\Catalog\Brand;
-use App\Models\Catalog\ProductCategory;
-use App\Models\Catalog\ProductStock;
+use App\Models\Traits\HasScopes;
+use App\Models\Catalog\ProductImage;
 use App\Models\Catalog\ProductPrice;
+use App\Models\Catalog\ProductStock;
 use App\Models\Catalog\Specification;
+use App\Models\Traits\HasTranslation;
+use App\Models\Catalog\ProductCategory;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Catalog\ProductTranslation;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory, HasTranslation;
+    use HasFactory, HasTranslation, HasScopes;
 
     protected $guarded = [];
 

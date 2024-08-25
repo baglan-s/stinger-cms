@@ -8,21 +8,23 @@
 
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#categoryOne" aria-expanded="true" aria-controls="categoryOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#category{{ $category->id }}" aria-expanded="true" aria-controls="category{{ $category->id }}">
                             {{ $category->translation()?->name }}
                         </button>
                     </h2>
-                    <div id="categoryOne" class="accordion-collapse collapse show">
+                    <div id="category{{ $category->id }}" class="accordion-collapse collapse show">
                         <div class="accordion-body">
-                            <div class="accordion" id="accordionSubCategoriesOne">
-                                <!-- Подкатегория 1.1 -->
-                                @if ($category->children->count() > 0)
+                            
+                            @if ($category->children->count() > 0)
+
+                                <div class="accordion" id="accordionSubCategories{{ $category->id }}">
+                                    <!-- Подкатегория 1.1 -->
 
                                     @foreach ($category->children as $child)
 
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subcategoryOneOne" aria-expanded="false" aria-controls="subcategoryOneOne">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subcategory{{ $category->id . $child->id }}" aria-expanded="false" aria-controls="subcategory{{ $category->id . $child->id }}">
                                                     {{ $child->translation()?->name }}
                                                 </button>
                                             </h2>
@@ -31,7 +33,7 @@
                                                 <div class="accordion-item">
                                                     @foreach ($child->children as $grandChild)
 
-                                                        <div id="subcategoryOneOne" class="accordion-collapse collapse">
+                                                        <div id="subcategory{{ $category->id . $child->id }}" class="accordion-collapse collapse">
                                                             <div class="accordion-body">
                                                                 <a href="#" class="mobile-catalog-accordion-body__link">{{ $grandChild->translation()?->name }}</a>
                                                             </div>
@@ -44,10 +46,10 @@
                                         </div>
 
                                     @endforeach
+                                </div>
 
-                                @endif
+                            @endif
 
-                            </div>
                         </div>
                     </div>
                 </div>

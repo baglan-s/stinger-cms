@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Catalog\CityTranslation;
 use App\Models\Traits\HasTranslation;
 use App\Models\Catalog\PriceType;
+use App\Models\Traits\HasScopes;
 
 class City extends Model
 {
-    use HasFactory, HasTranslation;
+    use HasFactory, HasTranslation, HasScopes;
 
     protected $guarded = [];
 

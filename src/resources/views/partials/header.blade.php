@@ -66,52 +66,44 @@
                 </div>
             </div>
             <div class="header__bottom">
-                <div class="nav-header__city">
-                    <button class="header-city_btn" data-bs-toggle="modal" data-bs-target="#chooseCity">
-                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="location-icon svg-size--24">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.893 14.581c3.029-.438 5.357-3.073 5.357-6.258C22.25 4.83 19.452 2 16 2S9.75 4.83 9.75 8.323c0 3.185 2.328 5.82 5.357 6.258v11.806h1.786V14.581ZM16 12.84c2.466 0 4.464-2.022 4.464-4.516 0-2.495-1.998-4.517-4.464-4.517s-4.464 2.022-4.464 4.517c0 2.494 1.998 4.516 4.464 4.516Z" />
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.322 26.27c.027-.03.069-.071.133-.122.227-.18.614-.387 1.186-.596 1.135-.414 2.797-.762 4.81-.976l-.187-1.797c-2.087.222-3.907.59-5.23 1.074-.656.24-1.241.525-1.68.872-.424.336-.854.849-.854 1.544 0 .924.741 1.528 1.363 1.886.692.398 1.634.727 2.72.992C9.77 29.68 12.747 30 16 30c3.254 0 6.23-.32 8.416-.853 1.087-.265 2.029-.594 2.72-.992.623-.358 1.364-.962 1.364-1.886 0-.695-.43-1.207-.854-1.544-.439-.347-1.024-.633-1.68-.872-1.323-.483-3.143-.852-5.23-1.074l-.187 1.797c2.013.214 3.675.562 4.81.976.572.209.96.416 1.186.596.064.05.106.091.133.121-.053.061-.17.17-.425.316-.483.278-1.24.559-2.255.805-2.014.491-4.842.804-7.998.804-3.156 0-5.985-.313-7.998-.803-1.014-.247-1.772-.528-2.255-.806-.254-.146-.372-.255-.425-.316Z" />
-                        </svg>
-                        <span class="header-city__title">Алматы</span>
-                    </button>
-                </div>
+                <livewire:current-city />
 
-                <div class="nav-header__item">
-                    <div class="nav-header-item">
-                        <div class="nav-header-item__title">
-                            О нас
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="nav-header__link--arrow svg-icons svg-size--16">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.851 8 11.5 2.508 9.95 1l-7.2 7 7.2 7 1.55-1.508L5.851 8Z" />
-                            </svg>
-                        </div>
-                        <div class="nav-header-item__dropdown">
-                            <div class="nav-header-item__list">
-                                <a href="#" class="nav-header-item__link">Магазины</a>
-                                <a href="#" class="nav-header-item__link">О компании</a>
-                                <a href="#" class="nav-header-item__link">Контакты</a>
+                @if (isset($menus) && !empty($menus))
+
+                    @foreach ($menus as $menu)
+
+                        @if ($menu->children->count() > 0)
+
+                            <div class="nav-header__item">
+                                <div class="nav-header-item">
+                                    <div class="nav-header-item__title">
+                                        {{ $menu->translation()?->name }}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="nav-header__link--arrow svg-icons svg-size--16">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.851 8 11.5 2.508 9.95 1l-7.2 7 7.2 7 1.55-1.508L5.851 8Z" />
+                                        </svg>
+                                    </div>
+                                    <div class="nav-header-item__dropdown">
+                                        <div class="nav-header-item__list">
+                                            @foreach ($menu->children as $child)
+
+                                                <a href="{{ $child->link }}" class="nav-header-item__link">{{ $child->translation()?->name }}</a>
+
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav-header__item">
-                    <div class="nav-header-item">
-                        <div class="nav-header-item__title">
-                            Покупателям
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="nav-header__link--arrow svg-icons svg-size--16">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.851 8 11.5 2.508 9.95 1l-7.2 7 7.2 7 1.55-1.508L5.851 8Z" />
-                            </svg>
-                        </div>
-                        <div class="nav-header-item__dropdown">
-                            <div class="nav-header-item__list">
-                                <a href="#" class="nav-header-item__link">Доставка и оплата</a>
-                                <a href="#" class="nav-header-item__link">Гарантия и сервис</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="nav-header__link">
-                    Уцененные товары
-                </a>
+
+                        @else
+                            <a href="{{ $menu->link }}" class="nav-header__link">
+                                {{ $menu->translation()?->name }}
+                            </a>
+                        @endif
+
+                    @endforeach
+
+                @endif
+
                 <a href="tel:+7 (777) 777-77-77" class="nav-header__phone">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="svg-icons nav-header__link--call">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M5 13C5 6.925 9.925 2 16 2s11 4.925 11 11v4h-2v-4a9 9 0 1 0-18 0v4H5v-4Zm11 15a9 9 0 0 0 8.04-4.95l1.785.9A11 11 0 0 1 16 30v-2Z" />
@@ -183,70 +175,56 @@
                                     </svg>
                                     <span>09:00–21:00</span>
                                 </div>
-                                <div class="mob-header-call__city">
-                                    <div class="mob-header-city">
-                                        <div class="mob-header-city__field">
-                                            <img src="assets//images/icons/header/edit-img.svg" alt="">
-                                            <div class="mob-header-city__placeholder">Ваш город</div>
-                                            <input readonly type="text" class="mob-header-city__input" value="Алматы">
-                                        </div>
-                                        <div class="mob-header-city__choose-city" data-v-5>
-                                            <div class="mob-header-city__list">
-                                                <button class="mob-header-city__item">Алматы</button>
-                                                <button class="mob-header-city__item">Астана</button>
-                                                <button class="mob-header-city__item">Шымкент</button>
+                                <livewire:city-list-mobile />
+                            </div>
+                        </div>
+                    </div>
+                    @if (isset($menus) && !empty($menus))
+
+                        @foreach ($menus as $menu)
+
+                            @if ($menu->children->count() > 0)
+
+                                <div class="mob-menu-header__navigation">
+                                    <div class="mob-menu-header-navigation">
+                                        <button class="mob-menu-header-navigation__btn this-active" type="button" data-bs-toggle="collapse" data-bs-target="#mob-menu-header-navigation__wrap{{ $menu->id }}" aria-expanded="false" aria-controls="mob-menu-header-navigation__wrap{{ $menu->id }}">
+                                            {{ $menu->translation()?->name }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="svg-icons svg-size--16">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.851 8 11.5 2.508 9.95 1l-7.2 7 7.2 7 1.55-1.508L5.851 8Z" />
+                                            </svg>
+                                        </button>
+                                        <div class="mob-menu-header-navigation__wrap collapse multi-collapse" id="mob-menu-header-navigation__wrap{{ $menu->id }}">
+                                            <div class="mob-menu-header-navigation__list">
+                                                @foreach ($menu->children as $child)
+                                                    <a href="{{ $child->link }}" class="mob-menu-header-navigation__link">{{ $child->translation()?->name }}</a>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mob-menu-header__navigation">
-                        <div class="mob-menu-header-navigation">
-                            <button class="mob-menu-header-navigation__btn this-active" type="button" data-bs-toggle="collapse" data-bs-target="#mob-menu-header-navigation__wrap1" aria-expanded="false" aria-controls="mob-menu-header-navigation__wrap1">
-                                Компания
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="svg-icons svg-size--16">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.851 8 11.5 2.508 9.95 1l-7.2 7 7.2 7 1.55-1.508L5.851 8Z" />
-                                </svg>
-                            </button>
-                            <div class="mob-menu-header-navigation__wrap collapse multi-collapse" id="mob-menu-header-navigation__wrap1">
-                                <div class="mob-menu-header-navigation__list">
-                                    <a href="#" class="mob-menu-header-navigation__link">О nemo.kz</a>
-                                    <a href="#" class="mob-menu-header-navigation__link">Магазины</a>
+
+                            @else
+
+                                <div class="mob-menu-header__links">
+                                    <div class="mob-menu-header-links">
+                                        <a href="{{ $menu->link }}" class="mob-menu-header-links__item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="this-icon svg-icons svg-size--32">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10v12h-4.52l-4 5H7V5h9.48l4 5H25Zm-2 2h-3.48l-4-5H9v18h6.52l4-5H23v-8Z" />
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M24 15h7v2h-7v-2ZM1 10h7v2H1v-2ZM1 20h7v2H1v-2ZM14.072 10.628l1.857.743L14.476 15h4l-2.549 6.371-1.857-.743L15.524 17h-4l2.549-6.372Z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="this-arrow svg-icons">
+                                                <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
+                                            </svg> {{ $menu->translation()?->name }}
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mob-menu-header__navigation">
-                        <div class="mob-menu-header-navigation">
-                            <button class="mob-menu-header-navigation__btn this-active" type="button" data-bs-toggle="collapse" data-bs-target="#mob-menu-header-navigation__wrap2" aria-expanded="false" aria-controls="mob-menu-header-navigation__wrap2">
-                                Покупателям
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="svg-icons svg-size--16">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.851 8 11.5 2.508 9.95 1l-7.2 7 7.2 7 1.55-1.508L5.851 8Z" />
-                                </svg>
-                            </button>
-                            <div class="mob-menu-header-navigation__wrap collapse multi-collapse" id="mob-menu-header-navigation__wrap2">
-                                <div class="mob-menu-header-navigation__list">
-                                    <a href="#" class="mob-menu-header-navigation__link">Доставка и оплата</a>
-                                    <a href="#" class="mob-menu-header-navigation__link">Гарантия и сервис</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mob-menu-header__links">
-                        <div class="mob-menu-header-links">
-                            <a href="/contacts" class="mob-menu-header-links__item">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="this-icon svg-icons svg-size--32">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10v12h-4.52l-4 5H7V5h9.48l4 5H25Zm-2 2h-3.48l-4-5H9v18h6.52l4-5H23v-8Z" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M24 15h7v2h-7v-2ZM1 10h7v2H1v-2ZM1 20h7v2H1v-2ZM14.072 10.628l1.857.743L14.476 15h4l-2.549 6.371-1.857-.743L15.524 17h-4l2.549-6.372Z" />
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="this-arrow svg-icons">
-                                    <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                </svg> Контакты
-                            </a>
-                        </div>
-                    </div>
+
+                            @endif
+
+                        @endforeach
+
+                    @endif
+                    
                     <div class="mob-menu-header__contacts">
                         <div class="mob-menu-header-contacts">
                             <div class="mob-menu-header-contacts__inner">

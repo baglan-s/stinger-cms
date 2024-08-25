@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MenuTranslation;
 use App\Models\Traits\HasTranslation;
+use App\Models\MenuType;
 
 class Menu extends Model
 {
@@ -25,5 +26,10 @@ class Menu extends Model
     public function parent()
     {
         return $this->belongsTo(Menu::class, 'parent_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(MenuType::class, 'menu_type_id');
     }
 }
