@@ -98,6 +98,6 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         $roles = $this->roles->pluck('slug')->toArray();
-        return UserService::checkRoles($roles);
+        return UserService::checkAccessPanelRoles($roles);
     }
 }

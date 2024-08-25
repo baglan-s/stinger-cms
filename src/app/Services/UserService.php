@@ -21,7 +21,7 @@ class UserService extends Service
      * @param array $roles
      * @return bool;
      */
-    public static function checkRoles($roles): bool
+    public static function checkAccessPanelRoles($roles): bool
     {
         $intersection = array_intersect(self::$canAccessPanelRoles, $roles);
         return count($intersection) === count(self::$canAccessPanelRoles);
