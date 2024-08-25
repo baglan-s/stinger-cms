@@ -33,6 +33,16 @@ class ProductStockResource extends Resource
         return __('admin.navigation.product.stock.title');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.product.stock.title');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.product_reviews.review');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -76,10 +86,12 @@ class ProductStockResource extends Resource
         
         $columns = array_merge($columns, [
             Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('updated_at')
+                ->label(__('admin.crud.create.updated_at'))
                 ->dateTime()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),

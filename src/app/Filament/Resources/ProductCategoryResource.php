@@ -40,6 +40,16 @@ class ProductCategoryResource extends Resource
         return __('admin.navigation.product.categories.title');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.product.categories.title');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.product_categories.category');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -61,22 +71,23 @@ class ProductCategoryResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.meta_title')
-                        ->label('Meta Title')
+                        ->label(__('admin.seo.meta_title'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     TextArea::make('translations.' . $language->code . '.description')
-                        ->label('Description')
+                        ->label(__('admin.seo.meta_description'))
                         ->rows(8),
                     TextArea::make('translations.' . $language->code . '.meta_description')
-                        ->label('Meta Description')
+                        ->label(__('admin.crud.create.description'))
                         ->rows(8),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -84,27 +95,28 @@ class ProductCategoryResource extends Resource
         return $form
             ->schema([
                 Select::make('parent_id')
-                    ->label('Parent')
+                    ->label(__('admin.crud.create.parent_id'))
                     ->options($categoryOptions),
                 TextInput::make('guid')
-                    ->label('GUID'),
+                    ->label(__('admin.crud.create.guid')),
                 TextInput::make('sort')
-                    ->label('Sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->default(1)
                     ->required()
                     ->integer(),
                 FileUpload::make('image')
-                    ->label('Image')
+                    ->label(__('admin.crud.create.images'))
                     ->required()
                     ->directory('images/product-categories'),
                 Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->default(true),
                 Tabs::make('translations')
-                    ->label('Translations')
+                    ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs)
                     ->columnSpan(2),
                 Select::make('specifications')
-                    ->label('Specifications')
+                    ->label(__('admin.crud.create.product_categories.specifications'))
                     ->options($specificationOptions)
                     ->multiple()
                     ->searchable()
@@ -117,13 +129,13 @@ class ProductCategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
+                    ->label(__('admin.crud.create.images'))
                     ->square(),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (ProductCategory $category) => $category->translation()?->name)
-                    ->label('Name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(
                         query: function (Builder $query, string $search): Builder {
                             return $query->whereHas('translations', function (Builder $query) use ($search) {
@@ -133,14 +145,17 @@ class ProductCategoryResource extends Resource
                     ),
                 Tables\Columns\TextColumn::make('parent')
                     ->state(fn (ProductCategory $category) => $category->parent?->translation()?->name)
-                    ->label('Parent'),
+                    ->label(__('admin.crud.create.parent')),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

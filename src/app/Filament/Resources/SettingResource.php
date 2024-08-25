@@ -37,6 +37,16 @@ class SettingResource extends Resource
         return __('admin.navigation.system.settings');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.system.settings');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.settings.setting');
+    }
+
     public static function form(Form $form): Form
     {
         $products = Product::with([
@@ -63,40 +73,42 @@ class SettingResource extends Resource
                         Tabs\Tab::make('Main')
                             ->schema([
                                 Forms\Components\TextInput::make('application_name')
+                                    ->label(__('admin.crud.create.settings.application_name'))
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('application_email')
+                                    ->label(__('admin.crud.create.settings.application_email'))
                                     ->email()
                                     ->required()
                                     ->maxLength(255),
                                 FileUpload::make('main_logo')
-                                    ->label('Main logo')
+                                    ->label(__('admin.crud.create.settings.main_logo'))
                                     ->directory('images/settings'),
                                 FileUpload::make('footer_logo')
-                                    ->label('Footer logo')
+                                    ->label(__('admin.crud.create.settings.footer_logo'))
                                     ->directory('images/settings'),
                                 FileUpload::make('favicon')
-                                    ->label('Favicon')
+                                    ->label(__('admin.crud.create.settings.favicon'))
                                     ->directory('images/settings'),
                                 Select::make('language_id')
-                                    ->label('System language')
+                                    ->label(__('admin.crud.create.language_id'))
                                     ->options($languageOptions)
                                     ->searchable(),
                             ]),
                         Tabs\Tab::make('Marketing')
                             ->schema([
                                 Select::make('weekly_product_id')
-                                    ->label('Weekly product')
+                                    ->label(__('admin.crud.create.settings.weekly_product_id'))
                                     ->options($productOptions)
                                     ->searchable(),
                                 DateTimePicker::make('weekly_product_starts_at')
-                                    ->label('Weekly product starts')
+                                    ->label(__('admin.crud.create.settings.weekly_product_starts_at'))
                                     ->minDate(now())
                                     ->native(false)
                                     ->hoursStep(1)
                                     ->minutesStep(30),
                                 DateTimePicker::make('weekly_product_ends_at')
-                                    ->label('Weekly product ends')
+                                    ->label(__('admin.crud.create.settings.weekly_product_ends_at'))
                                     ->minDate(now())
                                     ->native(false)
                                     ->hoursStep(1)
@@ -111,25 +123,29 @@ class SettingResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('application_name')
+                    ->label(__('admin.crud.create.settings.application_name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('application_email')
+                    ->label(__('admin.crud.create.settings.application_email'))
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('main_logo')
-                    ->label('Main logo')
+                    ->label(__('admin.crud.create.settings.main_logo'))
                     ->square(),
                 Tables\Columns\ImageColumn::make('footer_logo')
-                    ->label('Footer logo')
+                    ->label(__('admin.crud.create.settings.footer_logo'))
                     ->square(),
                 Tables\Columns\ImageColumn::make('favicon')
-                    ->label('Favicon')
+                    ->label(__('admin.crud.create.settings.favicon'))
                     ->square(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

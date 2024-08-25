@@ -29,6 +29,16 @@ class UserResource extends Resource
         return __('admin.navigation.users');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.users');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.user');
+    }
+
     public static function form(Form $form): Form
     {
         $roles = Role::all();
@@ -47,9 +57,11 @@ class UserResource extends Resource
                 Hidden::make('form_type')
                     ->default($form->getOperation()),
                 Forms\Components\TextInput::make('name')
+                    ->label(__('admin.crud.create.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label(__('admin.crud.create.email'))
                     ->email()
                     ->unique(table: User::class, ignoreRecord: true)
                     ->required()
@@ -59,27 +71,32 @@ class UserResource extends Resource
                     ->placeholder('+7(999)-999-99-99')
                     ->unique(table: User::class, ignoreRecord: true)
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\DateTimePicker::make('email_verified_at')
+                    ->label(__('admin.crud.create.email_verfifed_at')),
                 Forms\Components\TextInput::make('password')
+                    ->label(__('admin.crud.create.password'))
                     ->password()
                     ->requiredIf('form_type', 'create')
                     ->revealable()
                     ->same('password_confirm')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password_confirm')
+                    ->label(__('admin.crud.create.password_confirm'))
                     ->password()
                     ->requiredIf('form_type', 'create')
                     ->same('password')
                     ->revealable()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->required(),
 
                 Section::make('Roles')
-                    ->description('Choose roles')
+                    ->description(__('admin.crud.create.choose_roles'))
+                    ->label(__('admin.crud.create.roles'))
                     ->schema([
                         CheckboxList::make('roles')
-                            ->label('')
+                            ->label(__('admin.crud.create.roles'))
                             ->relationship(name: 'roles', titleAttribute: 'slug')
                             ->options($roleOptions)
                             ->bulkToggleable()
@@ -93,8 +110,9 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),

@@ -44,6 +44,16 @@ class ProductResource extends Resource
         return __('admin.navigation.product.title');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.product.title');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.products.product');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -65,20 +75,20 @@ class ProductResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.meta_title')
-                        ->label('Meta Title')
+                        ->label(__('admin.seo.meta_title'))
                         ->maxLength(255),
                     TextArea::make('translations.' . $language->code . '.meta_description')
-                        ->label('Meta Description')
+                        ->label(__('admin.seo.meta_description'))
                         ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.description')
-                        ->label('Content')
+                        ->label(__('admin.crud.create.description'))
                         ->fileAttachmentsDirectory('images/products/content')
                         ->toolbarButtons([
                             'attachFiles',
@@ -98,6 +108,7 @@ class ProductResource extends Resource
                             'undo',
                         ]),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -105,7 +116,7 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Select::make('product_category_id')
-                    ->label('Category')
+                    ->label(__('admin.crud.create.products.category'))
                     ->searchable()
                     ->getSearchResultsUsing(function (string $search): array {
                         $categories = ProductCategory::whereHas('translations', function ($query) use ($search) {
@@ -125,11 +136,11 @@ class ProductResource extends Resource
                     })
                     ->getOptionLabelUsing(fn ($value): ?string => ProductCategory::find($value)?->translation()?->name),
                 Select::make('brand_id')
-                    ->label('Brand')
+                    ->label(__('admin.crud.create.brands.brand'))
                     ->searchable()
                     ->options($brandOptions),
                 Select::make('parent_id')
-                    ->label('Parent')
+                    ->label(__('admin.crud.create.parent_id'))
                     ->searchable()
                     ->getSearchResultsUsing(function (string $search): array {
                         $products = Product::whereHas('translations', function ($query) use ($search) {
@@ -148,34 +159,43 @@ class ProductResource extends Resource
                          })->toArray();
                     })
                     ->getOptionLabelUsing(fn ($value): ?string => Product::find($value)?->translation()?->name),
-                Forms\Components\TextInput::make('guid'),
+                Forms\Components\TextInput::make('guid')
+                    ->label(__('admin.crud.create.guid')),
                 Forms\Components\TextInput::make('weight')
+                    ->label(__('admin.crud.create.products.weight'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('weight_unit')
+                    ->label(__('admin.crud.create.products.weight_unit'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('volume')
+                    ->label(__('admin.crud.create.products.volume'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('volume_unit')
+                    ->label(__('admin.crud.create.products.volume_unit'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('article')
+                    ->label(__('admin.crud.create.products.article'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->required()
                     ->numeric()
                     ->default(0),
                 Forms\Components\Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->required(),
                 Tabs::make('translations')
-                    ->label('Translations')
+                    ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs)
                     ->columnSpan(2),
                 FileUpload::make('images')
-                    ->label('Images')
+                    ->label(__('admin.crud.create.images'))
                     ->multiple()
                     ->directory('images/products')
                     ->columnSpan(2),
                 Section::make('Specifications')
-                    ->description('Выберите характеристики')
+                    ->label(__('admin.navigation.product.specs.title'))
+                    ->description(__('admin.crud.create.products.choose_specs'))
                     ->schema(function (Forms\Get $get): array {
                         $schema = [];
 
@@ -216,38 +236,42 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (Product $product) => $product->translation()?->name)
-                    ->label('Name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         return $query->whereHas('translations', function (Builder $query) use ($search) {
                             $query->whereRaw("lower(name) LIKE '%" . mb_strtolower($search) . "%'");
                         });
                     }),
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
+                    ->label(__('admin.crud.create.images'))
                     ->state(fn (Product $product) => $product->images()->first()?->path)
                     ->square(),
                 Tables\Columns\TextColumn::make('category')
                     ->state(fn (Product $product) => $product->category?->translation()?->name)
-                    ->label('Category'),
+                    ->label(__('admin.crud.create.products.category')),
                 Tables\Columns\TextColumn::make('brand')
                     ->state(fn (Product $product) => $product->brand?->translation()?->name)
-                    ->label('Brand'),
+                    ->label(__('admin.crud.create.brands.brand')),
                 Tables\Columns\TextColumn::make('views')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

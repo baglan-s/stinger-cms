@@ -34,6 +34,16 @@ class PageResource extends Resource
         return __('admin.navigation.pages');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.pages');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.page');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -43,20 +53,20 @@ class PageResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.title')
-                        ->label('Title')
+                        ->label(__('admin.crud.create.title'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                         TextInput::make('translations.' . $language->code . '.meta_title')
-                        ->label('Meta title')
+                        ->label(__('admin.seo.meta_title'))
                         ->maxLength(255),
                     TextArea::make('translations.' . $language->code . '.meta_description')
-                        ->label('Meta Description')
+                        ->label(__('admin.seo.meta_description'))
                         ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.content')
-                        ->label('Content')
+                        ->label(__('admin.crud.create.content'))
                         ->fileAttachmentsDirectory('images/pages')
                         ->toolbarButtons([
                             'attachFiles',
@@ -86,6 +96,7 @@ class PageResource extends Resource
                     ->label('Translations')
                     ->tabs($tabs),
                 Forms\Components\Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->required(),
             ])->columns(1);
     }
@@ -101,6 +112,7 @@ class PageResource extends Resource
                     ->label('Title')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('views')
                     ->label('Views'),

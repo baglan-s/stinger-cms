@@ -38,6 +38,16 @@ class GalleryResource extends Resource
         return __('admin.navigation.galleries');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.galleries');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.galleries.gallery');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -47,16 +57,18 @@ class GalleryResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
                         ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     TextArea::make('translations.' . $language->code . '.description')
-                        ->label('Description')
+                        ->label(__('admin.crud.create.description'))
                         ->rows(8),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -64,15 +76,16 @@ class GalleryResource extends Resource
         return $form
             ->schema([
                 TextInput::make('sort')
-                    ->label('Sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->default(1)
                     ->required()
                     ->integer(),
                 FileUpload::make('images')
-                    ->label('Images')
+                    ->label(__('admin.crud.create.images'))
                     ->multiple()
                     ->directory('images/galleries'),
                 Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->default(true),
                 Tabs::make('translations')
                     ->label('Translations')
@@ -85,14 +98,14 @@ class GalleryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('Name')
                     ->state(fn (Gallery $gallery) => $gallery->translation()?->name)
-                    ->label('Name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
                     ->state(fn (Gallery $gallery) => $gallery->images[0]?->path)
-                    ->label('Image')
+                    ->label(__('admin.crud.create.image'))
                     ->square(),
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),

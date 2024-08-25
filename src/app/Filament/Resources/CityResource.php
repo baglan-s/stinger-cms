@@ -39,6 +39,16 @@ class CityResource extends Resource
         return __('admin.navigation.cities');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.cities');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.cities.city');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -50,12 +60,13 @@ class CityResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required(),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -67,17 +78,19 @@ class CityResource extends Resource
         return $form
             ->schema([
                 Select::make('price_type_id')
-                    ->label('Price types')
+                    ->label(__('admin.crud.create.cities.price_types'))
                     ->options($priceTypeOptions),
-                Forms\Components\TextInput::make('guid'),
+                Forms\Components\TextInput::make('guid')
+                    ->label(__('admin.crud.create.guid')),
                 // Forms\Components\TextInput::make('kaspi_index')
                 //     ->maxLength(255),
                 TextInput::make('sort')
-                    ->label('Sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->default(1)
                     ->required()
                     ->integer(),
                 Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->default(true),
                 Tabs::make('translations')
                     ->label('Translations')
@@ -91,12 +104,12 @@ class CityResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('guid')
-                    ->label('Guid'),
+                    ->label(__('admin.crud.create.guid')),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (City $city) => $city->translation()?->name)
-                    ->label('Name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         return $query->whereHas('translations', function (Builder $query) use ($search) {
                             $query->where('name', $search);
@@ -104,13 +117,14 @@ class CityResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('slug')
                     ->state(fn (City $city) => $city->translation()?->slug)
-                    ->label('Slug')
+                    ->label(__('admin.crud.create.slug'))
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         return $query->whereHas('translations', function (Builder $query) use ($search) {
                             $query->where('slug', $search);
                         });
                     }),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

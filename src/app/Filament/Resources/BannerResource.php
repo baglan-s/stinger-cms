@@ -38,6 +38,16 @@ class BannerResource extends Resource
         return __('admin.navigation.banners');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.banners');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.banners.banner');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -47,15 +57,16 @@ class BannerResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.title')
-                        ->label('Title')
+                        ->label(__('admin.crud.create.banners.title'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.subtitle')
-                        ->label('Subtitle')
+                        ->label(__('admin.crud.create.banners.subtitle'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.link')
-                        ->label('Link')
+                        ->label(__('admin.crud.create.link'))
                         ->maxLength(255),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -63,17 +74,18 @@ class BannerResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                 FileUpload::make('image')
-                    ->label('Image')
+                    ->label(__('admin.crud.create.image'))
                     ->required()
                     ->directory('images/banners'),
                 Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->default(true),
                 TextInput::make('sort')
-                    ->label('Sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->default(1)
                     ->required()
                     ->integer(),
@@ -88,14 +100,15 @@ class BannerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
+                    ->label(__('admin.crud.create.image'))
                     ->square(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

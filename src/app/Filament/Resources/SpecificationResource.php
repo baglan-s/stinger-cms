@@ -38,6 +38,16 @@ class SpecificationResource extends Resource
         return __('admin.navigation.product.specs.title');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.product.specs.title');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.specifications.specification');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -47,16 +57,17 @@ class SpecificationResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.description')
-                        ->label('Description')
+                        ->label(__('admin.crud.create.description'))
                         ->maxLength(255),
                     Hidden::make('translations.' . $language->code . '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -64,15 +75,18 @@ class SpecificationResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->required(),
                 Forms\Components\Toggle::make('multiple')
+                    ->label(__('admin.crud.create.multiple'))
                     ->required(),
                 Forms\Components\TextInput::make('sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->required()
                     ->numeric()
                     ->default(0),
                 Tabs::make('translations')
-                    ->label('Translations')
+                    ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs)
                     ->columnSpan(2),
             ])->columns(2);
@@ -86,7 +100,7 @@ class SpecificationResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (Specification $specification) => $specification->translation()?->name)
-                    ->label('Name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(
                         query: function (Builder $query, $search) {
                             return $query->whereHas('translations', function (Builder $query) use ($search) {
@@ -96,17 +110,22 @@ class SpecificationResource extends Resource
                     )
                     ->sortable(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
                 Tables\Columns\IconColumn::make('multiple')
+                    ->label(__('admin.crud.create.multiple'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('sort')
+                    ->label(__('admin.crud.create.sort'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

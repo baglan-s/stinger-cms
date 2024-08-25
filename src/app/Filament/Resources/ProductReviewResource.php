@@ -33,6 +33,16 @@ class ProductReviewResource extends Resource
         return __('admin.navigation.product.reviews.title');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.product.reviews.title');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.product_reviews.review');
+    }
+
     public static function form(Form $form): Form
     {
         $productOptions = [];
@@ -49,17 +59,21 @@ class ProductReviewResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('product_id')
+                    ->label(__('admin.crud.create.product_reviews.product_id'))
                     ->options($productOptions)
                     ->searchable()
                     ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->label(__('admin.crud.create.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('rating')
+                    ->label(__('admin.crud.create.product_reviews.rating'))
                     ->required()
                     ->numeric()
                     ->default(0),
                 Forms\Components\Textarea::make('content')
+                    ->label(__('admin.crud.create.content'))
                     ->required()
                     ->columnSpanFull(),
             ]);
@@ -82,15 +96,19 @@ class ProductReviewResource extends Resource
                     )
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.crud.create.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rating')
+                    ->label(__('admin.crud.create.product_reviews.rating'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

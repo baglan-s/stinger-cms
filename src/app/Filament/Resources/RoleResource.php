@@ -40,6 +40,16 @@ class RoleResource extends Resource
         return __('admin.navigation.system.roles');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.system.roles');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('admin.crud.create.roles.role');
+    }
+
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
@@ -51,10 +61,11 @@ class RoleResource extends Resource
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     Hidden::make('translations.' . $language->code. '.language_id')
+                        ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
@@ -65,17 +76,19 @@ class RoleResource extends Resource
 
         $schema = [
             TextInput::make('slug')
+                ->label(__('admin.crud.create.slug'))
                 ->required()
                 ->maxLength(255),
 
             Tabs::make('translations')
-                ->label('Translations')
+                ->label(__('admin.crud.create.translations'))
                 ->tabs($tabs),
             Section::make('permissions')
-                ->label('Permissions')
-                ->description('Choose role permissions')
+                ->label(__('admin.navigation.system.permissions'))
+                ->description(__('admin.crud.create.permissions.choose_role_permissions'))
                 ->schema([
                     CheckboxList::make('permissions')
+                        ->label(__('admin.navigation.system.permissions'))
                         ->relationship(name: 'permissions', titleAttribute: 'name')
                         ->options($options)
                         ->bulkToggleable()
@@ -93,14 +106,17 @@ class RoleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID'),
+                    ->label(__('admin.crud.create.id')),
                 Tables\Columns\TextColumn::make('slug')
+                    ->label(__('admin.crud.create.slug'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.crud.create.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
