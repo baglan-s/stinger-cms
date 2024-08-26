@@ -3,83 +3,83 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/bivan.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/bivan.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/chipolo.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/chipolo.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/ledger.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/ledger.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/miku.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/miku.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/petoneer.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/petoneer.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/picooc.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/picooc.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/xd-design.svg" alt="">
+                    <img src="assets/images/brands/xd-design.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/zavtra.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/zavtra.svg') }}" alt="">
                 </a>
             </div>
             <!-- Loop 2 -->
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/bivan.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/bivan.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/chipolo.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/chipolo.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/ledger.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/ledger.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/miku.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/miku.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/petoneer.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/petoneer.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/picooc.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/picooc.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/xd-design.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/xd-design.svg') }}" alt="">
                 </a>
             </div>
             <div class="swiper-slide">
                 <a href="#">
-                    <img src="assets/images/brands/zavtra.svg" alt="">
+                    <img src="{{ asset('assets/images/brands/zavtra.svg') }}" alt="">
                 </a>
             </div>
         </div>
