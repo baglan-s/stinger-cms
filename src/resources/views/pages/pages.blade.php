@@ -2,8 +2,6 @@
 
 @section('content')
 
-@php
-    echo $pageTranslation->content;    
-@endphp
+{!! $pageTranslation->content !!}
 
 @endsection
