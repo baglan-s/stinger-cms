@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Page;
 use App\Models\PageTranslation;
+use Illuminate\Support\HtmlString;
 
 class PageController extends Controller
 {
@@ -13,7 +14,9 @@ class PageController extends Controller
         $pageTranslation = PageTranslation::with('page')
             ->where('slug', $slug)
             ->first();
+        
+        $content = (new HtmlString($pageTranslation->content))->toHtml();
 
-        return view('pages.pages', compact('pageTranslation'));
+        return view('pages.pages', compact('content'));
     }
 }
