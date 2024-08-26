@@ -16,6 +16,7 @@ class CreateGallery extends CreateRecord
     protected function handleRecordCreation(array $data): Model
     {
         $gallery = Gallery::create([
+            'code' => $data['code'],
             'sort' => $data['sort'],
             'active' => $data['active'],
             'user_id' => auth()->user()->id,

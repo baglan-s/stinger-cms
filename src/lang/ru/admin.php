@@ -8,6 +8,7 @@ return [
         'vacancies' => 'Вакансии',
         'banners' => 'Баннеры',
         'galleries' => 'Галлерея',
+        'video-reviews' => 'Видео обзоры',
         'brands' => 'Бренды',
         'cities' => 'Города',
         'menu_types' => 'Типы меню',
@@ -107,6 +108,11 @@ return [
                 ],
                 'galleries' => [
                     'gallery' => 'Галлерею'
+                ],
+                'video-reviews' => [
+                    'video-review' => 'Видео обзор',
+                    'title' => 'Заголовок',
+                    'description' => 'Описание',
                 ],
                 'brands' => [
                     'brand' => 'Бренд'

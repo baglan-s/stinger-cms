@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\GalleryResource\Pages;
-use App\Filament\Resources\GalleryResource\RelationManagers;
-use App\Models\Gallery;
+use App\Filament\Resources\VideoReviewResource\Pages;
+use App\Filament\Resources\VideoReviewResource\RelationManagers;
+use App\Models\VideoReview;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,21 +12,16 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Models\Language;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TextArea;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Hidden;
+use App\Models\Language;
 
-class GalleryResource extends Resource
+class VideoReviewResource extends Resource
 {
-    protected static ?string $model = Gallery::class;
+    protected static ?string $model = VideoReview::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-folder';
-
-    protected static ?string $navigationGroup = 'Components';
+    protected static ?string $navigationIcon = 'heroicon-o-video-camera';
 
     public static function getNavigationGroup(): string
     {
@@ -35,17 +30,17 @@ class GalleryResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('admin.navigation.galleries');
+        return __('admin.navigation.video-reviews');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('admin.navigation.galleries');
+        return __('admin.navigation.video-reviews');
     }
 
     public static function getModelLabel(): string
     {
-        return __('admin.crud.create.galleries.gallery');
+        return __('admin.crud.create.video-reviews.video-review');
     }
 
     public static function form(Form $form): Form
@@ -56,44 +51,43 @@ class GalleryResource extends Resource
         foreach ($languages as $language) {
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
-                    TextInput::make('translations.' . $language->code . '.name')
-                        ->label(__('admin.crud.create.name'))
-                        ->required()
+                    TextInput::make('translations.' . $language->code . '.title')
+                        ->label(__('admin.crud.create.video-reviews.title'))
+                        ->maxLength(255)
+                        ->required(),
+                    TextInput::make('translations.' . $language->code . '.description')
+                        ->label(__('admin.crud.create.video-reviews.description'))
                         ->maxLength(255),
-                    TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
-                        ->label(__('admin.crud.create.slug'))
-                        ->maxLength(255),
-                    TextArea::make('translations.' . $language->code . '.description')
-                        ->label(__('admin.crud.create.description'))
-                        ->rows(8),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
                 ]);
         }
-
+        
         return $form
             ->schema([
-                TextInput::make('code')
-                    ->label(__('admin.crud.create.code'))
-                    ->required(),
-                TextInput::make('sort')
-                    ->label(__('admin.crud.create.sort'))
-                    ->default(1)
+                Forms\Components\FileUpload::make('image')
+                    ->label(__('admin.crud.create.image'))
+                    ->image()
                     ->required()
-                    ->integer(),
-                FileUpload::make('images')
-                    ->label(__('admin.crud.create.images'))
-                    ->multiple()
-                    ->directory('images/galleries'),
-                Toggle::make('active')
+                    ->directory('images/video-reviews/images'),
+                Forms\Components\TextInput::make('link')
+                    ->label(__('admin.crud.create.link'))
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Toggle::make('active')
                     ->label(__('admin.crud.create.active'))
-                    ->default(true),
+                    ->required(),
+                Forms\Components\TextInput::make('sort')
+                    ->required()
+                    ->label(__('admin.crud.create.sort'))
+                    ->numeric()
+                    ->default(0),
                 Tabs::make('translations')
                     ->label('Translations')
-                    ->tabs($tabs),
-            ])->columns(1);
+                    ->tabs($tabs)
+                    ->columnSpan(2),
+            ])->columns(2);
     }
 
     public static function table(Table $table): Table
@@ -102,21 +96,26 @@ class GalleryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label(__('admin.crud.create.id')),
-                Tables\Columns\TextColumn::make('Name')
-                    ->state(fn (Gallery $gallery) => $gallery->translation()?->name)
+                Tables\Columns\TextColumn::make('title')
+                    ->state(fn (VideoReview $review) => $review->translation()?->title)
                     ->label(__('admin.crud.create.name'))
-                    ->searchable(),
+                    ->searchable(
+                        query: function (Builder $query, $search) {
+                            return $query->whereHas('translations', function (Builder $query) use ($search) {
+                                $query->whereRaw("lower(title) LIKE '%" . mb_strtolower($search) . "%'");
+                            });
+                        }
+                    ),
                 Tables\Columns\ImageColumn::make('image')
-                    ->state(fn (Gallery $gallery) => $gallery->images[0]?->path)
                     ->label(__('admin.crud.create.image'))
                     ->square(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
                     ->boolean(),
-                Tables\Columns\TextColumn::make('author')
-                    ->state(fn (Gallery $gallery) => $gallery->author?->name)
-                    ->label('Author')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('sort')
+                    ->label(__('admin.crud.create.sort'))
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -149,9 +148,9 @@ class GalleryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListGalleries::route('/'),
-            'create' => Pages\CreateGallery::route('/create'),
-            'edit' => Pages\EditGallery::route('/{record}/edit'),
+            'index' => Pages\ListVideoReviews::route('/'),
+            'create' => Pages\CreateVideoReview::route('/create'),
+            'edit' => Pages\EditVideoReview::route('/{record}/edit'),
         ];
     }
 }
