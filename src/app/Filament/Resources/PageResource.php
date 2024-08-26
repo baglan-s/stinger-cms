@@ -73,7 +73,7 @@ class PageResource extends Resource
                             'blockquote',
                             'bold',
                             'bulletList',
-                            'codeBlock',
+                            // 'codeBlock',
                             'h1',
                             'h2',
                             'h3',
