@@ -16,7 +16,7 @@ use App\Models\Language;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TextArea;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
 
@@ -64,7 +64,7 @@ class GalleryResource extends Resource
                         ->label('Slug')
                         ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
-                    TextArea::make('translations.' . $language->code . '.description')
+                    Textarea::make('translations.' . $language->code . '.description')
                         ->label(__('admin.crud.create.description'))
                         ->rows(8),
                     Hidden::make('translations.' . $language->code . '.language_id')

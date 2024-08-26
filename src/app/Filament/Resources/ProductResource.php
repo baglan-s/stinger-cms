@@ -19,7 +19,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TextArea;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
@@ -84,7 +84,7 @@ class ProductResource extends Resource
                     TextInput::make('translations.' . $language->code . '.meta_title')
                         ->label(__('admin.seo.meta_title'))
                         ->maxLength(255),
-                    TextArea::make('translations.' . $language->code . '.meta_description')
+                    Textarea::make('translations.' . $language->code . '.meta_description')
                         ->label(__('admin.seo.meta_description'))
                         ->rows(8),
                     RichEditor::make('translations.' . $language->code . '.description')
