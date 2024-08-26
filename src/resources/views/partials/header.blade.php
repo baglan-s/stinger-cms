@@ -30,37 +30,30 @@
                     <div class="header-controls__inner">
                         <div class="header-controls__list">
                             <div class="header-controls__item">
-                                <div class="hc-item-profile-control control-item outline">
+                                <a href="/personal-account" class="hc-item-profile-control control-item outline">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path d="M16 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12ZM28 24a6 6 0 0 0-6-6H10a6 6 0 0 0-6 6v6h24v-6Z" />
                                     </svg>
                                     <span class="hc-control-item__name">Войти</span>
-                                </div>
+                                </a>
                             </div>
                             <div class="header-controls__item">
-                                <div class="hc-item-status-control control-item outline">
+                                <a href="/comparison" class="hc-item-status-control control-item outline">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M22 4H0v22h4a4 4 0 0 0 8 0h8a4 4 0 0 0 8 0h4V16a6 6 0 0 0-6-6h-4V4Zm0 10v4h6v-4h-6Z" />
                                     </svg>
                                     <span class="hc-control-item__name">Сравнение</span>
-                                </div>
+                                </a>
                             </div>
-                            <div class="header-controls__item">
-                                <div class="hc-item-favorite-control control-item outline">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
-                                        <path d="M2.485 17.485 16 31l13.515-13.515a8.485 8.485 0 0 0 2.485-6v-.38a8.105 8.105 0 0 0-14.433-5.063L16 8l-1.567-1.958A8.105 8.105 0 0 0 0 11.105v.38c0 2.25.894 4.409 2.485 6Z" />
-                                    </svg>
-                                    <span class="hc-control-item__name">Избранное</span>
-                                </div>
-                            </div>
-                            <div class="header-controls__item">
+                            <livewire:favourite-modal />
+                            <a href="/cart" class="header-controls__item">
                                 <div class="hc-item-cart-control control-item outline">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path d="M0 2v4h4.306l1.66 9.967-1.927 9.64c-.027.134-.04.268-.039.401.003.682 0 1.294 0 1.992a4 4 0 0 0 8 0h8a4 4 0 1 0 4-4H8.44l.8-4H30V2H0Z" />
                                     </svg>
                                     <span class="hc-control-item__name">Корзина</span>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>

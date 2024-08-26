@@ -33,6 +33,17 @@ $(document).ready(function() {
     });
 
     let isVisibleMobileSearchResults = false;
+    let isVisibleDesktopSearchResults = false;
+    $('.header-search__input').on('click', function() {
+        $('.desktop-search-results').fadeIn();
+
+        if (isVisibleDesktopSearchResults) {
+            elemFadeOut('.desktop-search-results');
+        }
+
+        isVisibleDesktopSearchResults = !isVisibleDesktopSearchResults;
+    });
+
     $('.header-mobile-search__input').on('click', function() {
         $('.mobile-search-results').fadeIn();
 
@@ -44,10 +55,12 @@ $(document).ready(function() {
     });
 
     $(document).click(function(event) {
-        if (!$(event.target).closest('.catalog-in__header, .header__button, .header-mobile-search__input').length) {
+        if (!$(event.target).closest('.catalog-in__header, .header__button, .header-search__input, .header-mobile-search__input').length) {
             $('.catalog-in__header').removeClass('when-click-visible');
+            elemFadeOut('.desktop-search-results');
             elemFadeOut('.mobile-search-results');
             isVisibleMobileSearchResults = false;
+            isVisibleDesktopSearchResults = false;
         }
     });
 

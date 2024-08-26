@@ -20,6 +20,57 @@ var galleryTop = new Swiper('.gallery-top', {
 
 
 
+/* Start review */
+document.querySelectorAll('.review-star').forEach((star, index) => {
+  star.addEventListener('mouseover', () => {
+      resetStars();
+      highlightStars(index);
+  });
+
+  star.addEventListener('mouseout', () => {
+      resetStars();
+      applyRating();
+  });
+
+  star.addEventListener('click', () => {
+      setRating(index);
+  });
+});
+
+let rating = -1;
+
+
+function highlightStars(index) {
+  for (let i = 0; i <= index; i++) {
+      document.querySelectorAll('.review-star')[i].classList.add('hover');
+  }
+}
+
+
+function resetStars() {
+  document.querySelectorAll('.review-star').forEach(star => {
+      star.classList.remove('hover');
+      star.classList.remove('active');
+  });
+}
+
+
+function applyRating() {
+  for (let i = 0; i <= rating; i++) {
+      document.querySelectorAll('.review-star')[i].classList.add('active');
+  }
+}
+
+
+function setRating(index) {
+  rating = index;
+  applyRating();  
+}
+
+/* End review */
+
+
+
 const rangeInput = document.querySelectorAll(".price-range__inputs input"),
   priceInput = document.querySelectorAll(".catalog-price__range-inputs input"),
   range = document.querySelector(".price-range__progress");
