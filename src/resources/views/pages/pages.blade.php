@@ -2,6 +2,6 @@
 
 @section('content')
 
-{!! $pageTranslation->content !!}
+{{ $pageTranslation->content }}
 
 @endsection
