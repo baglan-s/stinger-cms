@@ -8,11 +8,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Nemo kz</title>
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-5.3.3/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/swiper-11.1.4/swiper-bundle.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/about.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/header.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/slider.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/catalog.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/swiper-11.1.4/swiper-bundle.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/reset.css') }}">
     </head>

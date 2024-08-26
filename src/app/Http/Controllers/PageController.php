@@ -14,6 +14,6 @@ class PageController extends Controller
             ->where('slug', $slug)
             ->first();
 
-        echo $pageTranslation->content;
+        return view('pages.pages', compact('pageTranslation'));
     }
 }
