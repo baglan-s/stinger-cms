@@ -2,6 +2,6 @@
 
 @section('content')
 
-{!! html_entity_decode($pageTranslation->content) !!}
+{!! $pageTranslation->content !!}
 
 @endsection
