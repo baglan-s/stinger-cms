@@ -107,8 +107,10 @@ class MenuResource extends Resource
                     ->label(__('admin.crud.index.id')),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (Menu $menu) => $menu->translation()?->name)
-                    ->label(__('admin.crud.index.name'))
-                    ->searchable(),
+                    ->label(__('admin.crud.index.name')),
+                Tables\Columns\TextColumn::make('menu_type')
+                    ->state(fn (Menu $menu) => $menu->type?->translation()?->name)
+                    ->label(__('admin.crud.create.menu_type')),
                 Tables\Columns\TextColumn::make('parent')
                     ->state(fn (Menu $post) => $post->parent?->translation()?->name)
                     ->label(__('admin.crud.index.parent'))
