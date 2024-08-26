@@ -109,7 +109,7 @@ class MenuResource extends Resource
                     ->state(fn (Menu $menu) => $menu->translation()?->name)
                     ->label(__('admin.crud.index.name')),
                 Tables\Columns\TextColumn::make('menu_type')
-                    ->state(fn (Menu $menu) => $menu->type?->translation()?->name)
+                    ->state(fn (Menu $menu) => $menu->type?->name)
                     ->label(__('admin.crud.create.menu_type')),
                 Tables\Columns\TextColumn::make('parent')
                     ->state(fn (Menu $post) => $post->parent?->translation()?->name)
