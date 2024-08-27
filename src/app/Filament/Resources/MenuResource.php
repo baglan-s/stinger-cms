@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TextArea;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Hidden;
 use App\Models\Language;
 use App\Models\MenuType;
@@ -107,8 +107,10 @@ class MenuResource extends Resource
                     ->label(__('admin.crud.index.id')),
                 Tables\Columns\TextColumn::make('name')
                     ->state(fn (Menu $menu) => $menu->translation()?->name)
-                    ->label(__('admin.crud.index.name'))
-                    ->searchable(),
+                    ->label(__('admin.crud.index.name')),
+                Tables\Columns\TextColumn::make('menu_type')
+                    ->state(fn (Menu $menu) => $menu->type?->name)
+                    ->label(__('admin.crud.create.menu_type')),
                 Tables\Columns\TextColumn::make('parent')
                     ->state(fn (Menu $post) => $post->parent?->translation()?->name)
                     ->label(__('admin.crud.index.parent'))

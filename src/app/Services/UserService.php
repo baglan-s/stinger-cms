@@ -24,6 +24,6 @@ class UserService extends Service
     public static function checkAccessPanelRoles($roles): bool
     {
         $intersection = array_intersect(self::$canAccessPanelRoles, $roles);
-        return count($intersection) === count(self::$canAccessPanelRoles);
+        return count($intersection) > 0;
     }
 }

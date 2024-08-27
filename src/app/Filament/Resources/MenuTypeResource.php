@@ -54,7 +54,7 @@ class MenuTypeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->lable(__('admin.crud.create.id'))
+                    ->label(__('admin.crud.create.id'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('admin.crud.create.name'))

@@ -40,6 +40,9 @@ class CityListMobile extends Component
     {
         $this->currentCity = $this->cityService->getRepository()
             ->model()
-            ->find(Cookie::get('city_id', 1));
+            ->find(Cookie::get('city_id', 1)) ?? 
+        $this->cityService->getRepository()
+            ->model()
+            ->first();
     }
 }

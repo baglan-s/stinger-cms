@@ -8,558 +8,14 @@
     <div class="wrapper-inner slider-container">
         <div class="main-page-content-section__inner">
             <div class="main-page-content-section-inner">
-                <div class="main-page-content-section-inner__main">
-                    <div class="main-page-content-section-banner">
-                        <div class="main-page-content-section-banner__slider swiper-wrapper-pointer-events mainSwiperSlider">
-                            <div class="swiper-wrapper">
-                                <div class="main-page-content-section-banner__card swiper-slide">
-                                    <a href="https://madrobots.ru/catalog/sale" target="_blank" class="home-banner-card">
-                                        <img alt="Распродажа 2024" class="swiper-lazy swiper-lazy-loaded" src="https://api.madrobots.ru/upload/iblock/4fb/z6nw4036khfor15l7v0lf6y0ubafie25.jpg">
-                                    </a>
-                                </div>
-                                <div class="main-page-content-section-banner__card swiper-slide">
-                                    <a href="https://madrobots.ru/catalog/sale" target="_blank" class="home-banner-card">
-                                        <img alt="Распродажа 2024" class="" src="https://api.madrobots.ru/upload/iblock/4fb/z6nw4036khfor15l7v0lf6y0ubafie25.jpg">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Right slide -->
-                <div class="main-page-content-section-inner__side">
-                    <div class="main-page-content-section-inner__product">
-                        <a href="#" class="main-page-content-section-inner-product">
-                            <div class="main-page-content-section-inner-product__main">
-                                <div class="main-page-content-section-inner-product__discount">
-                                    <div class="product-discount hidden-mobile right-slide">
-                                        <div class="right-product-discount__count right-slide">13%</div>
-                                        <img src="assets/images/slider/discount.png" alt="Discount">
-                                    </div>
-                                    <div class="product-discount hidden-desktop left-slide">
-                                        <div class="right-product-discount__count left-slide">13%</div>
-                                        <img src="assets/images/slider/discount.png" alt="Discount">
-                                    </div>
-                                </div>
-                                <div class="main-page-content-product__image">
-                                    <img src="assets/images/slider/bf29c59ddb633ec489a2cb186abbef2a.jpg" alt="bf29c59ddb633ec489a2cb186abbef2a">
-                                </div>
-                                <div class="main-page-content-product__text">
-                                    <div class="main-page-content-product__subtitle">
-                                        Наш выбор
-                                        <img src="assets/images/icons/robot.png" alt="Robot">
-                                    </div>
-                                    <div class="main-page-content-product__name">
-                                        Фотоаппарат моментальной печати Lumicube Lumicam DK04
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="main-page-content-product__divider">
-                                <span></span>
-                            </div>
-                            <div class="main-page-content-product__side">
-                                <div class="main-page-content-product__arrow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="svg-icons external-svg-icons">
-                                        <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                    </svg>
-                                </div>
-                                <div class="main-page-content-product__price">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 40" class="svg-icons lightning-svg-icons">
-                                        <path d="M20 16.604 9.804 40V23.396H0L10.196 0v16.604H20Z" />
-                                    </svg> Забрать
-                                    <span class="when-mobile-hidden">со скидкой</span>
-                                    <span>за 2 080 тг</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <!-- End right slide -->
+                <x-main-slider />
+                <x-catalog.weekly-product />
             </div>
         </div>
     </div>
-    <!-- Video -->
-    <div class="container">
-        <h2 class="inner-products__title inner-page-title">Видеообзоры</h2>
-        <div class="swiper videoSwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="blog_card">
-                        <div class="blog_video">
-                            <img alt="" loading="lazy" width="480" height="360" decoding="async" data-nimg="1" class="img" src="https://i.ytimg.com/vi/MaoA2vqbqQw/hqdefault.jpg" style="color: transparent; object-fit: cover;">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=MaoA2vqbqQw">
-                                <div class="blog_video-play">
-                                    <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.27849 2.25039C2.81269 1.95099 2.19999 2.28549 2.19999 2.83929V22.9106C2.19999 23.4644 2.81269 23.7989 3.27849 23.4994L18.8896 13.4638C19.3182 13.1882 19.3182 12.5617 18.8896 12.2861L3.27849 2.25039ZM0.799988 2.83929C0.799988 1.17779 2.63799 0.174386 4.03559 1.07279L19.6466 11.1085C20.9325 11.9351 20.9325 13.8148 19.6466 14.6414L4.03559 24.6771C2.63799 25.5755 0.799988 24.5721 0.799988 22.9106V2.83929Z" fill="black"></path>
-                                    </svg>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="blog_card-content">
-                            <div class="blog_card-title">
-                                32 дюйма – удобно или нет? Обзор монитора XTREON XT3266QP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End video -->
-    <div class="main-page-content-section__brands">
-        <div id="brands-carousel" class="brands-inner">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/bivan.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/chipolo.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/ledger.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/miku.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/petoneer.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/picooc.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/xd-design.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/zavtra.svg" alt="">
-                    </a>
-                </div>
-                <!-- Loop 2 -->
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/bivan.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/chipolo.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/ledger.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/miku.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/petoneer.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/picooc.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/xd-design.svg" alt="">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img src="assets/images/brands/zavtra.svg" alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-video-review />
+    <x-partners />
     <div class="wrapper-inner">
-        <div class="main-page-content-section__categories">
-            <div class="inner-categories">
-                <div class="inner-categories__list">
-                    <div class="inner-categories__item">
-                        <a href="" class="inner-categories-card">
-                            <div class="inner-categories-card__img">
-                                <img src="assets/images/categories/hits--lg.png" alt="">
-                            </div>
-                            <div class="inner-categories-card__icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="svg-icons external-svg-icon">
-                                    <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                </svg>
-                            </div>
-                            <div class="inner-categories-card__title">Хиты</div>
-                        </a>
-                    </div>
-                    <div class="inner-categories__item">
-                        <a href="" class="inner-categories-card">
-                            <div class="inner-categories-card__img">
-                                <img src="assets/images/categories/certificates--lg.png" alt="">
-                            </div>
-                            <div class="inner-categories-card__icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="svg-icons external-svg-icon">
-                                    <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                </svg>
-                            </div>
-                            <div class="inner-categories-card__title">Сертификаты</div>
-                        </a>
-                    </div>
-                    <div class="inner-categories__item">
-                        <a href="" class="inner-categories-card">
-                            <div class="inner-categories-card__img">
-                                <img src="assets/images/categories/him--lg.png" alt="">
-                            </div>
-                            <div class="inner-categories-card__icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="svg-icons external-svg-icon">
-                                    <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                </svg>
-                            </div>
-                            <div class="inner-categories-card__title">Для него</div>
-                        </a>
-                    </div>
-                    <div class="inner-categories__item">
-                        <a href="" class="inner-categories-card">
-                            <div class="inner-categories-card__img">
-                                <img src="assets/images/categories/her--lg.png" alt="">
-                            </div>
-                            <div class="inner-categories-card__icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="svg-icons external-svg-icon">
-                                    <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                </svg>
-                            </div>
-                            <div class="inner-categories-card__title">Для нее</div>
-                        </a>
-                    </div>
-                    <div class="inner-categories__item">
-                        <a href="" class="inner-categories-card">
-                            <div class="inner-categories-card__img">
-                                <img src="assets/images/categories/sport--lg.png" alt="">
-                            </div>
-                            <div class="inner-categories-card__icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="svg-icons external-svg-icon">
-                                    <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                </svg>
-                            </div>
-                            <div class="inner-categories-card__title">Спорт и отдых</div>
-                        </a>
-                    </div>
-                    <div class="inner-categories__item">
-                        <a href="" class="inner-categories-card">
-                            <div class="inner-categories-card__img">
-                                <img src="assets/images/categories/child--lg.png" alt="">
-                            </div>
-                            <div class="inner-categories-card__icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="svg-icons external-svg-icon">
-                                    <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                </svg>
-                            </div>
-                            <div class="inner-categories-card__title">Детям</div>
-                        </a>
-                    </div>
-                    <div class="inner-categories__item helpers">
-                        <a href="#" class="inner-categories-gift-guide">
-                            <div class="inner-categories-gift-guide__inner">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="inner-categories-gift-guide__icon svg-icons external-svg-icon">
-                                    <path d="M3.043 0H14v11.043h-2.191V3.658L1.549 14 0 12.438l10.148-10.23H3.043V0Z" />
-                                </svg>
-                                <picture>
-                                    <source media="(max-width: 991px)" srcset="assets/images/categories/guide-small.png">
-                                    <img src="assets/images/categories/guide.png" alt="" class="inner-categories-gift-guide__image">
-                                </picture>
-                                <div class="inner-categories-gift-guide__title">
-                                    Гид по <br> подаркам
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Novelty -->
         <div class="main-page-content-section-products__block">
             <div class="main-inner-products-block">
@@ -4112,6 +3568,109 @@
     </div>
 </div>
 <!-- End home page content -->
+
+<script>
+    var swiper = new Swiper(".mainSwiperSlider", {
+        autoplay: {
+            delay: 3000,
+        }
+    });
+
+    var swiper = new Swiper(".mainSwiperNoveltySlider", {
+        slidesPerView: 4,
+        spaceBetween: 15,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+
+    var swiper = new Swiper(".mainSwiperPopularSlider", {
+        slidesPerView: 4,
+        spaceBetween: 15,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+
+    var swiper = new Swiper(".mainSwiperDiscountSlider", {
+        slidesPerView: 4,
+        spaceBetween: 15,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+
+    var swiper = new Swiper(".videoSwiper", {
+        slidesPerView: 4,
+        spaceBetween: 30,
+        autoplay: {
+            delay: 5000,
+        },
+        loop: true,
+        breakpoints: {
+            320: {
+                slidesPerView: 3,
+                spaceBetween: 10,
+            },
+
+            768: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            },
+            991: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            }
+        },
+    });
+
+    var swiper = new Swiper("#brands-carousel", {
+        slidesPerView: 4,
+        spaceBetween: 30,
+        breakpoints: {
+            320: {
+                slidesPerView: 3,
+                spaceBetween: 10,
+            },
+
+            768: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            },
+            991: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            }
+        },
+        on: {
+            init: function() {
+                setEqualHeight(this);
+            },
+            resize: function() {
+                setEqualHeight(this);
+            }
+        },
+        autoplay: {
+            delay: 3000,
+        },
+        loop: true,
+    });
+
+    function setEqualHeight(swiper) {
+        let maxHeight = 0;
+
+        swiper.slides.forEach(function(slide) {
+            maxHeight = Math.max(maxHeight, slide.offsetHeight);
+        });
+
+        swiper.slides.forEach(function(slide) {
+            slide.style.height = maxHeight + 'px';
+        });
+    }
+</script>
 
 
 @endsection

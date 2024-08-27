@@ -8,6 +8,7 @@ return [
         'vacancies' => 'Бос орындар',
         'banners' => 'Баннерлер',
         'galleries' => 'Галлерея',
+        'video-reviews' => 'Видео шолулар',
         'brands' => 'Бренды',
         'cities' => 'Қалалар',
         'menu_types' => 'Типы меню',
@@ -105,6 +106,11 @@ return [
                 ],
                 'galleries' => [
                     'gallery' => 'Галлерею'
+                ],
+                'video-reviews' => [
+                    'video-review' => 'Видео шолу',
+                    'title' => 'Заголовок',
+                    'description' => 'Описание',
                 ],
                 'brands' => [
                     'brand' => 'Бренд'

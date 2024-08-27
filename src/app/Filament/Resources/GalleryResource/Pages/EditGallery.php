@@ -44,6 +44,7 @@ class EditGallery extends EditRecord
     protected function handleRecordUpdate(Model $gallery, array $data): Model
     {
         $gallery->update([
+            'code' => $data['code'],
             'active' => $data['active'],
             'sort' => $data['sort'],
         ]);
