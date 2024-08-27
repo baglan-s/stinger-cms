@@ -19,7 +19,7 @@
                     </span><button class="button styles_orangeBtn__NZ3EI">Заполнить анкету</button>
                 </div>
                 <div class="styles_questionnaire__imageBg__jfzOg">
-                    <img src="assets/images/vacancies/woman-office.0966fce3a722b1c93259.png" alt="">
+                    <img src="{{ asset('assets/images/vacancies/woman-office.0966fce3a722b1c93259.png') }}" alt="">
                     <div class="styles_questionnaire__imageBg_ellips__cHFzE"></div>
                     <div class="styles_questionnaire__imageBg_ellips__cHFzE"></div>
                     <div><span class="styles_questionnaire__label__3NesD">Таланты</span><span
@@ -215,7 +215,80 @@
                 <div class="col-12">
                     <h3 class="vacancies_title">Вакансии</h3>
                     <div class="vacansy-list">
-                        <div class="vacancy">
+                    @forelse($vacancies as $vacancy)
+                    <div class="vacancy">
+                            <div class="vacansy-preview">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
+                                    fill="none" class="v-preview-btn">
+                                    <path d="M6.5 6L19.5 19M19.5 19V6.52M19.5 19H7.02" stroke="#999999"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <p class="vacansy-preview_text">{{$vacancy->translation->title}}</p>
+                                <h5 class="vacansy-preview_title">{{$vacancy->translation->title}}</h5>
+                            </div>
+                            <div class="vacansy-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
+                                    fill="none" class="v-content-btn styles_active__a0ozw">
+                                    <path d="M6.5 6L19.5 19M19.5 19V6.52M19.5 19H7.02" stroke="#999999"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <div class="vacansy-content_top">
+                                    <div class="Responsibilities_block">
+                                        <div class="Responsibilities">
+                                            <h3 class="Responsibilities_title">{{$vacancy->translation->title}}</h3>
+                                            <p class="Responsibilities_text">Обязанности:</p>
+                                            <ul>
+                                                @forelse ($vacancy->translation->responsibilities as $responsibility)
+                                                    <li>{{ $responsibility }}</li>
+                                                @empty
+                                                    <li class="alert alert-info" role="alert"></li>
+                                                @endforelse
+                                            </ul>
+                                        </div>
+                                        <div class="Responsibilities_rigt">
+                                            <p class="Responsibilities_title_rigt">{{$vacancy->translation->title}}</p>
+                                            <p class="Responsibilities_text_right">Ключевые навыки</p>
+                                            <ul>
+                                                @forelse ($vacancy->translation->key_skills as $key_skill)
+                                                    <li>{{ $key_skill }}</li>
+                                                @empty
+                                                    <li class="alert alert-info" role="alert"></li>
+                                                @endforelse
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="vacansies_content_Requirements">
+                                        <div class="styles_jobOpeningActive__container__5z-xu">
+                                            <p class="styles_jobOpeningActive__title__qFtly">Требования:</p>
+                                            <ul>
+                                                @forelse ($vacancy->translation->requirements as $requirement)
+                                                    <li>{{ $requirement }}</li>
+                                                @empty
+                                                    <li class="alert alert-info" role="alert"></li>
+                                                @endforelse
+                                            </ul>
+                                        </div>
+                                        <div class="styles_jobOpeningActive__container__5z-xu">
+                                            <p class="styles_jobOpeningActive__title__qFtly">Условия:</p>
+                                            <ul>
+                                                @forelse ($vacancy->translation->conditions as $condition)
+                                                    <li>{{ $condition }}</li>
+                                                @empty
+                                                    <li class="alert alert-info" role="alert"></li>
+                                                @endforelse
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    @empty
+                        <div class="alert alert-info" role="alert">
+                            <h3>Нет данных</h3>
+                        </div>
+                    @endforelse
+                        <!-- <div class="vacancy">
                             <div class="vacansy-preview">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
                                     fill="none" class="v-preview-btn">
@@ -294,8 +367,8 @@
                                 </div>
 
                             </div>
-                        </div>
-                        <div class="vacancy">
+                        </div> -->
+                        <!-- <div class="vacancy">
                             <div class="vacansy-preview">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
                                     fill="none" class="v-preview-btn">
@@ -613,7 +686,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
