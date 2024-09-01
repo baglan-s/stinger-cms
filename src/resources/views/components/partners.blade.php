@@ -3,7 +3,7 @@
 <div class="main-page-content-section__brands">
     <div id="brands-carousel" class="brands-inner">
         <div class="swiper-wrapper">
-            @foreach ($partners->images as $partner)
+            @foreach ($gallery->images as $partner)
 
             <div class="swiper-slide">
                 <a href="#">
