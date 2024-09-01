@@ -59,7 +59,11 @@ class Login extends Component
         ];
 
         $user = $authService->register($data);
-        Auth::login($user);
+        if ($user) {
+            $user->roles()->attach(3);
+            Auth::login($user);
+        }
+
         return redirect()->route('personal.account', compact('user'));
     }
 
