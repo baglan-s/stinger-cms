@@ -17,4 +17,11 @@ class GalleryService extends Service
             ->where('sort', 1)
             ->first();
     }
+
+    public function getPartners()
+    {
+        return $this->repository->model()
+            ->where('code', 'partners')
+            ->first();
+    }
 }
