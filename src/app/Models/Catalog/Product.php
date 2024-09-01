@@ -20,7 +20,7 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $with = ['translations'];
+    protected $with = ['translations', 'images'];
 
     protected $translationClass = ProductTranslation::class;
 
@@ -67,5 +67,20 @@ class Product extends Model
             'product_id',
             'specification_id'
         );
+    }
+
+    public function hasImages()
+    {
+        return $this->images->count() > 0;
+    }
+
+    public function getFirstImage()
+    {
+        return 'storage/' . $this->images->first();
+    }
+
+    public function getDefaultImage()
+    {
+        return $this->hasImages() ? $this->getFirstImage() : 'assets/images/default-product.png';
     }
 }
