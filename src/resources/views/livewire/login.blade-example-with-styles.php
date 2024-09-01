@@ -51,7 +51,7 @@
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
                       <button
-                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm" type
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm" type="submit"
                       >
                         Получить код
                         <span
@@ -115,9 +115,9 @@
                         <input
                           placeholder="Фамилия"
                           type="text"
-                          name="last_name"
+                          name="surname"
                           class="base-input__field base-input--primary"
-                          wire:model="last_name"
+                          wire:model="surname"
                         />
                         @error('surname') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -170,11 +170,11 @@
                         <input
                           placeholder="Повторите пароль"
                           type="text"
-                          name="password_confirmation"
+                          name="confirmation_password"
                           class="base-input__field base-input--primary"
-                          wire:model="password_confirmation"
+                          wire:model="confirmation_password"
                         />
-                        @error('password_confirmation') <span class="error">{{ $message }}</span> @enderror
+                        @error('confirmation_password') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
                       <button
@@ -215,3 +215,47 @@
         </div>
       </div>
     </div>
+
+    <script type="text/javascript" src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/bootstrap-5.3.3/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jQuery-Mask-Plugin-master/jquery.mask.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/header.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            // $(".phone-number").mask("+0 (000) 000-00-00");
+            $("#mail-login").hide();
+            
+            $(".register-modal").hide();
+
+            function toggleLogin(selector) {
+            $(selector)
+                .children("button.modal-profile-auth__state")
+                .on("click", function () {
+                $(".modal-profile-login").show();
+                $(this).parent().hide();
+                });
+            }
+
+            function toggleRegisterLogin(selector) {
+            $(selector + "-btn").on("click", function () {
+                $(this).parent().find("button").removeClass("active");
+                $(selector + "-btn").addClass("active");
+                $(".tab-content").hide();
+                $(selector).show();
+            });
+            }
+
+            // $('.modal-profile-auth__form').children('button').on("click", function(event) {
+            //     // event.preventDefault();
+            //     const input = $(this).parent().find("input");
+            //     if (input.val() === '') {
+            //         input.attr('required', 'true');
+            //     } else input.removeAttr('required');
+            // })
+
+            toggleLogin("#phone-login");
+            toggleLogin("#mail-login");
+            toggleRegisterLogin(".login-modal");
+            toggleRegisterLogin(".register-modal");
+        });
+    </script>
