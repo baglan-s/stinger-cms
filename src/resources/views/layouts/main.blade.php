@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/personal-account.css') }}" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
         <script src="{{ asset('assets/js/swiper-11.1.4/swiper-bundle.min.js') }}"></script>
+        @livewireStyles
         @stack('styles')
     </head>
 <body>
@@ -39,6 +40,7 @@
     {!! $footer->render() !!}
 
     <livewire:city-list />
+    <livewire:login />
     <x-mobile-panel />
     <x-catalog.mobile-catalog />
 
@@ -68,6 +70,7 @@
       });
     </script>
     {{-- <script type="text/javascript" src="{{ asset('assets/js/header-catalog.js') }}"></script> --}}
+    @livewireScripts
     @stack('scripts')
 </body>
 </html>
