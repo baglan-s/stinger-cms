@@ -119,7 +119,7 @@
                           class="base-input__field base-input--primary"
                           wire:model="last_name"
                         />
-                        @error('surname') <span class="error">{{ $message }}</span> @enderror
+                        @error('last_name') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
                       <label class="base-input">

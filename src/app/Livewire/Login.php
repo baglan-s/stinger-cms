@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\User;
+use Livewire\Component;
+use App\Services\AuthService;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 
 class Login extends Component
 {
@@ -17,6 +18,8 @@ class Login extends Component
     public $city;
     public $password;
     public $password_confirmation;
+
+    private $authService;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -33,25 +36,31 @@ class Login extends Component
         ],
     ];
 
-    public function login()
+    public function mount()
     {
-        dd(123);
+        
     }
 
-    public function register()
+    public function login()
+    {
+        dd(time());
+    }
+
+    public function register(AuthService $authService)
     {
         $this->validate();
-        $user = User::create([
+        $data = [
             'name' => $this->name,
-            'last_name' => $this->surname,
+            'last_name' => $this->last_name,
             'phone' => $this->phone,
             'email' => $this->email,
             'city' => $this->city,
             'password' => Hash::make($this->password),
-        ]);
+        ];
 
+        $user = $authService->register($data);
         Auth::login($user);
-        return redirect()->route('home');
+        return redirect()->route('personal.account', compact('user'));
     }
 
     public function render()
