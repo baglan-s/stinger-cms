@@ -43,7 +43,7 @@ class Login extends Component
 
     public function login(AuthService $authService)
     {
-        dd($authService);
+        dd($authService->randomCode());
     }
 
     /**

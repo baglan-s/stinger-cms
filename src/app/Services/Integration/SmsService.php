@@ -2,6 +2,7 @@
 
 namespace App\Services\Integration;
 
+use App\Services\Service;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
