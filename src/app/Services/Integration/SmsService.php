@@ -20,4 +20,14 @@ class SmsService extends Service
     {
         return rand(1000, 9999);
     }
+
+    /**
+     * 
+     * @param string|int $code 
+     * @return string 
+     */
+    public function getMessage($code)
+    {
+        return "Код {$code}. Конфиденциально. Только для nemo.com";
+    }
 }

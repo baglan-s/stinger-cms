@@ -35,4 +35,14 @@ class AuthService extends Service
     {
         return $this->smsService->generateRandomCode();
     }
+
+    /**
+     * 
+     * @param string|int $code 
+     * @return string 
+     */
+    public function message()
+    {
+        return $this->smsService->getMessage($code);
+    }
 }
