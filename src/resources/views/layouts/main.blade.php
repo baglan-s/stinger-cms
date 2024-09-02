@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/catalogs.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/personal-account.css') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/header-login-modal.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
         <script src="{{ asset('assets/js/swiper-11.1.4/swiper-bundle.min.js') }}"></script>
         @stack('styles')
@@ -39,12 +40,14 @@
     {!! $footer->render() !!}
 
     <livewire:city-list />
+    <livewire:login />
     <x-mobile-panel />
     <x-catalog.mobile-catalog />
 
     <script type="text/javascript" src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/bootstrap-5.3.3/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/slick-1.8.1/slick.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jQuery-Mask-Plugin-master/jquery.mask.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/header.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/catalog.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/cart.js') }}"></script>
@@ -53,7 +56,7 @@
     <script type="text/javascript" src="{{ asset('assets/js/custom-select.js') }}"></script>
     <script>
       $(document).ready(function () {
-        $("#phone").mask("+0 (000) 000-00-00");
+        // $("#phone").mask("+0 (000) 000-00-00");
 
         $(".the-personal-user-card__birthday").click((event) => {
           event.preventDefault();
@@ -64,7 +67,45 @@
         $(".the-personal-navigation__title").click(() => {
           $(".the-personal-navigation__title").toggleClass('opened')
           $(".the-personal-navigation__list").toggleClass('opened')
-        })
+        });
+
+        // Login, register modal
+        // $(".phone-number").mask("+0 (000) 000-00-00");
+        $("#mail-login").hide();
+            
+            $(".register-modal").hide();
+
+            function toggleLogin(selector) {
+            $(selector)
+                .children("button.modal-profile-auth__state")
+                .on("click", function () {
+                $(".modal-profile-login").show();
+                $(this).parent().hide();
+                });
+            }
+
+            function toggleRegisterLogin(selector) {
+            $(selector + "-btn").on("click", function () {
+                $(this).parent().find("button").removeClass("active");
+                $(selector + "-btn").addClass("active");
+                $(".tab-content").hide();
+                $(selector).show();
+            });
+            }
+
+            // $('.modal-profile-auth__form').children('button').on("click", function(event) {
+            //     // event.preventDefault();
+            //     const input = $(this).parent().find("input");
+            //     if (input.val() === '') {
+            //         input.attr('required', 'true');
+            //     } else input.removeAttr('required');
+            // })
+
+            toggleLogin("#phone-login");
+            toggleLogin("#mail-login");
+            toggleRegisterLogin(".login-modal");
+            toggleRegisterLogin(".register-modal");
+        // End login, register modal
       });
     </script>
     {{-- <script type="text/javascript" src="{{ asset('assets/js/header-catalog.js') }}"></script> --}}

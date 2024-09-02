@@ -30,12 +30,12 @@
                     <div class="header-controls__inner">
                         <div class="header-controls__list">
                             <div class="header-controls__item">
-                                <a href="/personal-account" class="hc-item-profile-control control-item outline">
+                                <button href="/personal-account" class="hc-item-profile-control control-item outline" data-bs-toggle="modal" data-bs-target="#login">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path d="M16 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12ZM28 24a6 6 0 0 0-6-6H10a6 6 0 0 0-6 6v6h24v-6Z" />
                                     </svg>
                                     <span class="hc-control-item__name">Войти</span>
-                                </a>
+                                </button>
                             </div>
                             <div class="header-controls__item">
                                 <a href="/comparison" class="hc-item-status-control control-item outline">
@@ -284,4 +284,5 @@
         <!-- End search modal -->
     </div>
 </div>
+
 <!-- End mobile header -->
