@@ -41,11 +41,15 @@ class Login extends Component
         
     }
 
-    public function login()
+    public function login(AuthService $authService)
     {
-        dd(time());
+        dd($authService);
     }
 
+    /**
+     * 
+     * @param AuthService $authService
+     */
     public function register(AuthService $authService)
     {
         $this->validate();
