@@ -51,7 +51,6 @@
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
                       @if ($smsSended)
-                      @dd($smsSended)
                         <label class="base-input">
                           <input
                             placeholder="Введите смс код"
@@ -66,7 +65,7 @@
                       <button
                         class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm" 
                         type="button"
-                        wire:click="sendSms"
+                        wire:click.prevent="sendSms"
                       >
                         Получить код
                         <span

@@ -18,8 +18,8 @@ class Login extends Component
     public $city;
     public $password;
     public $password_confirmation;
-    private $code;
-    protected $smsSended = false;
+    public $code;
+    public $smsSended = false;
 
     private $authService;
 
@@ -87,11 +87,14 @@ class Login extends Component
                 $this->smsSended = true;
             };
         };
+
+        $this->dispatch('keep-modal-open');
     }
 
     public function render()
     {
-        $smsSended = $this->smsSended;
-        return view('livewire.login', compact('smsSended'));
+        return view('livewire.login', [
+            'smsSended' => $this->smsSended
+        ]);
     }
 }
