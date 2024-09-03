@@ -18,6 +18,8 @@ class Login extends Component
     public $city;
     public $password;
     public $password_confirmation;
+    private $code;
+    protected $smsSended = false;
 
     private $authService;
 
@@ -38,17 +40,12 @@ class Login extends Component
 
     public function mount()
     {
-        
+        $this->smsSended = false;
     }
 
     public function login(AuthService $authService)
     {
-        $phone = $this->phone;
-        $otp = $authService->smsServiceGenerateRandomCode();
-        $message = $authService->getSmsServiceMessage($otp);
-        $smsMessage = $authService->setSmsServiceMessage($phone, $message, $otp);
-        $response = $authService->smsServiceSend($smsMessage->phone, $smsMessage->text);
-        dd($response);
+        
     }
 
     /**
@@ -76,8 +73,25 @@ class Login extends Component
         return redirect()->route('personal.account', compact('user'));
     }
 
+    public function sendSms(AuthService $authService)
+    {
+        $phone = preg_replace('/[^\+\d]/', '', $this->phone);
+        $email = $this->email;
+        $user = User::where('phone', $phone)->exists();
+        if ($user) {
+            $otp = $authService->smsServiceGenerateRandomCode();
+            $message = $authService->getSmsServiceMessage($otp);
+            $smsMessage = $authService->setSmsServiceMessage($phone, $message, $otp);
+            $response = $authService->smsServiceSend($smsMessage->phone, $smsMessage->text);
+            if ($response) {
+                $this->smsSended = true;
+            };
+        };
+    }
+
     public function render()
     {
-        return view('livewire.login');
+        $smsSended = $this->smsSended;
+        return view('livewire.login', compact('smsSended'));
     }
 }

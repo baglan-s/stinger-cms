@@ -39,7 +39,7 @@
                     <div class="modal-profile-auth__title">
                       Вход по номеру телефона
                     </div>
-                    <form class="modal-profile-auth__form" wire:submit.prevent="login">
+                    <form class="modal-profile-auth__form" wire:submit.prevent="submit">
                       <label class="base-input">
                         <input
                           placeholder="Номер телефона"
@@ -50,8 +50,23 @@
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
+                      @if ($smsSended)
+                      @dd($smsSended)
+                        <label class="base-input">
+                          <input
+                            placeholder="Введите смс код"
+                            type="number"
+                            name="code"
+                            wire:model="code"
+                            class="base-input__field base-input--primary phone-number"
+                          />
+                          <span class="the-personal-input__error">Поле обязательно для заполнения</span>
+                        </label>
+                      @endif
                       <button
-                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm" type
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm" 
+                        type="button"
+                        wire:click="sendSms"
                       >
                         Получить код
                         <span
