@@ -43,7 +43,12 @@ class Login extends Component
 
     public function login(AuthService $authService)
     {
-        dd($authService->randomCode());
+        $phone = $this->phone;
+        $otp = $authService->smsServiceGenerateRandomCode();
+        $message = $authService->getSmsServiceMessage($otp);
+        $smsMessage = $authService->setSmsServiceMessage($phone, $message, $otp);
+        $response = $authService->smsServiceSend($smsMessage->phone, $smsMessage->text);
+        dd($response);
     }
 
     /**

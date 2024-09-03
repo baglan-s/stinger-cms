@@ -31,7 +31,7 @@ class AuthService extends Service
         return $this->userRepository->create($data);
     }
 
-    public function randomCode()
+    public function smsServiceGenerateRandomCode()
     {
         return $this->smsService->generateRandomCode();
     }
@@ -41,8 +41,25 @@ class AuthService extends Service
      * @param string|int $code 
      * @return string 
      */
-    public function message()
+    public function getSmsServiceMessage($code)
     {
         return $this->smsService->getMessage($code);
+    }
+
+    /**
+     * 
+     * @param string $phone 
+     * @param string $message 
+     * @param mixed $code 
+     * @return mixed 
+     */
+    public function setSmsServiceMessage($phone, $message, $code = NULL)
+    {
+        return $this->smsService->setSmsMessage($phone, $message, $code = NULL);
+    }
+
+    public function smsServiceSend($phone, $message)
+    {
+        return $this->smsService->send($phone, $message);
     }
 }

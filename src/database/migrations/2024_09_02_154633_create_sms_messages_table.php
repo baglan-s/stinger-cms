@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('sms_messages', function (Blueprint $table) {
             $table->id();
             $table->string('phone');
-            $table->string('code')->after('phone')->nullable();
+            $table->string('code')->nullable();
             $table->text('text');
-            $table->boolean('is_sended');
-            $table->bigInteger('sms_id')->nullable();
-            $table->string('session_id')->nullable();
             $table->string('ip')->nullable();
             $table->timestamps();
         });
