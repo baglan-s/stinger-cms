@@ -19,7 +19,7 @@ class SmsController extends Controller
         $message = 'Hello';
         $result = $this->smsService->send($phone, $message);
 
-        if ($result->isSuccess()) {
+        if ($result) {
             // Если отправка SMS успешна, возвращаем ответ
             return response()->json([
                 'status' => 'success',

@@ -9,3 +9,4 @@ Route::get('pages/vacancies', [App\Http\Controllers\Pages\VacancyController::cla
 Route::get('/personal-account', function () {
     return view('pages.personal.account');
 })->name('personal.account');
+Route::post('send-sms', [App\Http\Controllers\SmsController::class, 'sendSms']);

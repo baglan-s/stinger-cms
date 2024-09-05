@@ -221,6 +221,11 @@
     @push('scripts')
     <script>
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             $('.btn-auth-sms').on('click', function(e) {
                 e.preventDefault(); // Предотвращаем стандартное поведение кнопки (например, если это кнопка формы).
 
