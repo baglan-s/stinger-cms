@@ -34,13 +34,13 @@
     </head>
 <body>
     {!! $header->render() !!}
+    @include('partials.auth')
     
     @yield('content')
 
     {!! $footer->render() !!}
 
     <livewire:city-list />
-    <livewire:login />
     <x-mobile-panel />
     <x-catalog.mobile-catalog />
 
@@ -106,51 +106,6 @@
             toggleRegisterLogin(".login-modal");
             toggleRegisterLogin(".register-modal");
         // End login, register modal
-      });
-
-      
-      document.addEventListener('DOMContentLoaded', function() {
-          const authModal = document.getElementById('authModal');
-          const closeBtn = document.querySelector('.close-custom');
-          const loginTab = document.getElementById('login-tab');
-          const registerTab = document.getElementById('register-tab');
-          const loginPane = document.getElementById('login');
-          const registerPane = document.getElementById('register');
-          const loginButton = document.querySelector('.login-btn');
-
-          // Открытие модального окна
-          function openModal() {
-              authModal.style.display = 'block';
-          }
-
-          // Закрытие модального окна
-          function closeModal() {
-              authModal.style.display = 'none';
-          }
-
-          // Переключение вкладок
-          loginTab.addEventListener('click', function() {
-              loginTab.classList.add('active-custom');
-              registerTab.classList.remove('active-custom');
-              loginPane.classList.add('active-custom');
-              registerPane.classList.remove('active-custom');
-          });
-
-          registerTab.addEventListener('click', function() {
-              registerTab.classList.add('active-custom');
-              loginTab.classList.remove('active-custom');
-              registerPane.classList.add('active-custom');
-              loginPane.classList.remove('active-custom');
-          });
-
-          // Обработчик закрытия окна
-          closeBtn.addEventListener('click', closeModal);
-
-          // Открытие модального окна при клике на кнопку "Войти"
-          loginButton.addEventListener('click', function(event) {
-              event.preventDefault(); // Отключаем переход по ссылке
-              openModal();
-          });
       });
     </script>
     {{-- <script type="text/javascript" src="{{ asset('assets/js/header-catalog.js') }}"></script> --}}

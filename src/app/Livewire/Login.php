@@ -87,6 +87,8 @@ class Login extends Component
                 $this->smsSended = true;
             };
         };
+
+        $this->dispatch('sms-sent');
     }
 
     public function render()

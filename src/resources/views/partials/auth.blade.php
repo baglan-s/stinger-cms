@@ -5,7 +5,6 @@
       tabindex="-1"
       aria-labelledby="login"
       aria-hidden="true"
-      wire:ignore.self
     >
       <div class="modal-dialog">
         <div class="modal-content">
@@ -40,34 +39,28 @@
                     <div class="modal-profile-auth__title">
                       Вход по номеру телефона
                     </div>
-                    <form class="modal-profile-auth__form" wire:submit.prevent="submit">
+                    <form class="modal-profile-auth__form">
                       <label class="base-input">
                         <input
                           placeholder="Номер телефона"
                           type="tel"
                           name="phone"
-                          wire:model="phone"
                           class="base-input__field base-input--primary phone-number"
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
-                      @if ($smsSended)
-                        <label class="base-input">
-                          <input
-                            placeholder="Введите смс код"
-                            type="number"
-                            name="code"
-                            wire:model="code"
-                            class="base-input__field base-input--primary phone-number"
-                          />
-                          <span class="the-personal-input__error">Поле обязательно для заполнения</span>
-                        </label>
-                      @endif
+                      <label class="base-input">
+                        <input
+                          placeholder="Введите смс код"
+                          type="number"
+                          name="code"
+                          class="base-input__field base-input--primary phone-number"
+                        />
+                        <span class="the-personal-input__error">Поле обязательно для заполнения</span>
+                      </label>
                       <button
-                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm" 
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm btn-auth-sms" 
                         type="button"
-                        wire:click.prevent="sendSms"
-                        wire:loading.attr="disabled"
                       >
                         Получить код
                         <span
@@ -116,14 +109,13 @@
                 <div class="tab-content register-modal">
                   <div class="modal-profile-auth__login modal-profile-login">
                     <div class="modal-profile-auth__title">Регистрация</div>
-                    <form class="modal-profile-auth__form" wire:submit.prevent="register">
+                    <form class="modal-profile-auth__form">
                       <label class="base-input">
                         <input
                           placeholder="Имя"
                           type="text"
                           name="name"
                           class="base-input__field base-input--primary"
-                          wire:model="name"
                         />
                         @error('name') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -134,7 +126,6 @@
                           type="text"
                           name="last_name"
                           class="base-input__field base-input--primary"
-                          wire:model="last_name"
                         />
                         @error('last_name') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -145,7 +136,6 @@
                           type="tel"
                           name="phone"
                           class="base-input__field base-input--primary phone-number"
-                          wire:model="phone"
                         />
                         @error('phone') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -156,7 +146,6 @@
                           type="email"
                           name="email"
                           class="base-input__field base-input--primary"
-                          wire:model="email"
                         />
                         @error('email') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -167,7 +156,6 @@
                           type="text"
                           name="city"
                           class="base-input__field base-input--primary"
-                          wire:model="city"
                         />
                         @error('city') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -178,7 +166,6 @@
                           type="text"
                           name="password"
                           class="base-input__field base-input--primary"
-                          wire:model="password"
                         />
                         @error('password') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -189,7 +176,6 @@
                           type="text"
                           name="password_confirmation"
                           class="base-input__field base-input--primary"
-                          wire:model="password_confirmation"
                         />
                         @error('password_confirmation') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -232,3 +218,38 @@
         </div>
       </div>
     </div>
+    @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.btn-auth-sms').on('click', function(e) {
+                e.preventDefault(); // Предотвращаем стандартное поведение кнопки (например, если это кнопка формы).
+
+                // Собираем необходимые данные для отправки
+                const phoneNumber = $('#phone-number').val(); // Предположим, у вас есть инпут с телефоном.
+
+                $.ajax({
+                    url: '/send-sms', // Роут, который обрабатывает отправку SMS
+                    method: 'POST',    // Метод POST для отправки данных
+                    data: { phone: phoneNumber }, // Данные, которые отправляем (например, номер телефона)
+                    success: function(response) {
+                        // Обработка успешного ответа от сервера
+                        if (response.status === 'success') {
+                            // Действия при успешной отправке
+                            alert('SMS успешно отправлено!');
+                            // Например, можем показать форму для ввода кода подтверждения
+                            $('#sms-code-section').show();
+                        } else {
+                            // Обработка ошибки, если сервер вернул неудачу
+                            alert('Ошибка при отправке SMS: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Обработка ошибок запроса
+                        alert('Произошла ошибка при отправке запроса: ' + error);
+                    }
+                });
+            });
+        });
+
+    </script>
+    @endpush
