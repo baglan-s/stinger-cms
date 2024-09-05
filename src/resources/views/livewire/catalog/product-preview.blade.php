@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="inner-product-card__favorite">
-                <button class="inner-product-card-favorite inner-outline">
+                <button class="inner-product-card-favorite inner-outline {{ $favouriteClass }}" wire:click="toggleFavourite">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="svg-icons">
                         <path d="M2.485 17.485 16 31l13.515-13.515a8.485 8.485 0 0 0 2.485-6v-.38a8.105 8.105 0 0 0-14.433-5.063L16 8l-1.567-1.958A8.105 8.105 0 0 0 0 11.105v.38c0 2.25.894 4.409 2.485 6Z" />
                     </svg>
