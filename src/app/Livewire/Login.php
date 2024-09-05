@@ -87,8 +87,6 @@ class Login extends Component
                 $this->smsSended = true;
             };
         };
-
-        $this->dispatch('keep-modal-open');
     }
 
     public function render()
