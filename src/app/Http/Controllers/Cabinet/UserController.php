@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Cabinet;
 
 use Illuminate\Http\Request;
 use App\Services\AuthService;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Repositories\EmailCodeMessageRepository;
 
 class UserController extends Controller
 {
     private $authService;
+    private $emailCodeMessageRepo;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService, EmailCodeMessageRepository $emailCodeMessageRepo)
     {
         $this->authService = $authService;
+        $this->emailCodeMessageRepo = $emailCodeMessageRepo;
     }
 
     public function index(Request $request)
@@ -31,10 +35,10 @@ class UserController extends Controller
         $codeSended = false;
         $user = $this->authService->userRepository->firstByEmail($email, $fields = ['id']);
         if ($user) {
-            $otp = $this->authService->smsServiceGenerateRandomCode();
-            $message = $this->authService->getSmsServiceMessage($otp);
-            $response = true;
-            if ($response) {
+            $code = $this->authService->smsServiceGenerateRandomCode();
+            $message = $this->authService->getSmsServiceMessage($code);
+            $result = $this->emailCodeMessageRepo->set($email, $message, $code);
+            if ($result) {
                 $codeSended = true;
             };
         }
@@ -54,6 +58,34 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Не удалось отправить код. Пожалуйста, попробуйте позже.'
+            ], 500);
+        }
+    }
+
+    public function confirmCode(Request $request)
+    {
+        $email = $request->input('email');
+        $code = $request->input('code');
+        $smsSended = true;
+        $isConfirm = DB::table('email_code_messages')
+            ->where('email', $email)
+            ->where('code', $code)
+            ->exists();
+
+        if ($isConfirm) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'SMS отправлено успешно.'
+            ]);
+        } elseif(!$isConfirm) {
+            return response()->json([
+                'status' => 'not_found',
+                'message' => 'Не верный смс код.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ошибка отпавки смс.'
             ], 500);
         }
     }

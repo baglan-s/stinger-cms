@@ -106,6 +106,15 @@
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
+                      <label class="base-input" id="email-code-section">
+                        <input
+                          placeholder="Введите код с почты"
+                          type="number"
+                          name="code"
+                          class="base-input__field base-input--primary email-code-inp"
+                        />
+                        <span class="the-personal-input__error">Поле обязательно для заполнения</span>
+                      </label>
                       <button
                         class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm btn-auth-email"
                       >
@@ -115,7 +124,22 @@
                           style="display: none"
                           ><span class="global-preloader__box"></span
                         ></span>
+                        <div id="preloader" class="preloader-btn"></div>
                       </button>
+                      <!-- Подтвердить email код -->
+                      <button
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm"
+                        id="confirm-email-code"
+                      >
+                        Подтвердить код
+                        <span
+                          class="global-preloader is-small"
+                          style="display: none"
+                          ><span class="global-preloader__box"></span
+                        ></span>
+                        <div id="preloader" class="preloader-btn"></div>
+                      </button> 
+                      <!-- End Подтвердить email код -->
                     </form>
                     <button class="modal-profile-auth__state outline">
                       Войти по номеру
@@ -290,15 +314,25 @@
 
             $(btnAuthEmail).on('click', function(e) {
                 e.preventDefault();
+                var btnAuthEmail = $('.btn-auth-email');
+                var emailCodeSection = $('#email-code-section');
+                var confirmEmailCode = $('#confirm-email-code');
+                var emailCode = $('.email-code-inp');
+                const authEmailInput = $('#auth-email');
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 if (!authEmailInput.val()) {
                   authEmailInput.attr('required', true);
                   return false;  
                 }
+                if (!emailPattern.test(authEmailInput.val())) {
+                  authEmailInput.next('.the-personal-input__error').text('email должен быть формата example@example.com');
+                  return false;
+                }
                 
                 $.ajax({
-                    url: '/send-sms',
+                    url: '/send-code-email',
                     method: 'POST',
-                    data: { phone: phoneNumber.val() },
+                    data: { email: authEmailInput.val() },
                     beforeSend: function () {
                       preloader.css('display', 'inline-block');
                     },
@@ -307,11 +341,12 @@
                     },
                     success: function(response) {
                         if (response.status === 'success') {
-                            smsCodeSection.show();
-                            confirmSmsCode.show();
-                            smsCode.show();
-                            btnAuthSms.hide();
+                            emailCodeSection.show();
+                            confirmEmailCode.show();
+                            emailCode.show();
+                            btnAuthEmail.hide();
                             userId = response.user_id;
+                            alert(userId);
                         } else {
                             alert('Ошибка при отправке SMS: ' + response.message);
                         }
@@ -344,6 +379,46 @@
                             var loginInstance = bootstrap.Modal.getInstance(login);
                             btnAuthSms.show();
                             smsCode.hide();
+                            
+                            confirmSmsCode.hide();
+                            if (loginInstance) {
+                              loginInstance.hide();
+                            }
+                            window.location.href = '{{ route("personal.account", ":user_id") }}'.replace(':user_id', userId);
+
+                        } else {
+                            alert('Ошибка проверки SMS: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Произошла ошибка при отправке запроса: ' + error);
+                    }
+                  });
+            });
+
+            $('#confirm-email-code').on('click', function (e) {
+                e.preventDefault();
+                const email = $('#auth-email').val();
+                var emailCode = $('.email-code-inp');
+                  $.ajax({
+                    url: '/cofirm-email-code',
+                    method: 'POST',
+                    data: { 
+                      email: email,
+                      code: emailCode.val()
+                    },
+                    beforeSend: function () {
+                      preloader.css('display', 'inline-block');
+                    },
+                    complete: function () {
+                      preloader.hide();
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            var login = document.getElementById('login');
+                            var loginInstance = bootstrap.Modal.getInstance(login);
+                            btnAuthEmail.show();
+                            emailCode.hide();
                             
                             confirmSmsCode.hide();
                             if (loginInstance) {
