@@ -20,15 +20,16 @@ class CreatePage extends CreateRecord
             'user_id' => auth()->user()->id,
         ]);
 
-        foreach ($data['translations'] as $key => $translation) {
+        foreach ($data['translations'] as $translation) {
             $slug = $translation['slug'] ?? Str::slug($translation['title']);
 
             $page->translations()->create([
                 'title' => $translation['title'],
-                'slug' => $slug . '_' .$key,
+                'slug' => $slug,
                 'meta_title' => $translation['meta_title'],
                 'meta_description' => $translation['meta_description'],
                 'content' => $translation['content'],
+                'is_html' => $translation['is_html'],
                 'language_id' => $translation['language_id'],
             ]);
         }
