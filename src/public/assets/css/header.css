@@ -1559,6 +1559,10 @@ a {
     margin-right: 8px;
 }
 
+#sms-code-section,
+#confirm-sms-code {
+    display: none;
+}
 
 /* Mobile */
 

@@ -49,12 +49,12 @@
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
-                      <label class="base-input">
+                      <label class="base-input" id="sms-code-section">
                         <input
                           placeholder="Введите смс код"
                           type="number"
                           name="code"
-                          class="base-input__field base-input--primary phone-number"
+                          class="base-input__field base-input--primary sms-code-inp"
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
@@ -66,10 +66,22 @@
                         <span
                           class="global-preloader is-small"
                           style="display: none"
-                          wire:loading
                           ><span class="global-preloader__box"></span
                         ></span>
                       </button>
+                      <!-- Подтвердить смс код -->
+                      <button
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm"
+                        id="confirm-sms-code"
+                      >
+                        Подтвердить код
+                        <span
+                          class="global-preloader is-small"
+                          style="display: none"
+                          ><span class="global-preloader__box"></span
+                        ></span>
+                      </button> 
+                      <!-- End Подтвердить смс код -->
                     </form>
                     <button class="modal-profile-auth__state outline">
                       Войти по почте
@@ -227,32 +239,54 @@
                 }
             });
             $('.btn-auth-sms').on('click', function(e) {
-                e.preventDefault(); // Предотвращаем стандартное поведение кнопки (например, если это кнопка формы).
-
-                // Собираем необходимые данные для отправки
-                const phoneNumber = $('#phone-number').val(); // Предположим, у вас есть инпут с телефоном.
-
+                e.preventDefault();
+                const phoneNumber = $('.phone-number').val();
                 $.ajax({
-                    url: '/send-sms', // Роут, который обрабатывает отправку SMS
-                    method: 'POST',    // Метод POST для отправки данных
-                    data: { phone: phoneNumber }, // Данные, которые отправляем (например, номер телефона)
+                    url: '/send-sms',
+                    method: 'POST',
+                    data: { phone: phoneNumber },
                     success: function(response) {
-                        // Обработка успешного ответа от сервера
                         if (response.status === 'success') {
-                            // Действия при успешной отправке
-                            alert('SMS успешно отправлено!');
-                            // Например, можем показать форму для ввода кода подтверждения
-                            $('#sms-code-section').show();
+                            $('#sms-code-section, #confirm-sms-code').show();
+                            $('.btn-auth-sms').hide();
                         } else {
-                            // Обработка ошибки, если сервер вернул неудачу
                             alert('Ошибка при отправке SMS: ' + response.message);
                         }
                     },
                     error: function(xhr, status, error) {
-                        // Обработка ошибок запроса
                         alert('Произошла ошибка при отправке запроса: ' + error);
                     }
                 });
+
+              $('#confirm-sms-code').on('click', function (e) {
+                e.preventDefault();
+                const phoneNumber = $('.phone-number').val();
+                  const smsCode = $('.sms-code-inp').val();
+                  $.ajax({
+                    url: '/cofirm-sms',
+                    method: 'POST',
+                    data: { 
+                      phone: phoneNumber,
+                      code: smsCode
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            var login = document.getElementById('login');
+                            var loginInstance = bootstrap.Modal.getInstance(login);
+
+                            if (loginInstance) {
+                              loginInstance.hide();
+                            }
+
+                        } else {
+                            alert('Ошибка при отправке SMS: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Произошла ошибка при отправке запроса: ' + error);
+                    }
+                  });
+              });
             });
         });
 

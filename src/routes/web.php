@@ -10,3 +10,4 @@ Route::get('/personal-account', function () {
     return view('pages.personal.account');
 })->name('personal.account');
 Route::post('send-sms', [App\Http\Controllers\SmsController::class, 'sendSms']);
+Route::post('cofirm-sms', [App\Http\Controllers\SmsController::class, 'confirmSms']);
