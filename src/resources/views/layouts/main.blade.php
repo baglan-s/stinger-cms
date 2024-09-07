@@ -57,7 +57,7 @@
     <script type="text/javascript" src="{{ asset('assets/js/custom-select.js') }}"></script>
     <script>
       $(document).ready(function () {
-        // $("#phone").mask("+0 (000) 000-00-00");
+        $("#phone").mask("+0 (000) 000-00-00");
 
         $(".the-personal-user-card__birthday").click((event) => {
           event.preventDefault();

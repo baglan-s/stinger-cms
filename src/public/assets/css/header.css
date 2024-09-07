@@ -1560,7 +1560,9 @@ a {
 }
 
 #sms-code-section,
-#confirm-sms-code {
+#confirm-sms-code,
+.email-code-inp ,
+#confirm-email-code{
     display: none;
 }
 

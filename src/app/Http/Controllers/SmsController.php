@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 class SmsController extends Controller
 {
     private $authService;
+    private $format = '+';
+    public const REPLACEABLE_SYMBOL = 'X';
+    public const MASK_PLACEHOLDER = '_';
+
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
@@ -39,6 +43,11 @@ class SmsController extends Controller
                 'user_id' => $user->id,
                 'message' => 'SMS отправлено успешно.'
             ]);
+        } elseif(!$smsSended) {
+            return response()->json([
+                'status' => 'warning',
+                'message' => __('site.user.Not found')
+            ]);
         } else {
             return response()->json([
                 'status' => 'error',
@@ -49,7 +58,7 @@ class SmsController extends Controller
 
     public function confirmSms(Request $request)
     {
-        $phone = $request->input('phone');
+        $phone = ltrim(self::removePhoneMask($request->input('phone')));
         $code = $request->input('code');
         $smsSended = true;
         $isConfirm = DB::table('sms_messages')
@@ -73,5 +82,26 @@ class SmsController extends Controller
                 'message' => 'Ошибка отпавки смс.'
             ], 500);
         }
+    }
+
+    /**
+     * @param  string|null  $phone
+     * @return string
+     */
+    public function removePhoneMask(?string $phone): ?string
+    {
+        if ($phone === null) {
+            return null;
+        }
+
+        // Masked phone placeholder
+        $maskedPhone = str_replace(static::REPLACEABLE_SYMBOL, static::MASK_PLACEHOLDER, $this->format);
+
+        // First try remove masked empty string
+        if (str_replace($maskedPhone, '', $phone) === '') {
+            return null;
+        }
+
+        return preg_replace('/[^+\d]/', '', $phone);
     }
 }

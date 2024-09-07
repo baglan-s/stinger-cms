@@ -39,9 +39,10 @@
                     <div class="modal-profile-auth__title">
                       Вход по номеру телефона
                     </div>
-                    <form class="modal-profile-auth__form">
+                    <form class="modal-profile-auth__form" onsubmit="return validateForm()">
                       <label class="base-input">
                         <input
+                          id="phone-sms"
                           placeholder="Номер телефона"
                           type="tel"
                           name="phone"
@@ -101,11 +102,12 @@
                           type="email"
                           name="email"
                           class="base-input__field base-input--primary"
+                          id="auth-email"
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
                       <button
-                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm"
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm btn-auth-email"
                       >
                         Получить код
                         <span
@@ -240,19 +242,63 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+  
             let preloader = $('.preloader-btn');
             let btnAuthSms = $('.btn-auth-sms');
+            let btnAuthEmail = $('.btn-auth-email');
             let smsCodeSection = $('#sms-code-section');
             let confirmSmsCode = $('#confirm-sms-code');
             let smsCode = $('.sms-code-inp');
             let userId;
-            $('.btn-auth-sms').on('click', function(e) {
+            const phoneNumber = $('.phone-number');
+            const authEmailInput = $('#auth-email');
+            phoneNumber.mask("+7 (000) 000-00-00");
+            
+            $(btnAuthSms).on('click', function(e) {
                 e.preventDefault();
-                const phoneNumber = $('.phone-number').val();
+                if (!phoneNumber.val()) {
+                  phoneNumber.attr('required', true);
+                  return false;  
+                }
+                
                 $.ajax({
                     url: '/send-sms',
                     method: 'POST',
-                    data: { phone: phoneNumber },
+                    data: { phone: phoneNumber.val() },
+                    beforeSend: function () {
+                      preloader.css('display', 'inline-block');
+                    },
+                    complete: function () {
+                      preloader.hide();
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            smsCodeSection.show();
+                            confirmSmsCode.show();
+                            smsCode.show();
+                            btnAuthSms.hide();
+                            userId = response.user_id;
+                        } else {
+                            alert('Ошибка при отправке SMS: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Произошла ошибка при отправке запроса: ' + error);
+                    }
+                });
+            });
+
+            $(btnAuthEmail).on('click', function(e) {
+                e.preventDefault();
+                if (!authEmailInput.val()) {
+                  authEmailInput.attr('required', true);
+                  return false;  
+                }
+                
+                $.ajax({
+                    url: '/send-sms',
+                    method: 'POST',
+                    data: { phone: phoneNumber.val() },
                     beforeSend: function () {
                       preloader.css('display', 'inline-block');
                     },

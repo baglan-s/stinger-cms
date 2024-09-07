@@ -28,10 +28,18 @@ class UserRepository extends Repository
         ]);
     }
 
-    public function get($userId, $fields = ['*'])
+    public function getById($userId, $fields = ['*'])
     {
         return $this->model::select($fields)
             ->where('active', 1)
             ->find($userId);
+    }
+
+    public function firstByEmail($email, $fields = ['*'])
+    {
+        return $this->model::select($fields)
+            ->where('active', 1)
+            ->where('email', $email)
+            ->first();
     }
 }
