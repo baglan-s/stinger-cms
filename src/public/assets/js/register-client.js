@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var preloader = $('.preloader-btn');
     var name = $('#name');
     var lastName = $('#last_name');
     var phone = $('#phone');
@@ -42,8 +43,48 @@ $(document).ready(function() {
             return false;
         }
         if (validate) {
-            $('.the-personal-input__error').hide();
-            alert(123);
+            var errorMessageEl = $('.the-personal-input__error');
+            $(errorMessageEl).hide();
+            $.ajax({
+                url: '/user-register',
+                method: 'POST',
+                data: { 
+                    name: name.val(),
+                    last_name: lastName.val(),
+                    phone: phone.val(),
+                    email: email.val(),
+                    city: city.val(),
+                    password: password.val()
+                },
+                beforeSend: function () {
+                  preloader.css('display', 'inline-block');
+                },
+                complete: function () {
+                  preloader.hide();
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $.each(requiredElements, function (index, value) {
+                            value.attr('disabled');
+                        });
+                        window.location.href = '/personal-account/' + response.user_id;
+                    } else {
+                        alert('Ошибка при сохранении пользователя: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 422) {
+                        var errors = xhr.responseJSON.errors;
+                        var errorMessage = '';
+                        $.each(errors, function(field, messages) {
+                            errorMessage = field + ": " + messages.join(', ') + '\n';
+                            $('#'+field).next(errorMessageEl).text(errorMessage).show();
+                        });
+                    } else {
+                        alert('Произошла ошибка при отправке запроса: ' + error);
+                    }
+                }
+            });
         }
     });
 });

@@ -21,7 +21,7 @@ class UserRepository extends Repository
         return $this->model::create([
             'name' => $data['name'],
             'last_name' => $data['last_name'],
-            'phone' => $data['phone'],
+            'phone' => ltrim(remove_phone_mask($data['phone'])),
             'email' => $data['email'],
             'city' => $data['city'],
             'password' => Hash::make($data['password']),

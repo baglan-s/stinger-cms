@@ -12,3 +12,4 @@ Route::post('send-sms', [App\Http\Controllers\SmsController::class, 'sendSms']);
 Route::post('send-code-email', [App\Http\Controllers\Cabinet\UserController::class, 'sendCodeEmail']);
 Route::post('cofirm-sms', [App\Http\Controllers\SmsController::class, 'confirmSms']);
 Route::post('cofirm-email-code', [App\Http\Controllers\Cabinet\UserController::class, 'confirmCode']);
+Route::post('user-register', [App\Http\Controllers\Cabinet\UserController::class, 'register'])->name('user.register');

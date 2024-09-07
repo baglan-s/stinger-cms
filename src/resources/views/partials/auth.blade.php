@@ -237,6 +237,7 @@
                           style="display: none"
                           ><span class="global-preloader__box"></span
                         ></span>
+                        <div id="preloader" class="preloader-btn"></div>
                       </button>
                       <div
                         class="base-checkbox modal-profile-auth__checkbox mobile-hidden"

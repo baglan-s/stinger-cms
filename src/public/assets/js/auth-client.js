@@ -122,7 +122,7 @@ $(document).ready(function() {
                     if (loginInstance) {
                       loginInstance.hide();
                     }
-                    window.location.href = '{{ route("personal.account", ":user_id") }}'.replace(':user_id', userId);
+                    window.location.href = '/personal-account/' + userId;
 
                 } else {
                     alert('Ошибка проверки SMS: ' + response.message);
@@ -162,7 +162,7 @@ $(document).ready(function() {
                     if (loginInstance) {
                       loginInstance.hide();
                     }
-                    window.location.href = '{{ route("personal.account", ":user_id") }}'.replace(':user_id', userId);
+                    window.location.href = '/personal-account/' + userId;
 
                 } else {
                     alert('Ошибка проверки SMS: ' + response.message);

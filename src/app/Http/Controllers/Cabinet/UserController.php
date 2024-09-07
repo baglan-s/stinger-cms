@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\EmailCodeMessageRepository;
 
 class UserController extends Controller
@@ -27,6 +28,63 @@ class UserController extends Controller
         ]);
 
         return view('pages.personal-account', compact('user'));
+    }
+
+    /**
+     * 
+     * @param Request $request
+     */
+    public function register(Request $request)
+    {
+        try {
+            try {
+                $rules = [
+                    'name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'phone' => 'required|string|max:20|unique:users,phone',
+                    'email' => 'required|email|max:255|unique:users,email',
+                    'city' => 'required|string|max:255',
+                    'password' => [
+                        'required',
+                        'string',
+                        'min:' . 8,
+                        'max:255',
+                    ],
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Validation failed',
+                        'errors' => $validator->errors()
+                    ], 422);
+                }
+        
+                $user = $this->authService->register($request->only(['name', 'last_name', 'phone', 'email', 'city','password']));
+                if ($user) {
+                    $user->roles()->attach(3);
+                }
+        
+                return response()->json([
+                        'status' => 'success',
+                        'user_id' => $user->id
+                    ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine()
+                ],422);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ], 500);
+        }
     }
 
     public function sendCodeEmail(Request $request)
