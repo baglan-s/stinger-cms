@@ -87,6 +87,10 @@ class ProductResource extends Resource
                     Textarea::make('translations.' . $language->code . '.meta_description')
                         ->label(__('admin.seo.meta_description'))
                         ->rows(8),
+                    Forms\Components\Toggle::make('translations.' . $language->code . '.is_html')
+                        ->label(__('HTML'))
+                        ->default(false)
+                        ->live(),
                     RichEditor::make('translations.' . $language->code . '.description')
                         ->label(__('admin.crud.create.description'))
                         ->fileAttachmentsDirectory('images/products/content')
@@ -107,6 +111,10 @@ class ProductResource extends Resource
                             'underline',
                             'undo',
                         ]),
+                    Textarea::make('translations.' . $language->code . '.content')
+                        ->label(__('admin.crud.create.description'))
+                        ->rows(8)
+                        ->hidden(fn (Forms\Get $get): bool => !$get('translations.' . $language->code . '.is_html')),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
@@ -134,7 +142,8 @@ class ProductResource extends Resource
                              return [$category->id => $category->translation()?->name];
                          })->toArray();
                     })
-                    ->getOptionLabelUsing(fn ($value): ?string => ProductCategory::find($value)?->translation()?->name),
+                    ->getOptionLabelUsing(fn ($value): ?string => ProductCategory::find($value)?->translation()?->name)
+                    ->live(),
                 Select::make('brand_id')
                     ->label(__('admin.crud.create.brands.brand'))
                     ->searchable()

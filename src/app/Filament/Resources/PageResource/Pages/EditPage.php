@@ -34,6 +34,7 @@ class EditPage extends EditRecord
                 'content' => $translation->content ?? null,
                 'meta_title' => $translation->meta_title ?? null,
                 'meta_description' => $translation->meta_description ?? null,
+                'is_html' => $translation->is_html ?? null,
                 'language_id' => $language->id,
             ];
         }
@@ -50,6 +51,7 @@ class EditPage extends EditRecord
         foreach ($data['translations'] as $key => $translation) {
             $updates = [
                 'title' => $translation['title'],
+                'is_html' => $translation['is_html'],
                 'content' => $translation['content'],
                 'slug' => $translation['slug'] ?? Str::slug($translation['title']),
                 'meta_title' => $translation['meta_title'],

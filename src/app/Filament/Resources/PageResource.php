@@ -65,6 +65,10 @@ class PageResource extends Resource
                     Textarea::make('translations.' . $language->code . '.meta_description')
                         ->label(__('admin.seo.meta_description'))
                         ->rows(8),
+                    Forms\Components\Toggle::make('translations.' . $language->code . '.is_html')
+                        ->label(__('HTML'))
+                        ->default(false)
+                        ->live(),
                     RichEditor::make('translations.' . $language->code . '.content')
                         ->label(__('admin.crud.create.content'))
                         ->fileAttachmentsDirectory('images/pages')
@@ -73,7 +77,7 @@ class PageResource extends Resource
                             'blockquote',
                             'bold',
                             'bulletList',
-                            // 'codeBlock',
+                            'codeBlock',
                             'h1',
                             'h2',
                             'h3',
@@ -84,7 +88,12 @@ class PageResource extends Resource
                             'strike',
                             'underline',
                             'undo',
-                        ]),
+                        ])
+                        ->hidden(fn (Forms\Get $get): bool => $get('translations.' . $language->code . '.is_html')),
+                    Textarea::make('translations.' . $language->code . '.content')
+                        ->label(__('admin.crud.create.content'))
+                        ->rows(8)
+                        ->hidden(fn (Forms\Get $get): bool => !$get('translations.' . $language->code . '.is_html')),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->default($language->id),
                 ]);
