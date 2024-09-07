@@ -27,4 +27,11 @@ class UserRepository extends Repository
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function get($userId, $fields = ['*'])
+    {
+        return $this->model::select($fields)
+            ->where('active', 1)
+            ->find($userId);
+    }
 }

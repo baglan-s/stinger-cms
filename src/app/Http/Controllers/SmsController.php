@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
+use Illuminate\Support\Facades\DB;
 
 class SmsController extends Controller
 {
@@ -19,7 +20,9 @@ class SmsController extends Controller
         $smsSended = false;
         $phone = $request->input('phone');
         $phone = preg_replace('/[^\+\d]/', '', $phone);
-        $user = User::where('phone', $phone)->exists();
+        $user = User::select('id')
+            ->where('phone', $phone)
+            ->first();
         if ($user) {
             $otp = $this->authService->smsServiceGenerateRandomCode();
             $message = $this->authService->getSmsServiceMessage($otp);
@@ -33,6 +36,7 @@ class SmsController extends Controller
         if ($smsSended) {
             return response()->json([
                 'status' => 'success',
+                'user_id' => $user->id,
                 'message' => 'SMS отправлено успешно.'
             ]);
         } else {
@@ -45,21 +49,29 @@ class SmsController extends Controller
 
     public function confirmSms(Request $request)
     {
-        $phone = $request->input('code');
-        $code = $request->input('phone');
+        $phone = $request->input('phone');
+        $code = $request->input('code');
         $smsSended = true;
+        $isConfirm = DB::table('sms_messages')
+            ->where('phone', $phone)
+            ->where('code', $code)
+            ->exists();
 
-        if ($smsSended) {
+        if ($isConfirm) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'SMS отправлено успешно.'
             ]);
+        } elseif(!$isConfirm) {
+            return response()->json([
+                'status' => 'not_found',
+                'message' => 'Не верный смс код.'
+            ]);
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Не удалось отправить SMS. Пожалуйста, попробуйте позже.'
+                'message' => 'Ошибка отпавки смс.'
             ], 500);
         }
     }
-
 }

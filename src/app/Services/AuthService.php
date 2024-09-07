@@ -50,12 +50,12 @@ class AuthService extends Service
      * 
      * @param string $phone 
      * @param string $message 
-     * @param mixed $code 
+     * @param int $code 
      * @return mixed 
      */
-    public function setSmsServiceMessage($phone, $message, $code = NULL)
+    public function setSmsServiceMessage($phone, $message, $code)
     {
-        return $this->smsService->setSmsMessage($phone, $message, $code = NULL);
+        return $this->smsService->setSmsMessage($phone, $message, $code);
     }
 
     public function smsServiceSend($phone, $message)

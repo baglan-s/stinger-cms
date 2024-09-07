@@ -68,6 +68,7 @@
                           style="display: none"
                           ><span class="global-preloader__box"></span
                         ></span>
+                        <div id="preloader" class="preloader-btn"></div>
                       </button>
                       <!-- Подтвердить смс код -->
                       <button
@@ -80,6 +81,7 @@
                           style="display: none"
                           ><span class="global-preloader__box"></span
                         ></span>
+                        <div id="preloader" class="preloader-btn"></div>
                       </button> 
                       <!-- End Подтвердить смс код -->
                     </form>
@@ -238,6 +240,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            let preloader = $('.preloader-btn');
+            let btnAuthSms = $('.btn-auth-sms');
+            let smsCodeSection = $('#sms-code-section');
+            let confirmSmsCode = $('#confirm-sms-code');
+            let smsCode = $('.sms-code-inp');
+            let userId;
             $('.btn-auth-sms').on('click', function(e) {
                 e.preventDefault();
                 const phoneNumber = $('.phone-number').val();
@@ -245,10 +253,19 @@
                     url: '/send-sms',
                     method: 'POST',
                     data: { phone: phoneNumber },
+                    beforeSend: function () {
+                      preloader.css('display', 'inline-block');
+                    },
+                    complete: function () {
+                      preloader.hide();
+                    },
                     success: function(response) {
                         if (response.status === 'success') {
-                            $('#sms-code-section, #confirm-sms-code').show();
-                            $('.btn-auth-sms').hide();
+                            smsCodeSection.show();
+                            confirmSmsCode.show();
+                            smsCode.show();
+                            btnAuthSms.hide();
+                            userId = response.user_id;
                         } else {
                             alert('Ошибка при отправке SMS: ' + response.message);
                         }
@@ -257,36 +274,45 @@
                         alert('Произошла ошибка при отправке запроса: ' + error);
                     }
                 });
+            });
 
-              $('#confirm-sms-code').on('click', function (e) {
+            $('#confirm-sms-code').on('click', function (e) {
                 e.preventDefault();
                 const phoneNumber = $('.phone-number').val();
-                  const smsCode = $('.sms-code-inp').val();
                   $.ajax({
                     url: '/cofirm-sms',
                     method: 'POST',
                     data: { 
                       phone: phoneNumber,
-                      code: smsCode
+                      code: smsCode.val()
+                    },
+                    beforeSend: function () {
+                      preloader.css('display', 'inline-block');
+                    },
+                    complete: function () {
+                      preloader.hide();
                     },
                     success: function(response) {
                         if (response.status === 'success') {
                             var login = document.getElementById('login');
                             var loginInstance = bootstrap.Modal.getInstance(login);
-
+                            btnAuthSms.show();
+                            smsCode.hide();
+                            
+                            confirmSmsCode.hide();
                             if (loginInstance) {
                               loginInstance.hide();
                             }
+                            window.location.href = '{{ route("personal.account", ":user_id") }}'.replace(':user_id', userId);
 
                         } else {
-                            alert('Ошибка при отправке SMS: ' + response.message);
+                            alert('Ошибка проверки SMS: ' + response.message);
                         }
                     },
                     error: function(xhr, status, error) {
                         alert('Произошла ошибка при отправке запроса: ' + error);
                     }
                   });
-              });
             });
         });
 
