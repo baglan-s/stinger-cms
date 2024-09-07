@@ -93,10 +93,10 @@ class UserResource extends Resource
 
                 Section::make('Roles')
                     ->description(__('admin.crud.create.choose_roles'))
-                    ->label(__('admin.crud.create.roles'))
+                    ->label(__('admin.crud.create.roles.title'))
                     ->schema([
                         CheckboxList::make('roles')
-                            ->label(__('admin.crud.create.roles'))
+                            ->label(__('admin.crud.create.roles.title'))
                             ->relationship(name: 'roles', titleAttribute: 'slug')
                             ->options($roleOptions)
                             ->bulkToggleable()
