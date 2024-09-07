@@ -2,8 +2,6 @@
 
 @section('content')
 
-@php
-    echo $pageTranslation->content;    
-@endphp
+{!! html_entity_decode($pageTranslation->content); !!}
 
 @endsection

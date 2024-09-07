@@ -79,7 +79,7 @@
                                         <div class="nav-header-item__list">
                                             @foreach ($menu->children as $child)
 
-                                                <a href="{{ $child->link }}" class="nav-header-item__link">{{ $child->translation()?->name }}</a>
+                                                <a href="{{ $child->translation()?->link }}" class="nav-header-item__link">{{ $child->translation()?->name }}</a>
 
                                             @endforeach
                                         </div>
@@ -88,7 +88,7 @@
                             </div>
 
                         @else
-                            <a href="{{ $menu->link }}" class="nav-header__link">
+                            <a href="{{ $menu->translation()?->link }}" class="nav-header__link">
                                 {{ $menu->translation()?->name }}
                             </a>
                         @endif
@@ -189,7 +189,7 @@
                                         <div class="mob-menu-header-navigation__wrap collapse multi-collapse" id="mob-menu-header-navigation__wrap{{ $menu->id }}">
                                             <div class="mob-menu-header-navigation__list">
                                                 @foreach ($menu->children as $child)
-                                                    <a href="{{ $child->link }}" class="mob-menu-header-navigation__link">{{ $child->translation()?->name }}</a>
+                                                    <a href="{{ $child->translation()?->link }}" class="mob-menu-header-navigation__link">{{ $child->translation()?->name }}</a>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -200,7 +200,7 @@
 
                                 <div class="mob-menu-header__links">
                                     <div class="mob-menu-header-links">
-                                        <a href="{{ $menu->link }}" class="mob-menu-header-links__item">
+                                        <a href="{{ $menu->translation()?->link }}" class="mob-menu-header-links__item">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="this-icon svg-icons svg-size--32">
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M25 10v12h-4.52l-4 5H7V5h9.48l4 5H25Zm-2 2h-3.48l-4-5H9v18h6.52l4-5H23v-8Z" />
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M24 15h7v2h-7v-2ZM1 10h7v2H1v-2ZM1 20h7v2H1v-2ZM14.072 10.628l1.857.743L14.476 15h4l-2.549 6.371-1.857-.743L15.524 17h-4l2.549-6.372Z" />
