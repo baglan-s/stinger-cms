@@ -144,7 +144,7 @@ class UserController extends Controller
         } elseif(!$isConfirm) {
             return response()->json([
                 'status' => 'not_found',
-                'message' => 'Не верный смс код.'
+                'message' => 'Не верный код.'
             ]);
         } else {
             return response()->json([

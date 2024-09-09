@@ -124,7 +124,7 @@ $(document).ready(function() {
                     window.location.href = '/personal-account/' + userId;
 
                 } else {
-                    alert('Ошибка проверки SMS: ' + response.message);
+                    validateMessage($('.sms-code-inp'), response.message);
                 }
             },
             error: function(xhr, status, error) {
@@ -164,7 +164,7 @@ $(document).ready(function() {
                     window.location.href = '/personal-account/' + userId;
 
                 } else {
-                    alert('Ошибка проверки SMS: ' + response.message);
+                    validateMessage($('.email-code-inp'), response.message);
                 }
             },
             error: function(xhr, status, error) {
@@ -172,4 +172,8 @@ $(document).ready(function() {
             }
           });
     });
+
+    function validateMessage(elem, message) {
+      elem.next('.the-personal-input__error').text(message).show();
+    }
 });
