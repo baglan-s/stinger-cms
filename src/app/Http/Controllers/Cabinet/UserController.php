@@ -99,12 +99,11 @@ class UserController extends Controller
             $message = $this->authService->getSmsServiceMessage($code);
             $result = $this->emailCodeMessageRepo->set($email, $message, $code);
             if ($result) {
-                $codeSended = true;
                 $data = [
                     'name' => $user->name,
                     'code' => $code
                 ];
-                Mail::to('qwe@qwe.kz')->send(new EmailCodeNotification($data));
+                $codeSended = Mail::to('qwe@qwe.kz')->send(new EmailCodeNotification($data));
             };
         }
 
