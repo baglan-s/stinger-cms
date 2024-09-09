@@ -111,7 +111,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 'success',
                 'user_id' => $user->id,
-                'message' => 'Код отправлен успешно отправлен на: ' . $email
+                'message' => 'Код успешно отправлен на: ' . $email
             ]);
         } elseif(!$smsSended) {
             return response()->json([
