@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\EmailCodeNotification;
 use App\Repositories\EmailCodeMessageRepository;
 
 class UserController extends Controller
@@ -91,13 +93,18 @@ class UserController extends Controller
     {
         $email = $request->email;
         $codeSended = false;
-        $user = $this->authService->userRepository->firstByEmail($email, $fields = ['id']);
+        $user = $this->authService->userRepository->firstByEmail($email, $fields = ['id', 'name']);
         if ($user) {
             $code = $this->authService->smsServiceGenerateRandomCode();
             $message = $this->authService->getSmsServiceMessage($code);
             $result = $this->emailCodeMessageRepo->set($email, $message, $code);
             if ($result) {
                 $codeSended = true;
+                $data = [
+                    'name' => $user->name,
+                    'code' => $code
+                ];
+                Mail::to('qwe@qwe.kz')->send(new EmailCodeNotification($data));
             };
         }
 

@@ -84,7 +84,6 @@ $(document).ready(function() {
                     emailCode.show();
                     btnAuthEmail.hide();
                     userId = response.user_id;
-                    alert(userId);
                 } else {
                     alert('Ошибка при отправке SMS: ' + response.message);
                 }
