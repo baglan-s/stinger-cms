@@ -14,7 +14,7 @@ class AuthService extends Service
      * UserRepository
      */
     public $userRepository;
-    private $smsService;
+    public $smsService;
 
     public function __construct(UserRepository $userRepo, SmsService $smsService)
     {

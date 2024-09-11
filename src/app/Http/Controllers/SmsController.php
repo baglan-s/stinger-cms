@@ -36,10 +36,10 @@ class SmsController extends Controller
                         'errors' => $validator->errors()
                     ], 404);
                 }
-                // $limit = $this->smsService->checkSendLimit($phone);
-                // if ($limit['isLimit']) {
-                //     return response()->json(['message' => $limit['message']], $limit['status']);
-                // }
+                $limit = $this->authService->smsService->checkSendLimit($phone);
+                if ($limit['isLimit']) {
+                    return response()->json(['message' => $limit['message']], $limit['status']);
+                }
                 $smsSended = false;
                 $user = User::select('id')
                     ->where('phone', $phone)
