@@ -1562,11 +1562,14 @@ a {
 #sms-code-section,
 #confirm-sms-code,
 .email-code-inp ,
-#confirm-email-code{
+#confirm-email-code,
+.resend-code-btn.modal-profile-auth__state,
+#timer {
     display: none;
 }
 
-.preloader-btn {
+.preloader-btn,
+.preloader-resend-btn {
     display: none;
     width: 20px;
     height: 20px;
@@ -1574,6 +1577,10 @@ a {
     border-top: 3px solid #3498db;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+#timer {
+    margin-top: 24px;
 }
 
 @keyframes spin {

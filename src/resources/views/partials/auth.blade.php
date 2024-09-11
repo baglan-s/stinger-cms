@@ -59,6 +59,11 @@
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
+                      <div id="timer" data-value="Повторная отправка смс через: ">Повторная отправка смс через: 01:00</div>
+                      <button class="modal-profile-auth__state outline resend-code-btn">
+                        Переотправить код
+                        <div class="preloader-resend-btn"></div>
+                      </button>
                       <button
                         class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm btn-auth-sms" 
                         type="button"
@@ -115,6 +120,10 @@
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
+                      <div id="timer" data-value="Повторная отправка смс через: ">01:00</div>
+                      <button class="modal-profile-auth__state outline resend-code-btn">
+                        Переотправить код
+                      </button>
                       <button
                         class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm btn-auth-email"
                       >

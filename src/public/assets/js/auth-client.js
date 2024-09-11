@@ -15,39 +15,30 @@ $(document).ready(function() {
     const phoneNumber = $('.phone-number');
     const authEmailInput = $('#auth-email');
     phoneNumber.mask("+7 (000) 000-00-00");
-    
+    resendCodeBtn = $('.resend-code-btn');
+    // For timer resend sms
+    var duration = 7; // Таймер на 60 секунд
+    var codeTimer = $('#timer');
+    var resendSmsMessage = codeTimer.data('value');
+    var preloaderResend = $('.preloader-resend-btn');
+
     $(btnAuthSms).on('click', function(e) {
+      e.preventDefault();
+      if (!phoneNumber.val()) {
+        phoneNumber.attr('required', true);
+        return false;  
+      }
+      sendSmsAjax();
+      startTimer(duration, codeTimer);
+  });
+    
+    $(resendCodeBtn).on('click', function(e) {
         e.preventDefault();
         if (!phoneNumber.val()) {
           phoneNumber.attr('required', true);
           return false;  
         }
-        
-        $.ajax({
-            url: '/send-sms',
-            method: 'POST',
-            data: { phone: phoneNumber.val() },
-            beforeSend: function () {
-              preloader.css('display', 'inline-block');
-            },
-            complete: function () {
-              preloader.hide();
-            },
-            success: function(response) {
-                if (response.status === 'success') {
-                    smsCodeSection.show();
-                    confirmSmsCode.show();
-                    smsCode.show();
-                    btnAuthSms.hide();
-                    userId = response.user_id;
-                } else {
-                    alert('Ошибка при отправке SMS: ' + response.message);
-                }
-            },
-            error: function(xhr, status, error) {
-                alert('Произошла ошибка при отправке запроса: ' + error);
-            }
-        });
+        resendSmsAjax();
     });
 
     $(btnAuthEmail).on('click', function(e) {
@@ -173,7 +164,82 @@ $(document).ready(function() {
           });
     });
 
+    function sendSmsAjax() {
+      $.ajax({
+        url: '/send-sms',
+        method: 'POST',
+        data: { phone: phoneNumber.val() },
+        beforeSend: function () {
+          preloader.css('display', 'inline-block');
+        },
+        complete: function () {
+          preloader.hide();
+        },
+        success: function(response) {
+          checkSendedSmsResponse(response);
+        },
+        error: function(xhr, status, error) {
+            alert('Произошла ошибка при отправке запроса: ' + error);
+        }
+      });
+    }
+
+    function resendSmsAjax() {
+      $.ajax({
+        url: '/send-sms',
+        method: 'POST',
+        data: { phone: phoneNumber.val() },
+        beforeSend: function () {
+          preloaderResend.css('display', 'inline-block');
+        },
+        complete: function () {
+          preloaderResend.hide();
+        },
+        success: function(response) {
+          checkSendedSmsResponse(response);
+        },
+        error: function(xhr, status, error) {
+            alert('Произошла ошибка при отправке запроса: ' + error);
+        }
+      });
+    }
+
+    function checkSendedSmsResponse(response)
+    {
+      if (response.status === 'success') {
+        smsCodeSection.show();
+        confirmSmsCode.show();
+        smsCode.show();
+        btnAuthSms.hide();
+        userId = response.user_id;
+        $(codeTimer).show();
+        $(resendCodeBtn).hide();
+        startTimer(duration, codeTimer);
+      } else {
+        alert('Ошибка при отправке SMS: ' + response.message);
+      }
+    }
+
     function validateMessage(elem, message) {
       elem.next('.the-personal-input__error').text(message).show();
     }
+
+    function startTimer(duration, display) {
+      var timer = duration, minutes, seconds;
+      var interval = setInterval(function () {
+          minutes = Math.floor(timer / 60);
+          seconds = timer % 60;
+
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          display.text(resendSmsMessage + minutes + ":" + seconds);
+
+          if (--timer < 0) {
+              clearInterval(interval);
+              $(resendCodeBtn).show();
+              $(codeTimer).hide();
+          }
+      }, 1000);
+  }
 });
