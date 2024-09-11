@@ -21,6 +21,7 @@ $(document).ready(function() {
     var codeTimer = $('#timer');
     var resendSmsMessage = codeTimer.data('value');
     var preloaderResend = $('.preloader-resend-btn');
+    var errorMessageEl = $('.the-personal-input__error');
 
     $(btnAuthSms).on('click', function(e) {
       e.preventDefault();
@@ -29,7 +30,6 @@ $(document).ready(function() {
         return false;  
       }
       sendSmsAjax();
-      startTimer(duration, codeTimer);
   });
     
     $(resendCodeBtn).on('click', function(e) {
@@ -179,7 +179,7 @@ $(document).ready(function() {
           checkSendedSmsResponse(response);
         },
         error: function(xhr, status, error) {
-            alert('Произошла ошибка при отправке запроса: ' + error);
+          notFoundData(xhr, error);
         }
       });
     }
@@ -199,7 +199,7 @@ $(document).ready(function() {
           checkSendedSmsResponse(response);
         },
         error: function(xhr, status, error) {
-            alert('Произошла ошибка при отправке запроса: ' + error);
+          notFoundData(xhr, error);
         }
       });
     }
@@ -215,8 +215,25 @@ $(document).ready(function() {
         $(codeTimer).show();
         $(resendCodeBtn).hide();
         startTimer(duration, codeTimer);
+        $('#auth-phone').next(errorMessageEl).hide();
       } else {
         alert('Ошибка при отправке SMS: ' + response.message);
+      }
+    }
+
+    // Проверим
+    function notFoundData(xhr, error){
+      $(resendCodeBtn).hide();
+      if (xhr.status === 404) {
+        var errors = xhr.responseJSON.errors;
+        var errorMessage = '';
+        $.each(errors, function(field, messages) {
+            errorMessage = field + ": " + messages.join(', ') + '\n';
+            $('#auth-'+field).next(errorMessageEl).text(errorMessage).show();
+            return false;
+        });
+      } else {
+          alert('Произошла ошибка при отправке запроса: ' + error);
       }
     }
 

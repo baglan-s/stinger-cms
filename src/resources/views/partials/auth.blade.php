@@ -42,7 +42,7 @@
                     <form class="modal-profile-auth__form" onsubmit="return validateForm()">
                       <label class="base-input">
                         <input
-                          id="phone-sms"
+                          id="auth-phone"
                           placeholder="Номер телефона"
                           type="tel"
                           name="phone"

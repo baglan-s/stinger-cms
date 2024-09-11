@@ -72,4 +72,34 @@ class SmsService extends Service
         return time();
 
     }
+
+    /**
+     * 
+     * @param mixed $phone 
+     * @return JsonResponse|bool
+     */
+    public function checkSendLimit($phone)
+    {   
+        $response = [
+            'isLimit' => false,
+            'message' => '',
+            'status' => Response::HTTP_LOCKED
+        ];
+
+        $timestampString = Cache::get('smsTimerCarbon');
+        $timestamp = intval($timestampString);
+        $this->smsTimerCarbon = Carbon::createFromTimestamp($timestamp);
+        $spamPhone = Cache::get('spam_phone') ?? false;
+        if ($this->smsTimerCarbon && $spamPhone == $phone) {
+            $response['isLimit'] = true;
+            $response = $this->checkTimer($this->smsTimerCarbon); 
+        } else {
+            $spamCheckRes = $this->spamCheck($phone);
+            if (!$spamCheckRes) {
+                $response = $this->checkTimer($this->smsTimerCarbon);
+            };
+        }
+        
+        return $response;
+    }
 }
