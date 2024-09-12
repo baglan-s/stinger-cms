@@ -1,7 +1,7 @@
 $(document).ready(function() {
-    $('#phone-1').mask('+7 (999) 999-99-99', {
-        placeholder: "_"
-    });
+    // $('#phone-1').mask('+7 (999) 999-99-99', {
+    //     placeholder: "_"
+    // });
 
     $('#submit-btn, #submit-btn-1').on('click', function(e) {
         let activeTab = $('.tab-pane.active');  

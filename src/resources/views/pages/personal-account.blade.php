@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-
+@if ($user)
 <!-- Start personal account -->
 <div class="the-personal">
     <div class="the-personal__inner">
@@ -126,11 +126,11 @@
               <div class="the-personal-user-card__photo">
                 <!-- todo Вместо .the-personal-user-avatar просто поставить img -->
                 <div class="the-personal-user-avatar">
-                  <div class="the-personal-user-avatar__text">ПС</div>
+                  <div class="the-personal-user-avatar__text">{{ $user->name }}</div>
                 </div>
               </div>
               <div>
-                <div class="the-personal-user-card__name">Петр Скрипкин</div>
+                <div class="the-personal-user-card__name">{{ $user->name }}</div>
                 <form>
                   <label class="the-personal-user-card__edit"
                     ><input
@@ -156,7 +156,7 @@
                       type="text"
                       placeholder=" "
                       class="the-personal-input__field"
-                      value="Петр"
+                      value="{{ $user->name }}"
                       required
                     /><span class="the-personal-input__error"
                       >Поле обязательно для заполнения</span
@@ -171,7 +171,7 @@
                       type="text"
                       placeholder=" "
                       class="the-personal-input__field"
-                      value="Скрипкин"
+                      value="{{ $user->last_name ?? $user->name }}"
                       required
                     /><span class="the-personal-input__error"
                       >Поле обязательно для заполнения</span
@@ -888,7 +888,7 @@
                       type="email"
                       placeholder=" "
                       class="the-personal-input__field"
-                      value="petyas670@gmail.com"
+                      value="{{ $user->email }}"
                       required
                     /><span class="the-personal-input__error"
                       >Поле обязательно для заполнения</span
@@ -908,7 +908,7 @@
                       data-mask="+7 (###) ###-##-##"
                       data-mask-inited="true"
                       data-mask-raw-value=""
-                      value="77056982391"
+                      value="{{ $user->phone }}"
                       required
                     /><span class="the-personal-input__error"
                       >Поле обязательно для заполнения</span
@@ -929,5 +929,9 @@
     </div>
   </div>
   <!-- End personal account -->
-
+@else
+  <div class="alert alert-danger" role=alert>
+    <h1>Нет данных</h1>
+  </div>
+@endif
 @endsection
