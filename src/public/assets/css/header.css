@@ -1560,6 +1560,34 @@ a {
     margin-right: 8px;
 }
 
+#sms-code-section,
+#confirm-sms-code,
+.email-code-inp ,
+#confirm-email-code,
+.resend-code-btn.modal-profile-auth__state,
+#timer {
+    display: none;
+}
+
+.preloader-btn,
+.preloader-resend-btn {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#timer {
+    margin-top: 24px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 /* Mobile */
 
