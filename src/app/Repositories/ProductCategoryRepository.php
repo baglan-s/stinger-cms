@@ -26,5 +26,17 @@ class ProductCategoryRepository extends Repository
                 ->get();
         });
     }
+
+    public function getBySlug(string $slug)
+    {
+        return Cache::remember('category_'. $slug, 86400, function () use ($slug) {
+            return $this->model()
+                ->with('children')
+                ->whereHas('translations', function ($query) use ($slug) {
+                    $query->where('slug', $slug);
+                })
+                ->first();
+        });
+    }
     
 }

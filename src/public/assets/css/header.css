@@ -252,6 +252,7 @@ a {
     overflow: auto;
     max-height: 464px;
     min-height: 256px;
+    width: 100%;
     align-items: flex-start;
     flex-direction: column;
     display: inline-flex;

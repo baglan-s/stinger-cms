@@ -12,10 +12,10 @@
         <link rel="stylesheet" href="{{ asset('assets/css/slick-1.8.1/slick.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/slick-1.8.1/slick-theme.css') }}">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
-        <link rel="stylesheet" href="{{ asset('assets/css/about.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('assets/css/about.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('assets/css/comparison.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/css/contacts.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('assets/css/contacts.css') }}"> --}}
+        {{-- <link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/header.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/slider.css') }}">
@@ -23,8 +23,6 @@
         <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/reset.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/favorites.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/css/catalogs.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/catalogs.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/personal-account.css') }}" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">

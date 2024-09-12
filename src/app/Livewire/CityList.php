@@ -10,7 +10,12 @@ class CityList extends Component
 {
     public $currentCityId;
 
-    public function __construct() {}
+    private $cityService;
+
+    public function __construct() 
+    {
+        $this->cityService = app(CityService::class);
+    }
 
     public function mount()
     {
@@ -19,7 +24,7 @@ class CityList extends Component
 
     public function render()
     {
-        $cities = app(CityService::class)->getRepository()
+        $cities = $this->cityService->getRepository()
             ->getActive();
 
         return view('livewire.city-list', compact('cities'));
@@ -27,8 +32,15 @@ class CityList extends Component
 
     public function selectCity($cityId)
     {
-        $this->currentCityId = $cityId;
-        $this->dispatch('cityChanged', $cityId);
+        $city = $this->cityService->getRepository()->find($cityId);
+        $this->currentCityId = $city->id;
+        $this->dispatch('cityChanged', $city->id);
         Cookie::queue('city_id', $this->currentCityId, 43200);
+        Cookie::queue(
+            'price_type_id', 
+            $city->price_type_id ?? config('price_types.region', 3),  
+            43200
+        );
+        $this->js('window.location.reload()');
     }
 }
