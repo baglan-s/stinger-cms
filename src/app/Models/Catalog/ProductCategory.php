@@ -40,4 +40,9 @@ class ProductCategory extends Model
             'specification_id'
         );
     }
+
+    public function getImage()
+    {
+        return $this->image ? 'storage/' . $this->image : 'assets/images/default-image.png';
+    }
 }

@@ -35,7 +35,7 @@
 
                                                         <div id="subcategory{{ $category->id . $child->id }}" class="accordion-collapse collapse">
                                                             <div class="accordion-body">
-                                                                <a href="/category" class="mobile-catalog-accordion-body__link">{{ $grandChild->translation()?->name }}</a>
+                                                                <a href="{{ route('catalog.categories.show', $grandChild->translation()?->slug) }}" class="mobile-catalog-accordion-body__link">{{ $grandChild->translation()?->name }}</a>
                                                             </div>
                                                         </div>
 

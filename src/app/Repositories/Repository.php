@@ -50,4 +50,11 @@ class Repository
     {
         return $this->model()->with($with);
     }
+
+    public function findBySlug(string $slug)
+    {
+        return $this->model()->whereHas('translations', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        })->first();
+    }
 }
