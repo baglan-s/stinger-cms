@@ -223,8 +223,9 @@ $(document).ready(function() {
 
     // Проверим
     function notFoundData(xhr, error){
+      var limitMessage;
       $(resendCodeBtn).hide();
-      if (xhr.status === 404) {
+      if (xhr.status) {
         var errors = xhr.responseJSON.errors;
         var errorMessage = '';
         $.each(errors, function(field, messages) {
@@ -232,6 +233,9 @@ $(document).ready(function() {
             $('#auth-'+field).next(errorMessageEl).text(errorMessage).show();
             return false;
         });
+        if (limitMessage = xhr.responseJSON.message) {
+          alert('Сообщение по лимиту: ' + limitMessage);
+        }
       } else {
           alert('Произошла ошибка при отправке запроса: ' + error);
       }

@@ -18,6 +18,8 @@ class SmsService extends Service
      */
     protected $smsMessageRepository;
 
+    private $smsTimerCarbon;
+
     public function __construct(SmsMessageRepository $smsMessageRepository)
     {;
         $this->smsMessageRepository = $smsMessageRepository;
@@ -81,7 +83,7 @@ class SmsService extends Service
      * @return JsonResponse|bool
      */
     public function checkSendLimit($phone)
-    {   
+    {
         $response = [
             'isLimit' => false,
             'message' => '',
@@ -139,7 +141,6 @@ class SmsService extends Service
     protected function spamCheck($phone = null)
     {   
         if ($phone) {
-            dd($phone);
             $smsMessagesToPhoneTodayCount = $this->smsMessageRepository->getSmsMessagesToPhoneTodayCount($phone, Carbon::today());
             if ($smsMessagesToPhoneTodayCount > config('sms.limit_to_phone')) {
                 Cache::put('smsTimerCarbon', now()->add(1, 'day')->timestamp);
@@ -148,7 +149,7 @@ class SmsService extends Service
             }
         }
 
-        $smsMessagesTodayCount = $this->smsMessageRepository->getSmsMessagesTodayCount();
+        $smsMessagesTodayCount = $this->smsMessageRepository->getSmsMessagesTodayCount(Carbon::today());
 
         if ($smsMessagesTodayCount > config('sms.limit_to_ip')) {
             Cache::put('smsTimerCarbon', now()->add(1, 'day')->timestamp);
@@ -156,14 +157,14 @@ class SmsService extends Service
             return false;
         }
 
-        $smsMessagesCount = $this->smsMessageRepository->getSmsMessagesCount();
+        $smsMessagesCount = $this->smsMessageRepository->getSmsMessagesCount(Carbon::now());
 
         if ($smsMessagesCount > config('sms.limit_minutes')) {
             Cache::put('smsTimerCarbon', now()->addMinutes(1)->timestamp);
             return false;
         }
-        
-        $this->forgetCache(['smsTimerCarbon', 'spam_phone']);
+        Cache::forget('smsTimerCarbon', 'spam_phone');
+
         return true;
     }
 }

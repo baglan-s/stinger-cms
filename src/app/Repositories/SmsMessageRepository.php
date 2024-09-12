@@ -36,4 +36,29 @@ class SmsMessageRepository extends Repository
     {
         return SmsMessage::where('phone', $phone)->whereDate('created_at', $date)->count();
     }
+
+    /**
+     * 
+     * @param Carbon $date
+     * @return mixed 
+     */
+    public function getSmsMessagesTodayCount($data)
+    {
+        return SmsMessage::where('ip', request()->ip())->whereDate('created_at', $data)->count();
+    }
+
+    /**
+     * 
+     * @param Carbon $date
+     * @return mixed
+     */
+    public function getSmsMessagesCount($data)
+    {
+        return SmsMessage::where('ip', request()->ip())
+            ->whereBetween('created_at', [
+                $data->subMinutes(2), 
+                $data
+                ])
+            ->count();
+    }
 }
