@@ -43,14 +43,15 @@
                                     <span class="hc-control-item__name">Войти</span>
                                 </button> --}}
                             </div>
-                            <div class="header-controls__item">
+                            <!-- <div class="header-controls__item">
                                 <a href="/comparison" class="hc-item-status-control control-item outline">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M22 4H0v22h4a4 4 0 0 0 8 0h8a4 4 0 0 0 8 0h4V16a6 6 0 0 0-6-6h-4V4Zm0 10v4h6v-4h-6Z" />
                                     </svg>
                                     <span class="hc-control-item__name">Сравнение</span>
                                 </a>
-                            </div>
+                            </div> -->
+                            <livewire:comparison-modal />
                             <livewire:favourite-modal />
                             <a href="/cart" class="header-controls__item">
                                 <div class="hc-item-cart-control control-item outline">
