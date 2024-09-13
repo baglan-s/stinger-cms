@@ -11,11 +11,17 @@ class ProductRepository extends Repository
     protected $model = Product::class;
 
     private array $favouriteProductIds = [];
+    private array $comparisonProductIds = [];
 
     public function __construct()
     {
         $this->favouriteProductIds = json_decode(
             Cookie::get('favourite_products', json_encode([])),
+            true
+        );
+
+        $this->comparisonProductIds = json_decode(
+            Cookie::get('comparison_products', json_encode([])),
             true
         );
     }
@@ -51,11 +57,23 @@ class ProductRepository extends Repository
         return $this->favouriteProductIds;
     }
 
+    public function getComparisonProductIds()
+    {
+        return $this->comparisonProductIds;
+    }
+
     public function addFavouriteProductId(int $productId)
     {
         $this->favouriteProductIds[] = $productId;
 
         Cookie::queue('favourite_products', json_encode($this->favouriteProductIds), 43200);
+    }
+
+    public function addComparisonProductId(int $productId)
+    {
+        $this->comparisonProductIds[] = $productId;
+
+        Cookie::queue('comparison_products', json_encode($this->comparisonProductIds), 43200);
     }
 
     public function removeFavouriteProductId(int $productId)
@@ -69,10 +87,27 @@ class ProductRepository extends Repository
         Cookie::queue('favourite_products', json_encode($this->favouriteProductIds), 43200);
     }
 
+    public function removeComparisonProductId(int $productId)
+    {
+        $key = array_search($productId, $this->favouriteProductIds);
+
+        if ($key !== false) {
+            unset($this->comparisonProductIds[$key]);
+        }
+
+        Cookie::queue('comparison_products', json_encode($this->comparisonProductIds), 43200);
+    }
+
     public function clearFavouriteProductIds()
     {
         $this->favouriteProductIds = [];
         Cookie::queue('favourite_products', json_encode([]), -1);
+    }
+
+    public function clearComparisonProductIds()
+    {
+        $this->comparisonProductIds = [];
+        Cookie::queue('comparison_products', json_encode([]), -1);
     }
 
     public function getFavouriteProducts($limit = null)
@@ -83,13 +118,31 @@ class ProductRepository extends Repository
         return $limit ? $favourites->limit($limit)->get() : $favourites->get();
     }
 
+    public function getComparisonProducts($limit = null)
+    {
+        $comparison = $this->model()
+            ->whereIn('id', $this->comparisonProductIds);
+
+        return $limit ? $comparison->limit($limit)->get() : $comparison->get();
+    }
+
     public function hasFavouriteProducts(): bool
     {
         return $this->favouriteProductsCount() > 0;
     }
 
+    public function hasComparisonProducts(): bool
+    {
+        return $this->comparisonProductsCount() > 0;
+    }
+
     public function favouriteProductsCount()
     {
         return count($this->favouriteProductIds);
+    }
+
+    public function comparisonProductsCount()
+    {
+        return count($this->comparisonProductIds);
     }
 }
