@@ -11,6 +11,8 @@ class Comparison extends Component
 
     public $products;
 
+    public $comparisonProductIds;
+
     protected $listeners = [
         'comparison-modal-cleared' => 'onClearComparison',
     ];
@@ -23,6 +25,7 @@ class Comparison extends Component
     public function mount()
     {
         $this->products = $this->productService->getRepository()->getComparisonProducts();
+        $this->comparisonProductIds = $this->productService->getRepository()->getComparisonProductIds();
     }
 
     public function render()

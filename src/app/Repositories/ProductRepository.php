@@ -120,6 +120,7 @@ class ProductRepository extends Repository
 
     public function getComparisonProducts($limit = null)
     {
+       
         $comparison = $this->model()
             ->whereIn('id', $this->comparisonProductIds);
 
