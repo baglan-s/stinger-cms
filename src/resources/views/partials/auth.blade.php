@@ -227,29 +227,22 @@
                 }
             });
             $('.btn-auth-sms').on('click', function(e) {
-                e.preventDefault(); // Предотвращаем стандартное поведение кнопки (например, если это кнопка формы).
-
-                // Собираем необходимые данные для отправки
-                const phoneNumber = $('#phone-number').val(); // Предположим, у вас есть инпут с телефоном.
+                e.preventDefault();
+                const phoneNumber = $('#phone-number').val();
 
                 $.ajax({
-                    url: '/send-sms', // Роут, который обрабатывает отправку SMS
-                    method: 'POST',    // Метод POST для отправки данных
-                    data: { phone: phoneNumber }, // Данные, которые отправляем (например, номер телефона)
+                    url: '/send-sms',
+                    method: 'POST',
+                    data: { phone: phoneNumber },
                     success: function(response) {
-                        // Обработка успешного ответа от сервера
                         if (response.status === 'success') {
-                            // Действия при успешной отправке
                             alert('SMS успешно отправлено!');
-                            // Например, можем показать форму для ввода кода подтверждения
                             $('#sms-code-section').show();
                         } else {
-                            // Обработка ошибки, если сервер вернул неудачу
                             alert('Ошибка при отправке SMS: ' + response.message);
                         }
                     },
                     error: function(xhr, status, error) {
-                        // Обработка ошибок запроса
                         alert('Произошла ошибка при отправке запроса: ' + error);
                     }
                 });
