@@ -408,6 +408,10 @@ img {
     right: 10px;
 }
 
+.inner-product-card-favorite.favourite > .svg-icons {
+    fill: #c90909 !important;
+}
+
 .inner-product-card-favorite {
     position: relative;
     width: 20px;

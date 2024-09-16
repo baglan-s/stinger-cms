@@ -35,7 +35,7 @@ class CityService extends Service
             $synchronized = 0;
 
             foreach ($cities as $city) {
-                $cityData = $city['city'];
+                $cityData = $city['city'] ?? $city;
 
                 if (isset($cityData['price'])) {
                     $priceType = $this->priceTypeRepository->firstOrCreate(

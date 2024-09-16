@@ -32,7 +32,6 @@ class CurrentCity extends Component
     public function setCurrentCity($cityId)
     {
         $this->currentCity = $this->cityService->getRepository()
-            ->model()
             ->find($cityId) ?? 
         $this->cityService->getRepository()
             ->model()

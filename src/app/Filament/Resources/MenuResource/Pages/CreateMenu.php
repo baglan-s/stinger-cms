@@ -16,7 +16,6 @@ class CreateMenu extends CreateRecord
     protected function handleRecordCreation(array $data): Model
     {
         $menu = Menu::create([
-            'link' => $data['link'],
             'menu_type_id' => $data['menu_type_id'] ?? null,
             'parent_id' => $data['parent_id'] ?? null,
             'sort' => $data['sort'] ?? null,
@@ -24,7 +23,8 @@ class CreateMenu extends CreateRecord
         
         foreach ($data['translations'] as $translation) {
             $menu->translations()->create([
-                'name' => $translation['name'],
+                'name' => $translation['name'] ?? 'no',
+                'link' => $data['link'] ?? null,
                 'language_id' => $translation['language_id'],
             ]);
         }

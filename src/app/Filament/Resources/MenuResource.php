@@ -57,6 +57,10 @@ class MenuResource extends Resource
                         ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
+                    TextInput::make('translations.' . $language->code . '.link')
+                        ->label(__('admin.crud.create.link'))
+                        ->required()
+                        ->maxLength(255),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->default($language->id),
                 ]);
@@ -80,11 +84,6 @@ class MenuResource extends Resource
                 Select::make('parent_id')
                     ->label(__('admin.crud.create.parent'))
                     ->options($menuOptions)
-                    ->columnSpan(1),
-                Forms\Components\TextInput::make('link')
-                    ->label(__('admin.crud.create.link'))
-                    ->required()
-                    ->maxLength(255)
                     ->columnSpan(1),
                 TextInput::make('sort')
                     ->label(__('admin.crud.create.sort'))
@@ -114,9 +113,6 @@ class MenuResource extends Resource
                 Tables\Columns\TextColumn::make('parent')
                     ->state(fn (Menu $post) => $post->parent?->translation()?->name)
                     ->label(__('admin.crud.index.parent'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('link')
-                    ->label(__('admin.crud.index.link'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('sort')
                     ->label(__('admin.crud.index.sort'))
