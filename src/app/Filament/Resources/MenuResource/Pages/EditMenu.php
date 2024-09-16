@@ -29,6 +29,7 @@ class EditMenu extends EditRecord
             $translation = $category->translations->where('language_id', $language->id)->first();
             $data['translations'][$language->code] = [
                 'name' => $translation->name ?? null,
+                'link' => $translation->link ?? null,
                 'language_id' => $language->id,
             ];
         }
@@ -41,13 +42,13 @@ class EditMenu extends EditRecord
         $menu->update([
             'menu_type_id' => $data['menu_type_id'],
             'parent_id' => $data['parent_id'] != $menu->id ? $data['parent_id'] : null,
-            'link' => $data['link'],
             'sort' => $data['sort'],
         ]);
 
         foreach ($data['translations'] as $translation) {
             $updates = [
                 'name' => $translation['name'],
+                'link' => $translation['link'],
             ];
             $menuTranslation = $menu->translations()
                 ->where('language_id', $translation['language_id'])

@@ -125,4 +125,9 @@ return [
 
     'email' => env('APP_EMAIL', 'test@test.com'),
 
+    'price_types' => [
+        'region' => env('REGION_PRICE_TYPE_ID'),
+        'rrc' => env('RRC_PRICE_TYPE_ID'),
+    ]
+
 ];

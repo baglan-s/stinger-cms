@@ -13,10 +13,10 @@
         <link rel="stylesheet" href="{{ asset('assets/css/slick-1.8.1/slick.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/slick-1.8.1/slick-theme.css') }}">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
-        <link rel="stylesheet" href="{{ asset('assets/css/about.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('assets/css/about.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('assets/css/comparison.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/css/contacts.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('assets/css/contacts.css') }}"> --}}
+        {{-- <link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/header.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/slider.css') }}">
@@ -24,8 +24,6 @@
         <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/reset.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/favorites.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/css/catalogs.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/catalogs.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/personal-account.css') }}" />
         <link rel="stylesheet" href="{{ asset('assets/css/header-login-modal.css') }}">
@@ -57,7 +55,7 @@
     <script type="text/javascript" src="{{ asset('assets/js/custom-select.js') }}"></script>
     <script>
       $(document).ready(function () {
-        // $("#phone").mask("+0 (000) 000-00-00");
+        $("#phone").mask("+0 (000) 000-00-00");
 
         $(".the-personal-user-card__birthday").click((event) => {
           event.preventDefault();

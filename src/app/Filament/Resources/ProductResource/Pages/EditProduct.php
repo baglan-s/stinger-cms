@@ -31,6 +31,7 @@ class EditProduct extends EditRecord
             $data['translations'][$language->code] = [
                 'name' => $translation->name ?? null,
                 'slug' => $translation->slug ?? null,
+                'is_html' => $translation->is_html ?? null,
                 'description' => $translation->description ?? null,
                 'meta_title' => $translation->meta_title ?? null,
                 'meta_description' => $translation->meta_description ?? null,
@@ -69,6 +70,7 @@ class EditProduct extends EditRecord
             $updates = [
                 'name' => $translation['name'],
                 'slug' => $translation['slug'] ?? Str::slug($translation['name']),
+                'is_html' => $translation['is_html'] ?? false,
                 'description' => $translation['description'] ?? null,
                 'meta_title' => $translation['meta_title'] ?? null,
                 'meta_description' => $translation['meta_description'] ?? null,

@@ -39,9 +39,10 @@
                     <div class="modal-profile-auth__title">
                       Вход по номеру телефона
                     </div>
-                    <form class="modal-profile-auth__form">
+                    <form class="modal-profile-auth__form" onsubmit="return validateForm()">
                       <label class="base-input">
                         <input
+                          id="auth-phone"
                           placeholder="Номер телефона"
                           type="tel"
                           name="phone"
@@ -49,15 +50,20 @@
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
-                      <label class="base-input">
+                      <label class="base-input" id="sms-code-section">
                         <input
                           placeholder="Введите смс код"
                           type="number"
                           name="code"
-                          class="base-input__field base-input--primary phone-number"
+                          class="base-input__field base-input--primary sms-code-inp"
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
+                      <div id="timer" data-value="Повторная отправка смс через: ">Повторная отправка смс через: 01:00</div>
+                      <button class="modal-profile-auth__state outline resend-code-btn">
+                        Переотправить код
+                        <div class="preloader-resend-btn"></div>
+                      </button>
                       <button
                         class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm btn-auth-sms" 
                         type="button"
@@ -66,10 +72,24 @@
                         <span
                           class="global-preloader is-small"
                           style="display: none"
-                          wire:loading
                           ><span class="global-preloader__box"></span
                         ></span>
+                        <div id="preloader" class="preloader-btn"></div>
                       </button>
+                      <!-- Подтвердить смс код -->
+                      <button
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm"
+                        id="confirm-sms-code"
+                      >
+                        Подтвердить код
+                        <span
+                          class="global-preloader is-small"
+                          style="display: none"
+                          ><span class="global-preloader__box"></span
+                        ></span>
+                        <div id="preloader" class="preloader-btn"></div>
+                      </button> 
+                      <!-- End Подтвердить смс код -->
                     </form>
                     <button class="modal-profile-auth__state outline">
                       Войти по почте
@@ -87,11 +107,25 @@
                           type="email"
                           name="email"
                           class="base-input__field base-input--primary"
+                          id="auth-email"
                         />
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
+                      <label class="base-input" id="email-code-section">
+                        <input
+                          placeholder="Введите код с почты"
+                          type="number"
+                          name="code"
+                          class="base-input__field base-input--primary email-code-inp"
+                        />
+                        <span class="the-personal-input__error">Поле обязательно для заполнения</span>
+                      </label>
+                      <div id="timer" data-value="Повторная отправка смс через: ">01:00</div>
+                      <button class="modal-profile-auth__state outline resend-code-btn">
+                        Переотправить код
+                      </button>
                       <button
-                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm"
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm btn-auth-email"
                       >
                         Получить код
                         <span
@@ -99,7 +133,22 @@
                           style="display: none"
                           ><span class="global-preloader__box"></span
                         ></span>
+                        <div id="preloader" class="preloader-btn"></div>
                       </button>
+                      <!-- Подтвердить email код -->
+                      <button
+                        class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm"
+                        id="confirm-email-code"
+                      >
+                        Подтвердить код
+                        <span
+                          class="global-preloader is-small"
+                          style="display: none"
+                          ><span class="global-preloader__box"></span
+                        ></span>
+                        <div id="preloader" class="preloader-btn"></div>
+                      </button> 
+                      <!-- End Подтвердить email код -->
                     </form>
                     <button class="modal-profile-auth__state outline">
                       Войти по номеру
@@ -116,6 +165,7 @@
                           type="text"
                           name="name"
                           class="base-input__field base-input--primary"
+                          id="name"
                         />
                         @error('name') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -126,6 +176,7 @@
                           type="text"
                           name="last_name"
                           class="base-input__field base-input--primary"
+                          id="last_name"
                         />
                         @error('last_name') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -136,6 +187,7 @@
                           type="tel"
                           name="phone"
                           class="base-input__field base-input--primary phone-number"
+                          id="phone"
                         />
                         @error('phone') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -146,6 +198,7 @@
                           type="email"
                           name="email"
                           class="base-input__field base-input--primary"
+                          id="email"
                         />
                         @error('email') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -156,6 +209,7 @@
                           type="text"
                           name="city"
                           class="base-input__field base-input--primary"
+                          id="city"
                         />
                         @error('city') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -166,6 +220,7 @@
                           type="text"
                           name="password"
                           class="base-input__field base-input--primary"
+                          id="password"
                         />
                         @error('password') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
@@ -176,12 +231,14 @@
                           type="text"
                           name="password_confirmation"
                           class="base-input__field base-input--primary"
+                          id="password_confirmation"
                         />
                         @error('password_confirmation') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
                       <button
                         class="base-button outline modal-profile-auth__button base-button--v1 base-button--sm" type="submit"
+                        id="register-btn"
                       >
                         Зарегистрироваться
                         <span
@@ -189,6 +246,7 @@
                           style="display: none"
                           ><span class="global-preloader__box"></span
                         ></span>
+                        <div id="preloader" class="preloader-btn"></div>
                       </button>
                       <div
                         class="base-checkbox modal-profile-auth__checkbox mobile-hidden"
@@ -219,35 +277,6 @@
       </div>
     </div>
     @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('.btn-auth-sms').on('click', function(e) {
-                e.preventDefault();
-                const phoneNumber = $('#phone-number').val();
-
-                $.ajax({
-                    url: '/send-sms',
-                    method: 'POST',
-                    data: { phone: phoneNumber },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            alert('SMS успешно отправлено!');
-                            $('#sms-code-section').show();
-                        } else {
-                            alert('Ошибка при отправке SMS: ' + response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Произошла ошибка при отправке запроса: ' + error);
-                    }
-                });
-            });
-        });
-
-    </script>
+    <script type="text/javascript" src="{{ asset('assets/js/auth-client.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/register-client.js') }}"></script>
     @endpush
