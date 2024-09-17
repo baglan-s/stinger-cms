@@ -296,7 +296,37 @@
                             Основные характеристики
                         </button>
                     </h2>
+                    @forelse($specifications as $specification)
+                    {{-- @dd($specification->productValues->translations->first()->name) --}}
                     <div
+                        id="panelsStayOpen-collapse3"
+                        class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <div class="characters">
+                                <div class="characters__title">{{$specification->translations()->first()->name}}</div>
+                                <div class="characters__slideContainer">
+                                    <div class="characters__slide" id="characters__slide">
+                                        <div class="swiper-wrapper">
+                                            @foreach ($specification->productValues as $specVal)
+                                                <div class="swiper-slide">{{$specVal->translations->first()->name}}</div>
+                                            @endforeach
+                                            {{-- <div class="swiper-slide">-123</div>
+                                            <div class="swiper-slide">-456</div>
+                                            <div class="swiper-slide">-789</div>
+                                            <div class="swiper-slide">-</div>
+                                            <div class="swiper-slide">-</div> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="alert alert-info" role="alert">
+                        <h2>Нет данных</h2>
+                    </div>
+                    @endforelse
+                    {{-- <div
                         id="panelsStayOpen-collapse3"
                         class="accordion-collapse collapse show">
                         <div class="accordion-body">
@@ -337,7 +367,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header">

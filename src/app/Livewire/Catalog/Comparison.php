@@ -3,7 +3,10 @@
 namespace App\Livewire\Catalog;
 
 use Livewire\Component;
+use App\Models\Catalog\Product;
 use App\Services\ProductService;
+use App\Models\Catalog\Specification;
+use App\Models\Catalog\ProductCategory;
 
 class Comparison extends Component
 {
@@ -30,7 +33,41 @@ class Comparison extends Component
 
     public function render()
     {
-        return view('livewire.catalog.comparison');
+        $categoryIds = $this->products->pluck('product_category_id')->toArray();
+        // Характеристики категории, для режима "Все характеристики"
+        $categorySpecs = ProductCategory::where('active', true)
+            ->with([
+                'specifications' => function ($query) use ($categoryIds) {
+                    $query->whereIn('product_category_id', $categoryIds);
+                }
+            ])
+            ->whereIn('id', $categoryIds)
+            ->get();
+            
+        // Характеристики товара, для режима "Только различия"
+        $productSpecs = Product::where('active', true)
+                ->with([
+                    'specifications' => function ($query) {
+                        $query->whereIn('product_id', $this->comparisonProductIds)->with('productValues');
+                    }
+                ])
+                ->whereIn('id', $this->comparisonProductIds)
+                ->get();
+        // $specifications = Specification::where('active', true)
+        //         ->whereHas('products', function ($query) {
+        //             $query->where('active', true)
+        //                 ->whereIn('products.id', $this->comparisonProductIds);
+        //         })
+        //         ->with('productValues')
+        //         ->get();
+        
+        foreach ($productSpecs as $product) {
+            foreach ($product->specifications as $spec) {
+                dd($spec);
+            };
+        };        
+
+        return view('livewire.catalog.comparison', compact('specifications'));
     }
 
     public function onClearComparison()
