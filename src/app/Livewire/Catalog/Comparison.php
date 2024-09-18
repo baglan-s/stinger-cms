@@ -53,21 +53,43 @@ class Comparison extends Component
                 ])
                 ->whereIn('id', $this->comparisonProductIds)
                 ->get();
-        // $specifications = Specification::where('active', true)
-        //         ->whereHas('products', function ($query) {
-        //             $query->where('active', true)
-        //                 ->whereIn('products.id', $this->comparisonProductIds);
-        //         })
-        //         ->with('productValues')
-        //         ->get();
-        
-        foreach ($productSpecs as $product) {
-            foreach ($product->specifications as $spec) {
-                dd($spec);
-            };
-        };        
 
-        return view('livewire.catalog.comparison', compact('specifications'));
+        $specifications = Specification::where('active', true)
+                ->whereHas('products', function ($query) {
+                    $query->where('active', true)
+                        ->whereIn('products.id', $this->comparisonProductIds);
+                })
+                ->with('productValues')
+                ->get();
+        
+        // Test
+        // foreach ($productSpecs as $product) {
+        //     foreach ($product->specifications as $spec) {
+        //         dd($spec);
+        //     };
+        // };  
+        $result = [];
+
+        foreach ($productSpecs as $product) {
+            $specs = $product->specifications->groupBy('id');
+            $result[$product->id] = [];
+            foreach ($specifications as $specification) {
+                $currentSpecs = array_get($specs, $specification->id, []);
+
+                if ($currentSpecs) {
+                    $value = array_column($currentSpecs->toArray(), 'name');
+                    sort($value);
+                    $value = implode(', ', $value);
+                } else {
+                    $value = static::EMPTY_TEXT;
+                }
+
+                $result[$product->id][$specification->id] = $value;
+            }
+        }
+        // End test
+
+        return view('livewire.catalog.comparison', compact('specifications', 'productSpecs'));
     }
 
     public function onClearComparison()

@@ -297,7 +297,6 @@
                         </button>
                     </h2>
                     @forelse($specifications as $specification)
-                    {{-- @dd($specification->productValues->translations->first()->name) --}}
                     <div
                         id="panelsStayOpen-collapse3"
                         class="accordion-collapse collapse show">
@@ -308,7 +307,14 @@
                                     <div class="characters__slide" id="characters__slide">
                                         <div class="swiper-wrapper">
                                             @foreach ($specification->productValues as $specVal)
-                                                <div class="swiper-slide">{{$specVal->translations->first()->name}}</div>
+                                                @foreach ($productSpecs as $prodSpec)
+                                                    @foreach ($prodSpec->specifications as $spec)
+                                                        @if (isset($spec->productValues->where('specification_id', $specification->id)->first()->translations))
+                                                        <div class="swiper-slide">{{optional($spec->productValues->where('specification_id', $specification->id)->first()->translations)->first()->name}}</div>
+                                                        @endif    
+                                                    @endforeach
+                                                @endforeach
+                                                {{-- <div class="swiper-slide">{{$specVal->translations->first()->name}}</div> --}}
                                             @endforeach
                                             {{-- <div class="swiper-slide">-123</div>
                                             <div class="swiper-slide">-456</div>
