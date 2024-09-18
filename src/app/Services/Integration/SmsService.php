@@ -4,6 +4,7 @@ namespace App\Services\Integration;
 
 use Carbon\Carbon;
 use App\Services\Service;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use App\Repositories\SmsMessageRepository;
 use Psr\Container\NotFoundExceptionInterface;
@@ -73,7 +74,25 @@ class SmsService extends Service
     public function send($phone, $message)
     {
         // inshaAllah, the logic for sending SMS will appear soon;
-        return time();
+        // $data = [
+        //     'login' => 'nemokz',
+        //     'psw' => 'xQQCPnkJrGfyYExA',
+        //     'phones' => '+777777777',
+        //     'mes' => 'Hello world'
+        // ];
+        // $response = Http::withBody(json_encode($data), 'application/json')
+        //                   ->acceptJson()
+        //                   ->post('https://smsc.kz/rest/send/'); 
+
+        $response = Http::get('https://smsc.kz/sys/send.php', [
+            'login' => "nemokz",
+            'psw' => "xQQCPnkJrGfyYExA",
+            'phones' => '+777777777',
+            'mes' => 'Hello world',
+            'cost' => 1
+        ]);
+
+        return $response;
 
     }
 

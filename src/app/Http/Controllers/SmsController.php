@@ -49,6 +49,7 @@ class SmsController extends Controller
                     $message = $this->authService->getSmsServiceMessage($otp);
                     $smsMessage = $this->authService->setSmsServiceMessage($phone, $message, $otp);
                     $response = $this->authService->smsServiceSend($smsMessage->phone, $smsMessage->text);
+                    dd($response->ok());
                     if ($response) {
                         $smsSended = true;
                     };
