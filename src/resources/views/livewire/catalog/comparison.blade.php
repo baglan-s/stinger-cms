@@ -59,18 +59,18 @@
                                             <input
                                                 class="form-check__input"
                                                 type="radio"
-                                                name="name"
                                                 id="characters"
-                                                value="123" />
+                                                value="all" 
+                                                />
                                             <label for="characters"> Все характеристики </label>
                                         </div>
                                         <div class="form-check">
                                             <input
                                                 class="form-check__input"
                                                 type="radio"
-                                                name="name"
-                                                id="asd"
-                                                value="123" />
+                                                id="diff"
+                                                value="diff"
+                                                />
                                             <label for="asd">Только различия</label>
                                         </div>
                                     </div>
@@ -298,8 +298,9 @@
                     </h2>
                     @forelse($specifications as $specification)
                     <div
-                        id="panelsStayOpen-collapse3"
-                        class="accordion-collapse collapse show">
+                        id="panelsStayOpen-collapse-{{$specification->id}}"
+                        class="accordion-collapse collapse show"
+                        >
                         <div class="accordion-body">
                             <div class="characters">
                                 <div class="characters__title">{{$specification->translations()->first()->name}}</div>
@@ -310,17 +311,21 @@
                                                 @foreach ($productSpecs as $prodSpec)
                                                     @foreach ($prodSpec->specifications as $spec)
                                                         @if (isset($spec->productValues->where('specification_id', $specification->id)->first()->translations))
-                                                        <div class="swiper-slide">{{optional($spec->productValues->where('specification_id', $specification->id)->first()->translations)->first()->name}}</div>
+                                                        @php
+                                                            $specVal = optional($spec->productValues->where('specification_id', $specification->id)->first()->translations)->first();
+                                                            $val = optional($specVal)->name;
+                                                            $specValId = optional($specVal)->specification_value_id;
+                                                            //Для теста
+                                                            if ($prodSpec->id == 8995 && $val == 'Белый') {
+                                                                $val = 'Зеленый';
+                                                                $specValId = 6;
+                                                            }
+                                                        @endphp
+                                                        <div class="swiper-slide spec-value-list" data-product-spec-id="{{$specification->id}}" data-specvalue="{{$val}}" data-specvalue-id="{{$specValId}}">{{$val}}</div>
                                                         @endif    
                                                     @endforeach
                                                 @endforeach
-                                                {{-- <div class="swiper-slide">{{$specVal->translations->first()->name}}</div> --}}
                                             @endforeach
-                                            {{-- <div class="swiper-slide">-123</div>
-                                            <div class="swiper-slide">-456</div>
-                                            <div class="swiper-slide">-789</div>
-                                            <div class="swiper-slide">-</div>
-                                            <div class="swiper-slide">-</div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -332,48 +337,6 @@
                         <h2>Нет данных</h2>
                     </div>
                     @endforelse
-                    {{-- <div
-                        id="panelsStayOpen-collapse3"
-                        class="accordion-collapse collapse show">
-                        <div class="accordion-body">
-                            <div class="characters">
-                                <div class="characters__title">Емкость батареи</div>
-                                <div class="characters__slideContainer">
-                                    <div class="characters__slide" id="characters__slide">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">-</div>
-                                            <div class="swiper-slide">-</div>
-                                            <div class="swiper-slide">-</div>
-                                            <div class="swiper-slide">-</div>
-                                            <div class="swiper-slide">-</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        id="panelsStayOpen-collapse3"
-                        class="accordion-collapse collapse show">
-                        <div class="accordion-body">
-                            <div class="characters">
-                                <div class="characters__title">
-                                    Максимальный вес нагрузки
-                                </div>
-                                <div class="characters__slideContainer">
-                                    <div class="characters__slide" id="characters__slide">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">100кг</div>
-                                            <div class="swiper-slide">100кг</div>
-                                            <div class="swiper-slide">100кг</div>
-                                            <div class="swiper-slide">100кг</div>
-                                            <div class="swiper-slide">100кг</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header">
@@ -412,3 +375,32 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $('#characters').on('click', function () {
+            $('#diff').prop('checked', false);
+            $('.accordion-collapse.collapse.show').show();
+        });
+        
+        $('#diff').on('click', function () {
+            $('#characters').prop('checked', false);
+            var specValues = [];
+            $('.spec-value-list').each(function() {
+                specValues.push($(this).data('specvalue-id'));
+            });
+
+            var uniqueValues = specValues.filter(function(value, index, self) {
+                return self.indexOf(value) === self.lastIndexOf(value);
+            });
+
+            $('.spec-value-list').each(function() {
+                if (uniqueValues.includes($(this).data('specvalue-id'))) {
+                    $('#panelsStayOpen-collapse-' + $(this).data('product-spec-id')).hide();
+                }
+            });
+        });
+    });  
+</script>  
+@endpush
