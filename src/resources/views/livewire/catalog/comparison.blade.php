@@ -96,6 +96,7 @@
                                 class="accordion-collapse collapse show">
                                 <div class="accordion-body">
                                     <div class="accordion-body_radioBtnContainer">
+                                        @forelse($categorySpecs as $category) 
                                         <div class="form-check">
                                             <input
                                                 class="form-check__input"
@@ -103,17 +104,13 @@
                                                 name="name2"
                                                 id="category"
                                                 value="123" />
-                                            <label for="category">Электросамокаты</label>
+                                            <label for="category">{{ optional($category->translations->first())->name }}</label>
                                         </div>
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check__input"
-                                                type="radio"
-                                                name="name2"
-                                                id="category2"
-                                                value="123" />
-                                            <label for="category2">Духовые шкафы</label>
-                                        </div>
+                                        @empty
+                                            <div class="alert alert-info" role="alert">
+                                                <h3>Нет данных</h3>
+                                            </div>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -337,39 +334,6 @@
                         <h2>Нет данных</h2>
                     </div>
                     @endforelse
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button
-                            class="accordion-button"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#panelsStayOpen-collapse4"
-                            aria-expanded="true"
-                            aria-controls="panelsStayOpen-collapse4">
-                            Габариты, цвет и вес
-                        </button>
-                    </h2>
-                    <div
-                        id="panelsStayOpen-collapse4"
-                        class="accordion-collapse collapse show">
-                        <div class="accordion-body">
-                            <div class="characters">
-                                <div class="characters__title">Цвет</div>
-                                <div class="characters__slideContainer">
-                                    <div class="characters__slide" id="characters__slide">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">Черный</div>
-                                            <div class="swiper-slide">Черный</div>
-                                            <div class="swiper-slide">Черный</div>
-                                            <div class="swiper-slide">Черный</div>
-                                            <div class="swiper-slide">Черный</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

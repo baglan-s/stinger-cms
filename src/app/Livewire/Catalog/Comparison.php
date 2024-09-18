@@ -62,7 +62,7 @@ class Comparison extends Component
                 ->with('productValues')
                 ->get();
 
-        return view('livewire.catalog.comparison', compact('specifications', 'productSpecs'));
+        return view('livewire.catalog.comparison', compact('specifications', 'productSpecs', 'categorySpecs'));
     }
 
     public function onClearComparison()
