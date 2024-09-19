@@ -6,6 +6,7 @@
 
 @section('content')
 
+
 <!-- Start Catalog page content -->
 <div class="catalog">
     <div class="h-container">
@@ -23,17 +24,7 @@
     <div class="catalog-category h-container">
         <livewire:catalog.product-filter />
 
-        <main class="catalog-category__products">
-            <h1>Каталог
-                <span>777</span>
-            </h1>
-            <livewire:catalog.product-sort />
-
-            <livewire:catalog.product-list :products="[]" />
-
-            <livewire:catalog.product-pagination>
-
-        </main>
+        <livewire:catalog.product-list :filter="$filter" />
     </div> 
 
 

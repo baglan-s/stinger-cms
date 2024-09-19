@@ -3,31 +3,43 @@
         <main class="product-content__wrap">
             <div class="product-content">
                 <div class="product-gallery__wrap">
+                    @if ($product->parent_id)
+                        <span class="label-lowered">Уценка</span>
+                    @endif
+
                     <div class="product__gallery">
                         <div class="product-gallery__container">
-
-
                         <!-- Swiper -->
 
                         <div class="swiper-container gallery-thumbs">
                             <div class="swiper-wrapper swiper-thumbs">
-                                <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/1.jpg') }}" alt=""></div>
-                                <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/2.jpg') }}" alt=""></div>
-                                <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/3.jpg') }}" alt=""></div>
-                                <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/4.jpg') }}" alt=""></div>
-                                <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/5.jpg') }}" alt=""></div>
+                                @if ($product->images->count() > 0)
+                                    @foreach ($product->images as $image)
+                                        <div class="swiper-slide">
+                                            <img src="{{ asset('storage/' . $image->path) }}" alt="">
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="swiper-slide">
+                                        <img src="{{ asset($product->getDefaultImage()) }}" alt="">
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
                         <div class="swiper-container gallery-top">
                             <div class="swiper-wrapper">
-
-                            <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/1.jpg') }}" alt=""></div>
-                            <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/2.jpg') }}" alt=""></div>
-                            <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/3.jpg') }}" alt=""></div>
-                            <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/4.jpg') }}" alt=""></div>
-                            <div class="swiper-slide"><img src="{{ asset('assets/images/products/product-details/5.jpg') }}" alt=""></div>
-
+                                @if ($product->images->count() > 0)
+                                    @foreach ($product->images as $image)
+                                        <div class="swiper-slide">
+                                            <img src="{{ asset('storage/' . $image->path) }}" alt="">
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="swiper-slide">
+                                        <img src="{{ asset($product->getDefaultImage()) }}" alt="">
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         </div>
@@ -37,40 +49,26 @@
                
 
                 <div class="product-body__content">
-                    <div class="product-instruction-wrap">
-                        <h3>Инструкции и сертификаты</h3>
-                        <div class="product-instruction">
-                            <a href="#">
-                                <div class="instruction-item">
-                                    <div class="instruction-item-img-wrap">
-                                        <span>PDF</span>
-                                        3.6MB
-                                    </div>
-                                    <div class="instruction-item-description">
-                                        Инструкция по эксплуатации
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="instruction-item">
-                                    <div class="instruction-item-img-wrap">
-                                        <span>PDF</span>
-                                        779KB
-                                    </div>
-                                    <div class="instruction-item-description">
-                                        Скачать сертификат соответствия
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="instruction-item__additional">
-                                <div class="img-with__bg-gray">
-                                    <img src="{{ asset('assets/images/products/eac.png') }}" alt="">
-                                </div>
-                                
-                                <img src="{{ asset('assets/images/products/certificate.png') }}" alt="">
+                    @if ($product->files->count() > 0)
+                        <div class="product-instruction-wrap">
+                            <h3>Инструкции и сертификаты</h3>
+                            <div class="product-instruction">
+                                @foreach ($product->files as $file)
+                                    <a href="{{ route('catalog.products.file', ['productId' => $product->id, 'fileId' => $file->id]) }}" target="_blank">
+                                        <div class="instruction-item">
+                                            <div class="instruction-item-img-wrap">
+                                                <span>{{ mb_strtoupper($file->mime_type) }}</span>
+                                                {{ $file->size }}MB
+                                            </div>
+                                            <div class="instruction-item-description">
+                                                {{ $file->translation()?->name }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div class="product-tabs mt-4">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -83,6 +81,11 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link product-tab__item" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Отзывы</button>
                             </li>
+                            @if ($product->parent_id && $product->translation()?->cons)
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link product-tab__item" id="cons-tab" data-bs-toggle="tab" data-bs-target="#cons" type="button" role="tab" aria-controls="cons" aria-selected="false">Минусы</button>
+                                </li>
+                            @endif
                         </ul>
 
                         <div class="tab-content" id="myTabContent">
@@ -295,6 +298,26 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if ($product->parent_id && $product->translation()?->cons)
+
+                                <div class="tab-pane fade " id="cons" role="tabpanel" aria-labelledby="cons-tab">
+                                    <div class="product-content__description mt-2">
+                                        <div class="product-content__features">
+                                            <div class="product-feature__title">
+                                                Минусы товара
+                                            </div> 
+                                            <ul class="product-feature__list">
+                                                @foreach (explode(',', $product->translation()?->cons) as $con)
+                                                    <li class="feature__item">{{ $con }}</li>
+                                                @endforeach
+                                            </ul>   
+                    
+                                        </div>
+                                    </div>
+                                </div>
+
+                            @endif
                         </div>
 
                         <div class="product-details__mobile mt-5">
@@ -362,35 +385,12 @@
                         </div>
 
                         <div class="product-delivery__mobile delivery-address__wrap">
-                            <span>Город доставки</span>
-                            <br>
-                            <button class="delivery__city">
-                                Алматы, Бостандыкский район, Алматы
-                                <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.32951 4.17053L1.125 12.375V16.875H5.625L13.8295 8.67052L9.32951 4.17053Z" fill="#ADBDD2"/>
-                                    <path d="M10.9205 2.5795L15.4205 7.07951L17.068 5.43198C17.6648 4.83524 18 4.02589 18 3.18198C18 1.42462 16.5754 0 14.818 0C13.9741 0 13.1648 0.335244 12.568 0.931981L10.9205 2.5795Z" fill="#ADBDD2"/>
-                                    </svg>
-                                    
-                            </button>
-                            <div class="delivery__empty">
-                                Доставка в ваш регион не осуществляется
-                            </div>
+                            @if ($product->parent_id)
+                                <a class="parent-product-link" href="{{ route('catalog.products.show', $product->parent->translation()?->slug) }}">Посмотреть основной товар</a>
+                            @elseif ($product->children->count() > 0)
+                                <a class="parent-product-link" href="{{ route('catalog.products.index', ['parent_id' => $product->id]) }}">Купить товар дешевле</a>
+                            @endif
                         </div>
-                    </div>
-
-                    <div class="product-content__features">
-                        <div class="product-feature__title">
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m7.876 0-2.25 5.625V15.75h10.125L18.001 9V5.625h-6.75V2.25A2.25 2.25 0 0 0 9.001 0H7.876ZM3.376 5.625H.001V15.75h3.375V5.625Z" fill="#F0E4D5"/></svg>
-                            Особенности
-                        </div> 
-                        <ul class="product-feature__list">
-                            <li class="feature__item">Сборная модель из дерева</li>
-                            <li class="feature__item">У собранной фигурки поднимается и опускается голова</li>
-                            <li class="feature__item">Сборка без клея</li>
-                            <li class="feature__item">Время сборки 30 мин</li>
-                            <li class="feature__item">Для детей старше 5 лет</li>
-                        </ul>   
-
                     </div>
 
 
@@ -399,7 +399,7 @@
                     
                 </div>
             </div>
-            <div class="product-info">
+            {{-- <div class="product-info">
                 <div>
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M40 37.5H0V30L17.5 0h5L40 30v7.5ZM17.5 10h5v12.5h-5V10Zm0 17.5h5v5h-5v-5Z" fill="#F0E4D5"/></svg>
 
@@ -410,7 +410,7 @@
                     характер и основывается на последних доступных к моменту 
                     публикации сведениях.
                 </div>
-            </div>
+            </div> --}}
         </main>
         <aside class="product-side">
             
@@ -479,20 +479,15 @@
             </div>
 
             <div class="product-side__center">
-                <div class="delivery-address__wrap">
-                    <span>Город доставки</span>
-                    <button class="delivery__city">
-                        Алматы, Бостандыкский район, Алматы
-                        <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.32951 4.17053L1.125 12.375V16.875H5.625L13.8295 8.67052L9.32951 4.17053Z" fill="#ADBDD2"/>
-                            <path d="M10.9205 2.5795L15.4205 7.07951L17.068 5.43198C17.6648 4.83524 18 4.02589 18 3.18198C18 1.42462 16.5754 0 14.818 0C13.9741 0 13.1648 0.335244 12.568 0.931981L10.9205 2.5795Z" fill="#ADBDD2"/>
-                            </svg>
-                            
-                    </button>
-                    <div class="delivery__empty">
-                        Доставка в ваш регион не осуществляется
+                @if ($product->parent_id)
+                    <div class="delivery-address__wrap">
+                        <a class="parent-product-link" href="{{ route('catalog.products.show', $product->parent->translation()?->slug) }}">Посмотреть основной товар</a>
                     </div>
-                </div>
+                @elseif ($product->children->count() > 0)
+                    <div class="delivery-address__wrap">
+                        <a class="parent-product-link" href="{{ route('catalog.products.index', ['parent_id' => $product->id]) }}">Купить товар дешевле</a>
+                    </div>
+                @endif
             </div>
 
             <div class="product-side__bottom">
@@ -510,101 +505,7 @@
         </aside>
     </div>
 
-    <div class="advantage-block h-container">
-        <h3>Уверенность в покупке</h3>
-        <div class="advantages">
-            
-            <div class="advantage-item__wrap">
-                <div class="adtavtage-item">
-                    <div class="advantage-item__img col-3 advantage_1">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m17.5 0-5 12.5V35H35l5-15v-7.5H25V5a5 5 0 0 0-5-5h-2.5ZM7.5 12.5H0V35h7.5V12.5Z" fill="#ffffff"/></svg>
-                    </div>
-                    <div class="advantage-item__content col-9">
-                        <h4>
-                            100% подлинность
-                        </h4>
-                        <div>
-                            Мы — официальный дилер компании XD Design на территории России. Подделки встречаются, но не у нас. Будьте осторожны.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="advantage-item__wrap">
-                <div class="adtavtage-item ">
-                    <div class="advantage-item__img col-3 advantage_2">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15 17.5 2.5-2.5-5.732-5.732 1.464-1.465a9.571 9.571 0 0 1 13.536 0l.214.215A10.303 10.303 0 0 1 30 15.303V17.5h5v-2.197c0-4.058-1.612-7.95-4.482-10.82l-.215-.215a14.571 14.571 0 0 0-20.606 0L8.232 5.732 2.5 0 0 2.5v15h15ZM26.768 32.197a9.571 9.571 0 0 1-13.536 0l-.214-.215A10.303 10.303 0 0 1 10 24.697V22.5H5v2.197c0 4.058 1.612 7.95 4.482 10.82l.215.215a14.571 14.571 0 0 0 20.606 0l1.465-1.464L37.5 40l2.5-2.5v-15H25L22.5 25l5.732 5.732-1.464 1.465Z" fill="#ffffff"/></svg>
-                    </div>
-                    <div class="advantage-item__content col-9">
-                        <h4>
-                            100% подлинность
-                        </h4>
-                        <div>
-                            Мы — официальный дилер компании XD Design на территории России. Подделки встречаются, но не у нас. Будьте осторожны.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="advantage-item__wrap">
-                <div class="adtavtage-item ">
-                    <div class="advantage-item__img col-3 advantage_3">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M27.5 5H0v27.5h5a5 5 0 0 0 10 0h10a5 5 0 0 0 10 0h5V20a7.5 7.5 0 0 0-7.5-7.5h-5V5Zm0 12.5v5H35v-5h-7.5Z" fill="#ffffff"/></svg>
-                    </div>
-                    <div class="advantage-item__content col-9">
-                        <h4>
-                            100% подлинность
-                        </h4>
-                        <div>
-                            Мы — официальный дилер компании XD Design на территории России. Подделки встречаются, но не у нас. Будьте осторожны.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="advantage-item__wrap">
-                <div class="adtavtage-item ">
-                    <div class="advantage-item__img col-3 advantage_4">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 5H0v7.5h40V5ZM40 17.5H0V35h40V17.5Z" fill="#ffffff"/></svg>
-                    </div>
-                    <div class="advantage-item__content col-9">
-                        <h4>
-                            100% подлинность
-                        </h4>
-                        <div>
-                            Мы — официальный дилер компании XD Design на территории России. Подделки встречаются, но не у нас. Будьте осторожны.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="advantage-item__wrap">
-                <div class="adtavtage-item ">
-                    <div class="advantage-item__img col-3 advantage_5">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.107 23.107 20 40l16.893-16.893a10.607 10.607 0 0 0 3.107-7.5v-.476a10.13 10.13 0 0 0-18.042-6.329L20 11.25l-1.958-2.448A10.13 10.13 0 0 0 10.13 5C4.536 5 0 9.536 0 15.13v.477c0 2.813 1.117 5.51 3.107 7.5Z" fill="#ffffff"/></svg>
-                    </div>
-                    <div class="advantage-item__content col-9">
-                        <h4>
-                            100% подлинность
-                        </h4>
-                        <div>
-                            Мы — официальный дилер компании XD Design на территории России. Подделки встречаются, но не у нас. Будьте осторожны.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="advantage-item__wrap">                
-                <div class="adtavtage-item ">
-                    <div class="advantage-item__img col-3 advantage_6">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M22.5 0h-5l-1.376 5.506a14.909 14.909 0 0 0-3.63 1.505L7.625 4.09 4.09 7.625l2.92 4.867a14.908 14.908 0 0 0-1.504 3.63L0 17.5v5l5.506 1.376a14.909 14.909 0 0 0 1.505 3.63l-2.92 4.868 3.535 3.536 4.867-2.92a14.906 14.906 0 0 0 3.63 1.504L17.5 40h5l1.376-5.506a14.906 14.906 0 0 0 3.63-1.505l4.868 2.92 3.536-3.535-2.92-4.867a14.91 14.91 0 0 0 1.504-3.63L40 22.5v-5l-5.506-1.376a14.91 14.91 0 0 0-1.505-3.63l2.92-4.868-3.535-3.536-4.867 2.92a14.909 14.909 0 0 0-3.63-1.504L22.5 0ZM20 25a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" fill="#ffffff"/></svg>
-                    </div>
-                    <div class="advantage-item__content col-9">
-                        <h4>
-                            100% подлинность
-                        </h4>
-                        <div>
-                            Мы — официальный дилер компании XD Design на территории России. Подделки встречаются, но не у нас. Будьте осторожны.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="product-wrap h-container">
+        <x-catalog.similar-products :products="$similarProducts" />
     </div>
 </div>
