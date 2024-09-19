@@ -10,6 +10,8 @@ class ProductDetail extends Component
 {
     public Product $product;
 
+    public iterable $similarProducts = [];
+
     private ProductService $productService;
 
     public array $favouriteProductIds;
@@ -23,9 +25,10 @@ class ProductDetail extends Component
         $this->productService = app(ProductService::class);
     }
 
-    public function mount(Product $product)
+    public function mount(Product $product, iterable $similarProducts)
     {
         $this->product = $product;
+        $this->similarProducts = $similarProducts;
         $this->favouriteProductIds = $this->productService->getRepository()->getFavouriteProductIds();
         $this->setIsFavourite();
     }

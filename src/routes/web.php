@@ -21,6 +21,7 @@ Route::prefix('catalog')
             ->group(function () {
                 Route::get('/', [App\Http\Controllers\Catalog\ProductController::class, 'index'])->name('index');
                 Route::get('{slug}', [App\Http\Controllers\Catalog\ProductController::class, 'show'])->name('show');
+                Route::get('{productId}/{fileId}', [App\Http\Controllers\Catalog\ProductController::class, 'file'])->name('file');
             });
     });
 
