@@ -121,19 +121,19 @@ $(document).ready(function() {
         $('.catalog-control__dropdown').addClass('is-active');
     });
 
-    $('.catalog-control__item').click(function() {
-        $('.catalog-control__item').removeClass('is-active');
-        $(this).addClass('is-active');
-        var selectedText = $(this).find('span.d-none.d-sm-block').text();
-        $('.catalog-control span').text(selectedText);
-        $('.catalog-control__dropdown').removeClass('is-active');
-    });
+    // $('.catalog-control__item').click(function() {
+    //     $('.catalog-control__item').removeClass('is-active');
+    //     $(this).addClass('is-active');
+    //     var selectedText = $(this).find('span.d-none.d-sm-block').text();
+    //     $('.catalog-control span').text(selectedText);
+    //     $('.catalog-control__dropdown').removeClass('is-active');
+    // });
 
-    $(document, '.catalog-control__item').click(function(event) {
-        if (!$(event.target).closest('.catalog-control__dropdown').length) {
-            $('.catalog-control__dropdown').removeClass('is-active');
-        }
-    });
+    // $(document, '.catalog-control__item').click(function(event) {
+    //     if (!$(event.target).closest('.catalog-control__dropdown').length) {
+    //         $('.catalog-control__dropdown').removeClass('is-active');
+    //     }
+    // });
 
     $('.product-favorite').click(function() {
       let svg = $(this).find('svg');

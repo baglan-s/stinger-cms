@@ -7,6 +7,7 @@ use App\Models\Traits\HasScopes;
 use App\Models\Catalog\ProductImage;
 use App\Models\Catalog\ProductPrice;
 use App\Models\Catalog\ProductStock;
+use App\Models\Catalog\ProductFile;
 use App\Models\Catalog\Specification;
 use App\Models\Traits\HasTranslation;
 use App\Models\Catalog\ProductCategory;
@@ -71,6 +72,11 @@ class Product extends Model
         );
     }
 
+    public function files()
+    {
+        return $this->hasMany(ProductFile::class);
+    }
+
     public function hasImages()
     {
         return $this->images->count() > 0;
@@ -124,5 +130,11 @@ class Product extends Model
         }
 
         return round(($oldPrice - $price) / $oldPrice * 100, 2);
+    }
+
+    public function incrementView()
+    {
+        $this->views++;
+        $this->save();
     }
 }

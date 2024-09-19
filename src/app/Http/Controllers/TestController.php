@@ -24,12 +24,8 @@ class TestController extends Controller
     {
         $product = $this->productService->getRepository()
             ->model()
-            ->whereHas('prices')
-            ->whereHas('prices.type', function ($query) {
-                $query->where('id', '4');
-            })
-            ->with(['prices', 'prices.type'])
-            ->first();
+            ->whereHas('files')
+            ->get();
 
         dd($product);
         // $user = User::first();

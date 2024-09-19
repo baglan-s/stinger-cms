@@ -631,7 +631,22 @@ input[type="number"]::-webkit-inner-spin-button {
    border-top-left-radius: 24px;
    border-top-right-radius: 24px;
    background-color: var(--white);
+   position: relative;
 }
+
+.product-gallery__wrap .label-lowered {
+   position: absolute;
+   right: 20px;
+   top: 20px;
+   display: block;
+   padding: 5px 10px;
+   font-size: 15px;
+   background-color: var(--red);
+   color: #fff;
+   border-radius: 5px;
+   font-weight: bolder;
+}
+
 .product__gallery{
 
 }
@@ -1214,6 +1229,18 @@ margin-top: 20px;
    line-height: 1.37;
    font-weight: 700;
    color: var(--semi-gray);
+}
+
+.delivery-address__wrap .parent-product-link {
+   background-color: var(--blue);
+   font-weight: bolder;
+   padding: 5px 10px;
+   color: var(--white);
+   min-height: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 10px;
 }
 
 .delivery__city{
