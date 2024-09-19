@@ -8,6 +8,7 @@ use App\Services\Integration\OneCApiService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Models\User;
+use App\Services\Integration\SmsService;
 
 class TestController extends Controller
 {
@@ -16,6 +17,7 @@ class TestController extends Controller
         protected ProductCategoryService $productCategoryService,
         protected OrderService $orderService,
         protected ProductService $productService,
+        private SmsService $smsService
     ) {}
 
     public function index($lang = null)
@@ -35,5 +37,21 @@ class TestController extends Controller
         // $this->productCategoryService->syncCategoriesWithOneC(
         //     $this->oneCApiService->categories()
         // );
+    }
+
+    public function testSms()
+    {
+        $phone = '+77024441143'; 
+        $message = 'Hello world';
+        // $res = $this->smsService->get_sms_cost($phone, $message);
+        // $res = $this->smsService->get_balance();
+        // $res = $this->smsService->send_sms($phone, $message);
+
+        // $res = $this->smsService->send($phone, $message);
+        // if ($res->successful()) {
+        //     dd($res->body());
+        // } else {
+        //     dd(123);
+        // }
     }
 }
