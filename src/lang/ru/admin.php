@@ -135,7 +135,7 @@ return [
                     'statuses' => [
                         'status' => 'Статус заказа'
                     ]
-                    ],
+                ],
                     'product_categories' => [
                         'category' => 'категорию товара',
                         'specifications' => 'Спецификации'
@@ -148,7 +148,8 @@ return [
                         'volume_unit' => 'Единица объема',
                         'article' => 'Артикул',
                         'choose_specs' => 'Выберите характеристики',
-                        'category' => 'Категория'
+                        'category' => 'Категория',
+                        'cons' => 'Минусы'
                     ],
                     'product_reviews' => [
                         'review' => 'Отзыв',
@@ -195,8 +196,13 @@ return [
                         'categories' => [
                             'category' => 'Категорию'
                         ]
-                    ]
-            ]
+                    ],
+                    'files' => [
+                        'files' => 'Файлы',
+                        'mime_type' => 'Формат',
+                        'size' => 'Размер (MB)',
+                    ],
+                ]
             ],
             'seo' => [
                 'meta_title' => 'Мета заголовок',

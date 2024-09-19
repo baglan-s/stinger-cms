@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <livewire:catalog.product-detail :product="$product" />
+    <livewire:catalog.product-detail :product="$product" :similarProducts="$similarProducts" />
  </div>
 
 <!-- End Catalog page content -->

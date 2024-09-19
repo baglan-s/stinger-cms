@@ -540,6 +540,17 @@ img {
     flex-wrap: wrap;
     align-items: flex-start;
     margin: 0 3px 6px;
+    min-height: 30px;
+}
+
+.inner-product-card-variations .label-lowered {
+    color: #fff;
+    display: block;
+    padding: 3px 7px;
+    font-size: 14px;
+    background-color: #e91e63;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
 .inner-product-card-variations__item.this-active {
