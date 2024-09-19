@@ -31,21 +31,9 @@
         <div class="inner-product-card__body">
             <div class="inner-product-card__variations">
                 <div class="inner-product-card-variations">
-                    <button class="inner-product-card-variations__item out-line this-active" style="background-color: rbg(0,0,0);">
-                        <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m9.79 6.047-2.856 6.55V7.95H4.19l2.855-6.551v4.649h2.745Z" fill="#ffffff"></path>
-                        </svg>
-                    </button>
-                    <button class="inner-product-card-variations__item out-line" style="background-color: rgb(157,209,159);">
-                        <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m9.79 6.047-2.856 6.55V7.95H4.19l2.855-6.551v4.649h2.745Z" fill="#778ba5"></path>
-                        </svg>
-                    </button>
-                    <button class="inner-product-card-variations__item out-line" style="background-color: rgb(255,147,179);">
-                        <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m9.79 6.047-2.856 6.55V7.95H4.19l2.855-6.551v4.649h2.745Z" fill="#778ba5"></path>
-                        </svg>
-                    </button>
+                    @if ($product->parent_id)
+                        <span class="label-lowered">Уценка</span>
+                    @endif
                 </div>
                 <a href="{{ route('catalog.products.show', $product->translation()?->slug) }}" class="inner-product-card__title">{{ $product->translation()?->name }}</a>
             </div>

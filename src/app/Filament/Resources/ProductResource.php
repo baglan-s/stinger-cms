@@ -24,7 +24,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
-use App\Helpers\CategoryHelper;
+use Filament\Forms\Components\TagsInput;
 
 class ProductResource extends Resource
 {
@@ -78,6 +78,11 @@ class ProductResource extends Resource
                         ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
+                    TagsInput::make('translations.' . $language->code . '.cons')
+                        ->label(__('admin.crud.create.products.cons'))
+                        ->separator(',')
+                        ->required()
+                        ->hidden(fn (Forms\Get $get): bool => !$get('parent_id')),
                     TextInput::make('translations.' . $language->code . '.slug')
                         ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
@@ -167,7 +172,8 @@ class ProductResource extends Resource
                              return [$product->id => $product->translation()?->name];
                          })->toArray();
                     })
-                    ->getOptionLabelUsing(fn ($value): ?string => Product::find($value)?->translation()?->name),
+                    ->getOptionLabelUsing(fn ($value): ?string => Product::find($value)?->translation()?->name)
+                    ->live(),
                 Forms\Components\TextInput::make('guid')
                     ->label(__('admin.crud.create.guid')),
                 Forms\Components\TextInput::make('weight')
@@ -301,7 +307,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\FilesRelationManager::class,
         ];
     }
 

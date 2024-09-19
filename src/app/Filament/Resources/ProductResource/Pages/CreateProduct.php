@@ -34,6 +34,7 @@ class CreateProduct extends CreateRecord
                 'name' => $translation['name'],
                 'slug' => $translation['slug'] ?? Str::slug($translation['name']),
                 'is_html' => $translation['is_html'],
+                'cons' => $translation['cons'] ?? null,
                 'description' => $translation['description'],
                 'meta_title' => $translation['meta_title'],
                 'meta_description' => $translation['meta_description'],

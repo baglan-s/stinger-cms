@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('product_files', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->string('name');
             $table->string('path');
             $table->string('mime_type')->nullable();
-            $table->integer('size')->nullable();
+            $table->string('size')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')
