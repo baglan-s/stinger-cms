@@ -41,6 +41,10 @@ class EditProductCategory extends EditRecord
         $data['specifications'] = $category->specifications()
             ->pluck('specifications.id')
             ->toArray();
+
+        $data['brands'] = $category->brands()
+            ->pluck('brands.id')
+            ->toArray();
     
         return $data;
     }
@@ -77,6 +81,10 @@ class EditProductCategory extends EditRecord
 
         if (isset($data['specifications'])) {
             $category->specifications()->sync($data['specifications']);
+        }
+
+        if (isset($data['brands'])) {
+            $category->brands()->sync($data['brands']);
         }
 
         return $category;

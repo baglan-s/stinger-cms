@@ -69,6 +69,10 @@ class ProductService extends Service
                                 $defaultLanguage->id, 
                             ));
                             $dbProducts->push($parentProduct);
+
+                            if ($parentProductBrand->id && $parentProductCategory->id && $parentProductCategory->brands()->where('brands.id', $parentProductBrand->id)->count() === 0) {
+                                $parentProductCategory->brands()->attach($parentProductBrand->id);
+                            }
                         }
                     }
                 }
@@ -97,6 +101,10 @@ class ProductService extends Service
                         $product, 
                         $defaultLanguage->id,
                     ));
+                }
+
+                if ($brand->id && $productCategory->id && $productCategory->brands()->where('brands.id', $brand->id)->count() === 0) {
+                    $productCategory->brands()->attach($brand->id);
                 }
 
                 $synchronized++;

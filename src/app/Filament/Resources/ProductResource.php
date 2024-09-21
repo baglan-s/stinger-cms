@@ -57,19 +57,7 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
-
-        $brands = Brand::with([
-            'translations' => fn ($query) => $query->select(['name']),
-        ])
-            ->select(['id'])
-            ->get();
-
-        $brandOptions = [];
         $tabs = [];
-
-        foreach ($brands as $brand) {
-            $brandOptions[$brand->id] = $brand->translation()?->name;
-        }
 
         foreach ($languages as $language) {
             $tabs[] = Tabs\Tab::make($language->name)
@@ -152,7 +140,23 @@ class ProductResource extends Resource
                 Select::make('brand_id')
                     ->label(__('admin.crud.create.brands.brand'))
                     ->searchable()
-                    ->options($brandOptions),
+                    ->options(function (Forms\Get $get): array {
+                        $options = [];
+
+                        if (!$get('product_category_id')) {
+                            return $options;
+                        }
+
+                        $categoryBrands = ProductCategory::find($get('product_category_id'))
+                            ->brands ?? [];
+
+                        foreach ($categoryBrands as $categoryBrand) {
+                            $options[$categoryBrand->id] = $categoryBrand->translation()?->name;
+                        }
+
+                        return $options;
+                    }),
+
                 Select::make('parent_id')
                     ->label(__('admin.crud.create.parent_id'))
                     ->searchable()
@@ -235,7 +239,7 @@ class ProductResource extends Resource
                                     
                                     return $options;
                                 })
-                                ->multiple($categorySpecification->multiple);
+                                ->multiple((bool)$categorySpecification->multiple);
                         }
 
                         return $schema;

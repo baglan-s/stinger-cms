@@ -1,28 +1,32 @@
 <!-- Right slide -->
+@if (isset($product) && $product)
+
 <div class="main-page-content-section-inner__side">
     <div class="main-page-content-section-inner__product">
-        <a href="#" class="main-page-content-section-inner-product">
+        <a href="{{ route('catalog.products.show', $product->translation()?->slug) }}" target="_blank" class="main-page-content-section-inner-product">
             <div class="main-page-content-section-inner-product__main">
-                <div class="main-page-content-section-inner-product__discount">
-                    <div class="product-discount hidden-mobile right-slide">
-                        <div class="right-product-discount__count right-slide">13%</div>
-                        <img src="assets/images/slider/discount.png" alt="Discount">
+                @if ($product->getDiscount() > 0)
+                    <div class="main-page-content-section-inner-product__discount">
+                        <div class="product-discount hidden-mobile right-slide">
+                            <div class="right-product-discount__count right-slide">{{ $product->getDiscount() }}%</div>
+                            <img src="assets/images/slider/discount.png" alt="Discount">
+                        </div>
+                        <div class="product-discount hidden-desktop left-slide">
+                            <div class="right-product-discount__count left-slide">{{ $product->getDiscount() }}%</div>
+                            <img src="assets/images/slider/discount.png" alt="Discount">
+                        </div>
                     </div>
-                    <div class="product-discount hidden-desktop left-slide">
-                        <div class="right-product-discount__count left-slide">13%</div>
-                        <img src="assets/images/slider/discount.png" alt="Discount">
-                    </div>
-                </div>
+                @endif
                 <div class="main-page-content-product__image">
-                    <img src="assets/images/slider/bf29c59ddb633ec489a2cb186abbef2a.jpg" alt="bf29c59ddb633ec489a2cb186abbef2a">
+                    <img src="{{ $product->getDefaultImage() }}" alt="bf29c59ddb633ec489a2cb186abbef2a">
                 </div>
                 <div class="main-page-content-product__text">
                     <div class="main-page-content-product__subtitle">
                         Наш выбор
-                        <img src="assets/images/icons/robot.png" alt="Robot">
+                        {{-- <img src="assets/images/icons/robot.png" alt="Robot"> --}}
                     </div>
                     <div class="main-page-content-product__name">
-                        Фотоаппарат моментальной печати Lumicube Lumicam DK04
+                        {{ $product->translation()->name }}
                     </div>
                 </div>
             </div>
@@ -39,11 +43,15 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 40" class="svg-icons lightning-svg-icons">
                         <path d="M20 16.604 9.804 40V23.396H0L10.196 0v16.604H20Z" />
                     </svg> Забрать
-                    <span class="when-mobile-hidden">со скидкой</span>
-                    <span>за 2 080 тг</span>
+                    @if ($product->getDiscount() > 0)
+                        <span class="when-mobile-hidden">со скидкой</span>
+                    @endif
+                    <span>за {{ $product->getPrice() }} тг</span>
                 </div>
             </div>
         </a>
     </div>
 </div>
+
+@endif
 <!-- End right slide -->
