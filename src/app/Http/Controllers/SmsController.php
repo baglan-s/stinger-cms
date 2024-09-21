@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
+use App\Services\LogService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class SmsController extends Controller
 {
     private $authService;
+    private $logService;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService, LogService $logService)
     {
         $this->authService = $authService;
+        $this->logService = $logService;
     }
 
     public function sendSms(Request $request)
@@ -71,11 +74,21 @@ class SmsController extends Controller
                         'message' => 'Не удалось отправить SMS. Пожалуйста, попробуйте позже.'
                     ], 500);
                 }
-            } catch (\Eception $e) {
-
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => 'Content error',
+                    'message' => $e->getMessage()
+                ], 422);
             }
         } catch (\Exception $e) {
+            $this->logService
+                ->log(__METHOD__, 'sendSms', "message: {$e->getMessage()}")
+                ->write();
 
+            return response()->json([
+                'status' => 'Server error',
+                'message' => 'Internal server error'
+            ], 500);
         }
     }
 
