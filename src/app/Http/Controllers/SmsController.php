@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\AuthService;
 use App\Services\LogService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SmsController extends Controller
@@ -20,6 +21,11 @@ class SmsController extends Controller
         $this->logService = $logService;
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendSms(Request $request)
     {
         try {
@@ -51,6 +57,7 @@ class SmsController extends Controller
                     $otp = $this->authService->smsServiceGenerateRandomCode();
                     $message = $this->authService->getSmsServiceMessage($otp);
                     $smsMessage = $this->authService->setSmsServiceMessage($phone, $message, $otp);
+                    $smsSended = true;
                     $response = $this->authService->smsServiceSend($smsMessage->phone, $smsMessage->text);
                     if ($response->successful()) {
                         $smsSended = true;
@@ -92,17 +99,23 @@ class SmsController extends Controller
         }
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function confirmSms(Request $request)
     {
         $phone = ltrim(remove_phone_mask($request->input('phone')));
         $code = $request->input('code');
-        $smsSended = true;
+        $userId = $request->input('userId');
         $isConfirm = DB::table('sms_messages')
             ->where('phone', $phone)
             ->where('code', $code)
             ->exists();
 
         if ($isConfirm) {
+            Auth::loginUsingId($userId);
             return response()->json([
                 'status' => 'success',
                 'message' => 'SMS отправлено успешно.'

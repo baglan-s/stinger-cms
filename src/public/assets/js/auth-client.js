@@ -93,7 +93,8 @@ $(document).ready(function() {
             method: 'POST',
             data: { 
               phone: phoneNumber,
-              code: smsCode.val()
+              code: smsCode.val(),
+              userId: userId
             },
             beforeSend: function () {
               preloader.css('display', 'inline-block');
@@ -112,6 +113,7 @@ $(document).ready(function() {
                     if (loginInstance) {
                       loginInstance.hide();
                     }
+                    Cookies.set('auth_id', response.auth_id, { expires: 365, path: '/' });
                     window.location.href = '/personal-account/' + userId;
 
                 } else {
