@@ -5,18 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
+use App\Services\LogService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class SmsController extends Controller
 {
     private $authService;
+    private $logService;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService, LogService $logService)
     {
         $this->authService = $authService;
+        $this->logService = $logService;
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendSms(Request $request)
     {
         try {
@@ -71,25 +79,41 @@ class SmsController extends Controller
                         'message' => 'Не удалось отправить SMS. Пожалуйста, попробуйте позже.'
                     ], 500);
                 }
-            } catch (\Eception $e) {
-
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => 'Content error',
+                    'message' => $e->getMessage()
+                ], 422);
             }
         } catch (\Exception $e) {
+            $this->logService
+                ->log(__METHOD__, 'sendSms', "message: {$e->getMessage()}")
+                ->write();
 
+            return response()->json([
+                'status' => 'Server error',
+                'message' => 'Internal server error'
+            ], 500);
         }
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function confirmSms(Request $request)
     {
         $phone = ltrim(remove_phone_mask($request->input('phone')));
         $code = $request->input('code');
-        $smsSended = true;
+        $userId = $request->input('userId');
         $isConfirm = DB::table('sms_messages')
             ->where('phone', $phone)
             ->where('code', $code)
             ->exists();
 
         if ($isConfirm) {
+            $this->authService->loginByUserId($userId);
             return response()->json([
                 'status' => 'success',
                 'message' => 'SMS отправлено успешно.'

@@ -93,7 +93,8 @@ $(document).ready(function() {
             method: 'POST',
             data: { 
               phone: phoneNumber,
-              code: smsCode.val()
+              code: smsCode.val(),
+              userId: userId
             },
             beforeSend: function () {
               preloader.css('display', 'inline-block');

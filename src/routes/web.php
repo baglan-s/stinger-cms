@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
-Route::get('{slug?}', [App\Http\Controllers\TempPageController::class, 'index']);
+// Route::get('{slug?}', [App\Http\Controllers\TempPageController::class, 'index']);
 Route::get('test/{lang?}', [App\Http\Controllers\TestController::class, 'index']);
 Route::get('pages/vacancies', [App\Http\Controllers\Pages\VacancyController::class, 'index']);
 Route::prefix('catalog')
@@ -33,3 +33,5 @@ Route::post('cofirm-sms', [App\Http\Controllers\SmsController::class, 'confirmSm
 Route::post('cofirm-email-code', [App\Http\Controllers\Cabinet\UserController::class, 'confirmCode']);
 Route::post('user-register', [App\Http\Controllers\Cabinet\UserController::class, 'register'])->name('user.register');
 Route::get('test-sms', [App\Http\Controllers\TestController::class, 'testSms']);
+Route::get('auth-check', [App\Http\Controllers\Cabinet\UserController::class, 'authCheck'])->name('user.auth.check');
+Route::get('personal-account-logout', [App\Http\Controllers\Cabinet\UserController::class, 'personalAccountLogout'])->name('personal.account.logout');
