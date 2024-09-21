@@ -171,10 +171,10 @@ class UserController extends Controller
     {
         try {
             $userName = null;
-            $isAuth = Auth::check();
+            $isAuth = $this->authService->check();
             $personalAccountUrl = null;
             if ($isAuth) {
-                $user = Auth::user();
+                $user = $this->authService->user();
                 $userName = $user->name;
                 $personalAccountUrl = route('personal.account', ['user_id' => $user->id]);
             }
@@ -204,7 +204,7 @@ class UserController extends Controller
     public function personalAccountLogout(Request $request)
     {
         try {
-            Auth::logout();
+            $this->authService->logout();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Выход из аккаунта успешно'

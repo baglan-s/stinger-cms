@@ -113,7 +113,6 @@ $(document).ready(function() {
                     if (loginInstance) {
                       loginInstance.hide();
                     }
-                    Cookies.set('auth_id', response.auth_id, { expires: 365, path: '/' });
                     window.location.href = '/personal-account/' + userId;
 
                 } else {

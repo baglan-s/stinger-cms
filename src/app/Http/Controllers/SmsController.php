@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Services\AuthService;
 use App\Services\LogService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SmsController extends Controller
@@ -57,7 +56,6 @@ class SmsController extends Controller
                     $otp = $this->authService->smsServiceGenerateRandomCode();
                     $message = $this->authService->getSmsServiceMessage($otp);
                     $smsMessage = $this->authService->setSmsServiceMessage($phone, $message, $otp);
-                    $smsSended = true;
                     $response = $this->authService->smsServiceSend($smsMessage->phone, $smsMessage->text);
                     if ($response->successful()) {
                         $smsSended = true;
@@ -115,7 +113,7 @@ class SmsController extends Controller
             ->exists();
 
         if ($isConfirm) {
-            Auth::loginUsingId($userId);
+            $this->authService->loginByUserId($userId);
             return response()->json([
                 'status' => 'success',
                 'message' => 'SMS отправлено успешно.'
