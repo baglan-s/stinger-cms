@@ -70,14 +70,17 @@ class UserController extends Controller
                     ], 422);
                 }
         
+                $userId = null;
                 $user = $this->authService->register($request->only(['name', 'last_name', 'phone', 'email', 'city','password']));
                 if ($user) {
+                    $userId = $user->id;
                     $user->roles()->attach(3);
+                    $this->authService->loginByUserId($userId);
                 }
         
                 return response()->json([
                         'status' => 'success',
-                        'user_id' => $user->id
+                        'user_id' => $userId
                     ]);
             } catch (\Exception $e) {
                 return response()->json([
