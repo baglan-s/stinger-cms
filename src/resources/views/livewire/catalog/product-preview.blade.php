@@ -4,7 +4,7 @@
             @if ($product->getDiscount() > 0)
                 <div class="inner-product-card__discount">
                     <div class="inner-product-discount this-left">
-                        <div class="inner-product-discount__counting this-left">10%</div>
+                        <div class="inner-product-discount__counting this-left">{{ $product->getDiscount() }}%</div>
                         <img src="{{ asset('assets/images/products/discount.png') }}" alt="">
                     </div>
                 </div>

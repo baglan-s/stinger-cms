@@ -39,6 +39,10 @@ class CreateProductCategory extends CreateRecord
             $category->specifications()->sync($data['specifications']);
         }
 
+        if (isset($data['brands'])) {
+            $category->brands()->sync($data['brands']);
+        }
+
         return $category;
     }
 }

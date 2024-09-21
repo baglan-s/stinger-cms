@@ -18,6 +18,7 @@ use Filament\Forms\Components\Tabs;
 use App\Models\Catalog\Product;
 use App\Models\Language;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Fieldset;
 
 class SettingResource extends Resource
 {
@@ -49,18 +50,8 @@ class SettingResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $products = Product::with([
-            'translations' => fn ($query) => $query->select(['name']),
-        ])
-            ->select(['id'])
-            ->get();
         $languages = Language::where('active', true)->get();
-        $productOptions = [];
         $languageOptions = [];
-
-        foreach ($products as $product) {
-            $productOptions[$product->id] = $product->translation()?->name;
-        }
 
         foreach ($languages as $language) {
             $languageOptions[$language->id] = $language->name;
@@ -97,22 +88,53 @@ class SettingResource extends Resource
                             ]),
                         Tabs\Tab::make('Marketing')
                             ->schema([
-                                Select::make('weekly_product_id')
+                                Fieldset::make('weekly product')
                                     ->label(__('admin.crud.create.settings.weekly_product_id'))
-                                    ->options($productOptions)
-                                    ->searchable(),
-                                DateTimePicker::make('weekly_product_starts_at')
-                                    ->label(__('admin.crud.create.settings.weekly_product_starts_at'))
-                                    ->minDate(now())
-                                    ->native(false)
-                                    ->hoursStep(1)
-                                    ->minutesStep(30),
-                                DateTimePicker::make('weekly_product_ends_at')
-                                    ->label(__('admin.crud.create.settings.weekly_product_ends_at'))
-                                    ->minDate(now())
-                                    ->native(false)
-                                    ->hoursStep(1)
-                                    ->minutesStep(30)
+                                    ->schema([
+                                        Select::make('weekly_product_id')
+                                            ->label(__('admin.crud.create.settings.weekly_product_id'))
+                                            ->searchable()
+                                            ->getSearchResultsUsing(function (string $search): array {
+                                                $products = Product::whereHas('translations', function ($query) use ($search) {
+                                                        $query->whereRaw("lower(name) LIKE '%" . mb_strtolower($search) . "%'");
+                                                    })
+                                                    ->with(['translations' => function ($query) {
+                                                        $query->whereHas('language', function ($q) {
+                                                            $q->where('code', app()->getLocale());
+                                                        });
+                                                    }])
+                                                    ->limit(50)
+                                                    ->get();
+
+                                                return $products->mapWithKeys(function ($product) {
+                                                    return [$product->id => $product->translation()?->name];
+                                                })->toArray();
+                                            })
+                                            ->getOptionLabelUsing(fn ($value): ?string => Product::find($value)?->translation()?->name),
+                                        DateTimePicker::make('weekly_product_starts_at')
+                                            ->label(__('admin.crud.create.settings.weekly_product_starts_at'))
+                                            ->native(false)
+                                            ->hoursStep(1)
+                                            ->minutesStep(30),
+                                        DateTimePicker::make('weekly_product_ends_at')
+                                            ->label(__('admin.crud.create.settings.weekly_product_ends_at'))
+                                            ->native(false)
+                                            ->hoursStep(1)
+                                            ->minutesStep(30)
+                                    ])
+                                    ->columnSpan(2)
+                                    ->columns(2),
+                                Fieldset::make('product minimal amount')
+                                    ->label(__('admin.crud.create.settings.product.product'))
+                                    ->schema([
+                                        Forms\Components\TextInput::make('product_min_amount')
+                                            ->label(__('admin.crud.create.settings.product.product_min_amount'))
+                                            ->required()
+                                            ->numeric()
+                                            ->default(1),
+                                    ])
+                                    ->columnSpan(2)
+                                    ->columns(2),
                             ])
                     ])->columns(2)
             ])->columns(1);

@@ -136,7 +136,8 @@ return [
                     ],
                     'product_categories' => [
                         'category' => 'категорию товара',
-                        'specifications' => 'Спецификации'
+                        'specifications' => 'Спецификации',
+                        'brands' => 'Бренды',
                     ],
                     'products' => [
                         'product' => 'Товар',
@@ -185,6 +186,10 @@ return [
                         'weekly_product' => 'Товар недели',
                         'weekly_product_starts_at' => 'Дата начала товара недели',
                         'weekly_product_ends_at' => 'Дата окончания товара недели',
+                        'product' => [
+                            'product' => 'Товар',
+                            'product_min_amount' => 'Минимальное количество товара (больше, меньше)'
+                        ]
 
                     ],
                     'posts' => [

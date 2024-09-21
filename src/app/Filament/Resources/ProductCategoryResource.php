@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductCategoryResource\Pages;
 use App\Filament\Resources\ProductCategoryResource\RelationManagers;
 use App\Models\Catalog\ProductCategory;
 use App\Models\Catalog\Specification;
+use App\Models\Catalog\Brand;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -55,8 +56,10 @@ class ProductCategoryResource extends Resource
         $languages = Language::where('active', true)->get();
         $categories = ProductCategory::all();
         $specifications = Specification::where('active', true)->get();
+        $brands = Brand::where('active', true)->get();
         $categoryOptions = [];
         $specificationOptions = [];
+        $brandOptions = [];
         $tabs = [];
 
         foreach ($specifications as $specification) {
@@ -65,6 +68,10 @@ class ProductCategoryResource extends Resource
 
         foreach ($categories as $category) {
             $categoryOptions[$category->id] = $category->translation()?->name;
+        }
+
+        foreach ($brands as $brand) {
+            $brandOptions[$brand->id] = $brand->translation()?->name;
         }
 
         foreach ($languages as $language) {
@@ -119,8 +126,12 @@ class ProductCategoryResource extends Resource
                     ->label(__('admin.crud.create.product_categories.specifications'))
                     ->options($specificationOptions)
                     ->multiple()
-                    ->searchable()
-                    ->columnSpan(2),
+                    ->searchable(),
+                Select::make('brands')
+                    ->label(__('admin.crud.create.product_categories.brands'))
+                    ->options($brandOptions)
+                    ->multiple()
+                    ->searchable(),
             ])->columns(2);
     }
 
