@@ -35,3 +35,30 @@
 </div>
 @endif
 <!-- End video -->
+@push('scripts')
+<script>
+var swiper = new Swiper(".videoSwiper", {
+        slidesPerView: 4,
+        spaceBetween: 30,
+        autoplay: {
+            delay: 5000,
+        },
+        loop: true,
+        breakpoints: {
+            320: {
+                slidesPerView: 3,
+                spaceBetween: 10,
+            },
+
+            768: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            },
+            991: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            }
+        },
+    });
+</script>
+@endpush
