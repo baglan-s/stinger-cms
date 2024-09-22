@@ -1083,7 +1083,8 @@ a {
     box-sizing: border-box;
     display: none;
     height: 100%;
-    left: 300px;
+    /* left: 300px; */
+    left: 290px;
     max-width: 1080px;
     overflow-y: auto;
     padding: 24px 42px;
