@@ -122,7 +122,7 @@
     <div class="header-mobile__wrapp">
         <div class="header-mobile__scrollbar">
             <div class="header-mobile__logotype">
-                <a href="#" class="this-logotype"></a>
+                <a href="/" class="this-logotype"></a>
             </div>
             <!-- <button class="header-mobile__btn">
                 Каталог
