@@ -2107,6 +2107,10 @@ a {
     header.header {
         display: none;
     }
+
+    .footer-wrapper {
+        padding-bottom: 95px;
+    }
 }
 
 @media only screen and (max-width: 640px) {
@@ -2186,6 +2190,36 @@ a {
         position: absolute;
         right: 12px;
         top: 16px;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    .header-mobile-search__input {
+        max-width: 270px;
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    .header-mobile-search__input {
+        max-width: 250px;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+    .header-mobile-search__input {
+        max-width: 230px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .header-mobile-search__input {
+        max-width: 210px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .header-mobile-search__input {
+        max-width: 200px;
     }
 }
 
