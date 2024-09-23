@@ -17,12 +17,12 @@
     </div>
     
 
-    <livewire:catalog.product-filter-mobile />
+    <livewire:catalog.product-filter :isMobile="true" :filter="$filter" />
 
 
     
     <div class="catalog-category h-container">
-        <livewire:catalog.product-filter />
+        <livewire:catalog.product-filter :filter="$filter" />
 
         <livewire:catalog.product-list :filter="$filter" />
     </div> 
