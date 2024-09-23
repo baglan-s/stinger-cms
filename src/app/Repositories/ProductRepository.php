@@ -188,7 +188,39 @@ class ProductRepository extends Repository
                 $query->whereNotNull('parent_id');
             })
             ->when(isset($filter['available']) && $filter['available'], function ($query) {
-                $query->whereNotNull('parent_id');
+                $query->whereHas('stocks', function ($query) {
+                    $query->where('available', '>', 0);
+                });
+            })
+            ->when(isset($filter['specs']), function ($query) use ($filter) {
+                $specs = explode(',', $filter['specs']);
+                $specIds = [];
+                $specValueIds = [];
+
+                foreach ($specs as $spec) {
+                    $specParts = explode('-', $spec);
+                    $specIds[] = $specParts[0];
+                    $specValueIds = array_merge($specValueIds, explode(';', $specParts[1]));
+                }
+
+                $query->whereHas('specifications', function ($query) use ($specIds, $specValueIds) {
+                    $query->whereIn('specifications.id', $specIds)
+                        ->wherehas('productValues', function ($query) use ($specValueIds) {
+                            $query->whereIn('specification_value_id', $specValueIds);
+                        });
+                });
+            })
+            ->when(isset($filter['price_from']), function ($query) use ($filter) {
+                $query->whereHas('prices', function ($query) use ($filter) {
+                    $query->where('price_type_id', Cookie::get('price_type_id', 3))
+                        ->where('price', '>=', $filter['price_from']);
+                });
+            })
+            ->when(isset($filter['price_to']), function ($query) use ($filter) {
+                $query->whereHas('prices', function ($query) use ($filter) {
+                    $query->where('price_type_id', Cookie::get('price_type_id', 3))
+                        ->where('price', '<=', $filter['price_to']);
+                });
             })
             ->when(isset($filter['order']), function ($query) use ($filter) {
                 switch ($filter['order']) {
