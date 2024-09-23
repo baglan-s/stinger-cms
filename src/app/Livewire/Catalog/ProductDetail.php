@@ -5,6 +5,7 @@ namespace App\Livewire\Catalog;
 use Livewire\Component;
 use App\Models\Catalog\Product;
 use App\Services\ProductService;
+use App\Services\SettingService;
 
 class ProductDetail extends Component
 {
@@ -35,7 +36,9 @@ class ProductDetail extends Component
 
     public function render()
     {
-        return view('livewire.catalog.product-detail');
+        return view('livewire.catalog.product-detail', [
+            'setting' => app(SettingService::class)->getSetting()
+        ]);
     }
 
     public function addToFavourites()
