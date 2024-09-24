@@ -353,7 +353,7 @@
                                 <a class="parent-product-link" href="{{ route('catalog.products.index', ['parent_id' => $product->id]) }}">Купить товар дешевле</a>
                             @endif
 
-                            @if ($product->stocks->sum('available') > 0)
+                            @if ($product->cityStocks->sum('available') > 0)
                                 @php($cityGroups = $product->stocksGroupedByCity())
                                 @foreach ($cityGroups as $key => $group)
                                     <p class="city-group-title">{{ $key }}</p>
@@ -473,7 +473,7 @@
                     </div>
                 @endif
 
-                @if ($product->stocks->sum('available') > 0)
+                @if ($product->cityStocks->sum('available') > 0)
                     <div class="delivery-address__wrap">
                         @php($cityGroups = $product->stocksGroupedByCity())
                         @foreach ($cityGroups as $key => $group)

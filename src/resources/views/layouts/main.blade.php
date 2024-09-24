@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/slick-1.8.1/slick.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/slick-1.8.1/slick-theme.css') }}">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
-        {{-- <link rel="stylesheet" href="{{ asset('assets/css/about.css') }}"> --}}
+        <link rel="stylesheet" href="{{ asset('assets/css/about.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/comparison.css') }}" />
         {{-- <link rel="stylesheet" href="{{ asset('assets/css/contacts.css') }}"> --}}
         {{-- <link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}"> --}}
