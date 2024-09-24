@@ -51,6 +51,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-*.min.js"></script>
     <script type="text/javascript" src="{{ asset('assets/js/custom-select.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/retail.js') }}"></script>
     <script>
       $(document).ready(function () {
         $("#phone").mask("+0 (000) 000-00-00");
