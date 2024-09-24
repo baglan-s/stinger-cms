@@ -27,12 +27,14 @@
         <link rel="stylesheet" href="{{ asset('assets/css/personal-account.css') }}" />
         <link rel="stylesheet" href="{{ asset('assets/css/header-login-modal.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
+        <link rel="stylesheet" href="{{ asset('assets/css/feedback.css') }}">
         <script src="{{ asset('assets/js/swiper-11.1.4/swiper-bundle.min.js') }}"></script>
         @stack('styles')
     </head>
 <body>
     {!! $header->render() !!}
     @include('partials.auth')
+    @include('partials.feedback')
     
     @yield('content')
 
