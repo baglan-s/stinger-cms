@@ -32,5 +32,17 @@
     </div>
 </div>
 <!-- End with discount -->
-
 @endif
+
+@push('scripts')
+<script>
+    var swiper = new Swiper(".mainSwiperDiscountSlider", {
+        slidesPerView: 4,
+        spaceBetween: 15,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+</script>
+@endpush

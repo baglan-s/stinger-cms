@@ -137,4 +137,17 @@ class Product extends Model
         $this->views++;
         $this->save();
     }
+
+    public function stocksGroupedByCity()
+    {
+        $stocks = [];
+
+        foreach ($this->stocks as $stock) {
+            if ($stock->store->city_id) {
+                $stocks[$stock->store?->city?->translation()?->name ?? $stock->store?->city?->id][] = $stock;
+            }
+        }
+
+        return $stocks;
+    }
 }

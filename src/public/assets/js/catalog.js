@@ -70,11 +70,16 @@ function setRating(index) {
 /* End review */
 
 
+function applyPriceRange(min, max) {
+  window.Livewire.dispatch('updatePriceRange', {min: min, max: max})
+}
 
-const rangeInput = document.querySelectorAll(".price-range__inputs input"),
-  priceInput = document.querySelectorAll(".catalog-price__range-inputs input"),
-  range = document.querySelector(".price-range__progress");
+
+const rangeInput = document.querySelectorAll(".price-range__inputs.desktop input"),
+  priceInput = document.querySelectorAll(".catalog-price__range-inputs.desktop input"),
+  range = document.querySelector(".price-range__progress.desktop");
 let priceGap = 1000;
+let dtRabgeTimeOut = null;
 
 priceInput.forEach((input) => {
   input.addEventListener("input", (e) => {
@@ -82,13 +87,21 @@ priceInput.forEach((input) => {
       maxPrice = parseInt(priceInput[1].value);
 
     if (maxPrice - minPrice >= priceGap && maxPrice <= rangeInput[1].max) {
-      if (e.target.className === "input-min") {
+      if (e.target.classList.contains("input-min")) {
         rangeInput[0].value = minPrice;
         range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
       } else {
         rangeInput[1].value = maxPrice;
         range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
       }
+
+      if (dtRabgeTimeOut) {
+        clearTimeout(dtRabgeTimeOut);
+      } 
+
+      dtRabgeTimeOut = setTimeout(() => {
+        applyPriceRange(minPrice, maxPrice);
+      }, 2000);
     }
   });
 });
@@ -109,6 +122,56 @@ rangeInput.forEach((input) => {
       priceInput[1].value = maxVal;
       range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
       range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+    }
+
+    if (dtRabgeTimeOut) {
+      clearTimeout(dtRabgeTimeOut);
+    } 
+
+    dtRabgeTimeOut = setTimeout(() => {
+      applyPriceRange(minVal, maxVal);
+    }, 2000);
+  });
+});
+
+const rangeInputMobile = document.querySelectorAll(".price-range__inputs.mobile input"),
+  priceInputMobile = document.querySelectorAll(".catalog-price__range-inputs.mobile input"),
+  rangeMobile = document.querySelector(".price-range__progress.mobile");
+let priceGapMobile = 1000;
+
+priceInputMobile.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    let minPrice = parseInt(priceInputMobile[0].value),
+      maxPrice = parseInt(priceInputMobile[1].value);
+
+    if (maxPrice - minPrice >= priceGapMobile && maxPrice <= rangeInputMobile[1].max) {
+      if (e.target.className === "input-min") {
+        rangeInputMobile[0].value = minPrice;
+        rangeMobile.style.left = (minPrice / rangeInputMobile[0].max) * 100 + "%";
+      } else {
+        rangeInputMobile[1].value = maxPrice;
+        rangeMobile.style.right = 100 - (maxPrice / rangeInputMobile[1].max) * 100 + "%";
+      }
+    }
+  });
+});
+
+rangeInputMobile.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    let minVal = parseInt(rangeInputMobile[0].value),
+      maxVal = parseInt(rangeInputMobile[1].value);
+
+    if (maxVal - minVal < priceGapMobile) {
+      if (e.target.className === "range-min") {
+        rangeInputMobile[0].value = maxVal - priceGapMobile;
+      } else {
+        rangeInputMobile[1].value = minVal + priceGapMobile;
+      }
+    } else {
+      priceInputMobile[0].value = minVal;
+      priceInputMobile[1].value = maxVal;
+      rangeMobile.style.left = (minVal / rangeInputMobile[0].max) * 100 + "%";
+      rangeMobile.style.right = 100 - (maxVal / rangeInputMobile[1].max) * 100 + "%";
     }
   });
 });

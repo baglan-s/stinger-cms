@@ -55,4 +55,15 @@ class Specification extends Model
             'specification_value_id'
         );
     }
+
+    public function productValuesString()
+    {
+        $values = [];
+
+        foreach ($this->productValues as $value) {
+            $values[] = $value->translation()?->name;
+        }
+
+        return implode(', ', $values);
+    }
 }

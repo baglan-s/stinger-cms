@@ -31,5 +31,17 @@
         </div>
     </div>
 </div>
-
 @endif
+
+@push('scripts')
+<script>
+var swiper = new Swiper(".mainSwiperPopularSlider", {
+        slidesPerView: 4,
+        spaceBetween: 15,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+</script>
+@endpush
