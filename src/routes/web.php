@@ -23,6 +23,12 @@ Route::prefix('catalog')
                 Route::get('{slug}', [App\Http\Controllers\Catalog\ProductController::class, 'show'])->name('show');
                 Route::get('{productId}/{fileId}', [App\Http\Controllers\Catalog\ProductController::class, 'file'])->name('file');
             });
+
+        Route::prefix('cart')
+            ->name('cart.')
+            ->group(function () {
+                Route::get('/', [App\Http\Controllers\Catalog\CartController::class, 'index'])->name('index');
+            });
     });
 
 Route::get('/personal-account/{user_id}', [App\Http\Controllers\Cabinet\UserController::class, 'index'])
