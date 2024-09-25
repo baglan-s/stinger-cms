@@ -4,17 +4,20 @@
             @if ($product->getDiscount() > 0)
                 <div class="inner-product-card__discount">
                     <div class="inner-product-discount this-left">
-                        <div class="inner-product-discount__counting this-left">10%</div>
+                        <div class="inner-product-discount__counting this-left">{{ $product->getDiscount() }}%</div>
                         <img src="{{ asset('assets/images/products/discount.png') }}" alt="">
                     </div>
                 </div>
             @endif
-            <div class="inner-product-card__favorite">
-                <button class="inner-product-card-favorite inner-outline {{ $favouriteClass }}" wire:click="toggleFavourite">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="svg-icons">
-                        <path d="M2.485 17.485 16 31l13.515-13.515a8.485 8.485 0 0 0 2.485-6v-.38a8.105 8.105 0 0 0-14.433-5.063L16 8l-1.567-1.958A8.105 8.105 0 0 0 0 11.105v.38c0 2.25.894 4.409 2.485 6Z" />
-                    </svg>
-                </button>
+            <div class="tools-wrapper">
+                <div class="inner-product-card__favorite">
+                    <button class="inner-product-card-favorite inner-outline {{ $favouriteClass }}" wire:click="toggleFavourite">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="svg-icons">
+                            <path d="M2.485 17.485 16 31l13.515-13.515a8.485 8.485 0 0 0 2.485-6v-.38a8.105 8.105 0 0 0-14.433-5.063L16 8l-1.567-1.958A8.105 8.105 0 0 0 0 11.105v.38c0 2.25.894 4.409 2.485 6Z" />
+                        </svg>
+                    </button>
+                </div>
+                @include('partials.comparison-btn')
             </div>
             <div class="inner-product-card__image">
                 <a href="{{ route('catalog.products.show', $product->translation()?->slug) }}" class="inner-product-card__image-url" tabindex="-1">

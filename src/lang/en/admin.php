@@ -4,23 +4,23 @@ return [
     'navigation' => [
         'menus' => 'Меню',
         'pages' => 'Страницы',
-        'users' => 'Пользователи',
-        'vacancies' => 'Вакансии',
-        'banners' => 'Баннеры',
+        'users' => 'Қолданушылар',
+        'vacancies' => 'Бос орындар',
+        'banners' => 'Баннерлер',
         'galleries' => 'Галлерея',
-        'video-reviews' => 'Видео обзоры',
+        'video-reviews' => 'Видео шолулар',
         'brands' => 'Бренды',
-        'cities' => 'Города',
+        'cities' => 'Қалалар',
         'menu_types' => 'Типы меню',
         'orders' => [
-            'title' => 'Заказы',
+            'title' => 'Тапсырмалар',
             'statuses' => 'Статусы заказов'
         ],
         'product' => [
             'categories' => [
                 'title' => 'Категории товаров'
             ],
-            'title' => 'Товары',
+            'title' => 'Тауарлар',
             'reviews' => [
                 'title' => 'Отзывы товаров'
             ],
@@ -29,14 +29,14 @@ return [
             ],
             'specs' => [
                 'title' => 'Спецификации товаров'
-            ],
+            ]
         ],
         'stores' => [
-                'title' => 'Магазины'
+            'title' => 'Дүкендер'
         ],
         'system' => [
             'title' => 'Система',
-            'languages' => 'Языки',
+            'languages' => 'Тілдер',
             'permissions' => 'Разрешения',
             'roles' => 'Роли',
             'settings' => 'Настройки'
@@ -50,7 +50,7 @@ return [
             'title' => 'Каталог'
         ],
         'components' => [
-            'title' => 'Компоненты'
+            'title' => 'Компонентер'
         ]
         ],
         'crud' => [
@@ -72,13 +72,11 @@ return [
                 'page' => 'Страницу',
                 'title' => 'Заголовок',
                 'slug' => 'Алиас',
+                'meta_title' => 'Мета заголовок',
                 'content' => 'Контент',
                 'active' => 'Активный',
                 'user' => 'Пользователя',
                 'email' => 'Электронная почта',
-                'email_verfifed_at' => 'Дата подтверждения email',
-                'password' => 'Пароль',
-                'password_confirm' => 'Подтверждение пароля',
                 'choose_roles' => 'Выберите роли',
                 'description' => 'Описание',
                 'language_id' => 'Идентификатор языка',
@@ -110,7 +108,7 @@ return [
                     'gallery' => 'Галлерею'
                 ],
                 'video-reviews' => [
-                    'video-review' => 'Видео обзор',
+                    'video-review' => 'Видео шолу',
                     'title' => 'Заголовок',
                     'description' => 'Описание',
                 ],
@@ -135,7 +133,7 @@ return [
                     'statuses' => [
                         'status' => 'Статус заказа'
                     ]
-                ],
+                    ],
                     'product_categories' => [
                         'category' => 'категорию товара',
                         'specifications' => 'Спецификации',
@@ -158,7 +156,7 @@ return [
                         'product_id' => 'Товары'
                     ],
                     'specifications' => [
-                        'specification' => 'Спецификацию',
+                        'specification' => 'Спецификацию'
                     ],
                     'stores' => [
                         'store' => 'Магазин',
@@ -185,14 +183,13 @@ return [
                         'main_logo' => 'Главный логотип',
                         'footer_logo' => 'Логотип в футере',
                         'favicon' => 'Иконка',
-                        'weekly_product_id' => 'Товар недели',
+                        'weekly_product' => 'Товар недели',
                         'weekly_product_starts_at' => 'Дата начала товара недели',
                         'weekly_product_ends_at' => 'Дата окончания товара недели',
                         'product' => [
                             'product' => 'Товар',
                             'product_min_amount' => 'Минимальное количество товара (больше, меньше)'
                         ]
-
                     ],
                     'posts' => [
                         'posts' => 'Посты',
@@ -207,7 +204,7 @@ return [
                         'mime_type' => 'Формат',
                         'size' => 'Размер (MB)',
                     ],
-                ]
+            ]
             ],
             'seo' => [
                 'meta_title' => 'Мета заголовок',

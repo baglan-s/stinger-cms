@@ -24,7 +24,6 @@
         <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/reset.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/favorites.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/css/cart.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/personal-account.css') }}" />
         <link rel="stylesheet" href="{{ asset('assets/css/header-login-modal.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
@@ -49,7 +48,6 @@
     <script type="text/javascript" src="{{ asset('assets/js/jQuery-Mask-Plugin-master/jquery.mask.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/header.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/catalog.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/cart.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-*.min.js"></script>
     <script type="text/javascript" src="{{ asset('assets/js/custom-select.js') }}"></script>

@@ -6,7 +6,7 @@
         <img src="{{ asset('assets/images/products/star.svg') }}" alt="">
     </h2>
     <div class="inner-products__desktop hide-mobile">
-        <div class="swiper-main js-main-products-novelty-slider mainSwiperNoveltySlider">
+        <div class="swiper-main js-main-products-novelty-slider mainSwiperSimilarSlider">
             <div class="swiper-wrapper">
                 @foreach ($products as $product)
                     <livewire:catalog.product-preview :product="$product" :class="['swiper-slide']">
@@ -23,3 +23,15 @@
 
 @endif
 <!-- End novelty -->
+@push('scripts')
+<script>
+var swiper = new Swiper(".mainSwiperSimilarSlider", {
+        slidesPerView: 4,
+        spaceBetween: 15,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+</script>
+ @endpush

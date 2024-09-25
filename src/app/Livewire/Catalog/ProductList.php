@@ -12,7 +12,10 @@ class ProductList extends Component
 {
     use WithPagination;
 
-    protected $listeners = ['orderSet' => 'onOrderSet'];
+    protected $listeners = [
+        'orderSet' => 'onOrderSet',
+        'filterUpdated' => 'onFilterUpdated',
+    ];
 
     private ProductService $productService;
 
@@ -24,13 +27,21 @@ class ProductList extends Component
 
     public int|null $parent_id = null;
     
-    public array|null $brand_ids = null;
+    public string|null $brand_ids = null;
+
+    public string|null $specs = null;
 
     public string|null $search = null;
 
     public string|null $lowered = null;
 
     public string|null $order = null;
+
+    public int|string|null $price_from = null;
+
+    public int|string|null $price_to = null;
+
+    public bool|null $available = null;
 
     private array $propertiesArray = [
         'category_id' => [],
@@ -40,6 +51,10 @@ class ProductList extends Component
         'search' => [],
         'lowered' => [],
         'order' => [],
+        'specs' => [],
+        'price_from' => [],
+        'price_to' => [],
+        'available' => [],
     ];
     
     public function __construct()
@@ -78,13 +93,13 @@ class ProductList extends Component
         return $this->propertiesArray;
     }
 
-    public function setFilter(array $filter = [])
+    public function setFilter(array $filter = [], $test = false)
     {
         if (!empty($filter)) {
             $this->filter = $filter;
             
-            foreach ($filter as $key => $value) {
-                $this->{$key} = $value;
+            foreach ($this->propertiesArray as $key => $value) {
+                $this->{$key} = $this->filter[$key] ?? null;
             }
         } else {
             foreach ($this->propertiesArray as $key => $value) {
@@ -93,10 +108,18 @@ class ProductList extends Component
                 }
             }
         }
+
+        $this->dispatch('contentFilterUpdated', $this->filter);
     }
 
     public function updatingPage($page)
     {
         $this->setFilter();
+    }
+
+    public function onFilterUpdated(array $filter)
+    {
+        $this->setFilter($filter, true);
+        // $this->resetPage();
     }
 }

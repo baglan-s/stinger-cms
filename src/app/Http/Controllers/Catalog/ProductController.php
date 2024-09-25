@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Catalog;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
+use Illuminate\Support\Facades\Cookie;
 
 class ProductController extends Controller
 {
@@ -21,7 +22,31 @@ class ProductController extends Controller
 
     public function show(string $slug)
     {
-        $product = $this->productService->getRepository()->findBySlug($slug);
+        $product = $this->productService->getRepository()
+            ->model()
+            ->whereHas('translations', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            })
+            ->with([
+                'stocks' => function ($query) {
+                    $query->whereHas('store', function ($query) {
+                        $query->where('city_id', Cookie::get('city_id'))
+                            ->orWhere('city_id', 7);
+                    });
+                },
+                'stocks.store',
+                'stocks.store.city',
+                'translations',
+                'prices',
+                'specifications',
+                'specifications.productValues' => function ($query) {
+                    $query->with(['translations' => function ($query) {
+                        $query->wherehas('language', fn ($query) => $query->where('code', app()->getLocale()));
+                    }]);
+                },
+                'brand'
+            ])
+            ->first();
 
         if (!$product) {
             abort(404);

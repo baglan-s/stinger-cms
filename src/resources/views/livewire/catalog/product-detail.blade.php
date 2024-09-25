@@ -72,11 +72,13 @@
 
                     <div class="product-tabs mt-4">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            @if ($product->translation()?->description)
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link product-tab__item" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="false">Описание</button>
+                                </li>
+                            @endif
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link product-tab__item" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="false">Описание</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active product-tab__item" id="specification-tab" data-bs-toggle="tab" data-bs-target="#specification" type="button" role="tab" aria-controls="specification" aria-selected="true">Характеристика</button>
+                                <button class="nav-link active product-tab__item" id="specification-tab" data-bs-toggle="tab" data-bs-target="#specification" type="button" role="tab" aria-controls="specification" aria-selected="true">Характеристики</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link product-tab__item" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Отзывы</button>
@@ -89,88 +91,46 @@
                         </ul>
 
                         <div class="tab-content" id="myTabContent">
-
-                            <div class="tab-pane fade " id="description" role="tabpanel" aria-labelledby="description-tab">
-                                <div class="product-content__description mt-2">
-                                    <h3>
-                                        Что это?
-                                    </h3>
-                                    <div class="product-content__text">
-                                        <p>
-                                            DROVO Трицератопс Брон ― это миниатюрный деревянный конструктор для детей старше 5 лет. Пазл состоит из 14 деталей и в собранном виде представляет собой фигурку динозавра трицератопса с подвижными деталями. Размер собранного пазла 12,8 x 5,6 сантиметров. Сборка фигурки не требует клея и занимает всего полчаса.
-                                        </p>
-                                        <p>
-                                            Элементы пазла аккуратно и без заусенцев вырезаны из фанеры, на них лазером прорисованы детали: глаза, нос, полоски на спине динозавра. Особенность фигурки — подвижные элементы: если погладить спину динозавра, то он радостно замашет вам своей головой.
-                                        </p>
-                                        <p>
-                                            Сборка игрушки-пазла представляет собой увлекательный процесс, приносящий удовольствие и развивающий пространственное мышление, логику и мелкую моторику. Такой подарок станет отличным стимулом для творчества и прекрасным способом провести время.
-                                        </p>
-                                        <div class="gradient-block"></div>
+                            @if ($product->translation()?->description)
+                                <div class="tab-pane fade " id="description" role="tabpanel" aria-labelledby="description-tab">
+                                    <div class="product-content__description mt-2">
+                                        <h3>Что это?</h3>
+                                        {!! html_entity_decode($product->translation()?->description) !!}
+                                        
                                     </div>
-                                    <button class="text-skiper text-skip" data-target="section1">
-                                        Развернуть описание
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="nav-header__link--arrow svg-icons svg-size--16">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.851 8 11.5 2.508 9.95 1l-7.2 7 7.2 7 1.55-1.508L5.851 8Z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="text-skiper text-skiped" data-target="section1">
-                                        Свернуть описание
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="nav-header__link--arrow svg-icons svg-size--16">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.851 8 11.5 2.508 9.95 1l-7.2 7 7.2 7 1.55-1.508L5.851 8Z"></path>
-                                        </svg>
-                                    </button>
-                                    
                                 </div>
-                            </div>
-                    
+                            @endif
 
                             <div class="tab-pane fade show active" id="specification" role="tabpanel" aria-labelledby="specification-tab">
                                 <div class="product-content__property mt-2">
-                                    <h3>Характеристика</h3>
+                                    <h3>Характеристики</h3>
                                     <div class="product-content__text">
                                         <ul class="product-property__list">
-                                            <li class="property__item">
-                                                <span class="property-item__title">Страна-производитель</span>
-                                                <span class="property-item__content">Россия</span>
-                                            </li>
-                                            <li class="property__item">
-                                                <span class="property-item__title">Материал</span>
-                                                <span class="property-item__content">фанера</span>
-                                            </li>
-                                            <li class="property__item">
-                                                <span class="property-item__title">Артикул</span>
-                                                <span class="property-item__content">DR006</span>
-                                            </li>
-                                            <li class="property__item">
-                                                <span class="property-item__title">Кол-во деталей</span>
-                                                <span class="property-item__content">14</span>
-                                            </li>
-                                            <li class="property__item">
-                                                <span class="property-item__title">Габариты в собранном виде</span>
-                                                <span class="property-item__content">128 x 56 x 14 мм</span>
-                                            </li>
-                                            <li class="property__item">
-                                                <span class="property-item__title">Сложность</span>
-                                                <span class="property-item__content">1</span>
-                                            </li>
-                                            <li class="property__item">
-                                                <span class="property-item__title">Рекомендованный возраст</span>
-                                                <span class="property-item__content">5+</span>
-                                            </li>
-                                            <li class="property__item">
-                                                <span class="property-item__title">Время сборки</span>
-                                                <span class="property-item__content">30 мин</span>
-                                            </li>
-                                            <li class="property__item">
-                                                <span class="property-item__title">Подвижные элементы</span>
-                                                <span class="property-item__content">голова двигается вверх-вниз</span>
-                                            </li>
+                                            @if ($product->brand)
+                                                <li class="property__item">
+                                                    <span class="property-item__title">Бренд</span>
+                                                    <span class="property-item__content">{{ $product->brand->translation()?->name }}</span>
+                                                </li>
+                                            @endif
+                                            @if (isset($product->specifications) && $product->specifications->count() > 0)
+                                                @foreach ($product->specifications as $specification)
+                                                    <li class="property__item">
+                                                        <span class="property-item__title">{{ $specification->translation()?->name }}</span>
+                                                        @if ($specification->multiple)
+                                                            <span class="property-item__content">{{ $specification->productValuesString() }}</span>
+                                                        @else
+                                                            <span class="property-item__content">{{ $specification->productValues?->first()?->translation()?->name }}</span>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            @endif
+                                            
                                         </ul>
-                                        <h3 class="mt-4">Что в коробке</h3>
+                                        {{-- <h3 class="mt-4">Что в коробке</h3>
                                         <ul class="product-property-second__list">
                                             <li class="product-property-second__item">Сборная модель из дерева</li>
                                             <li class="product-property-second__item">Документация</li>
-                                        </ul>
+                                        </ul> --}}
                                         <div class="gradient-block"></div>
                                     </div>
         
@@ -334,13 +294,15 @@
                                 <h1 class="product-title">
                                     {{ $product->translation()?->name }}
                                 </h1>
-                                <div class="product-availbale"><!--IF you need change color^ need add class "no-available"-->
-                                        <svg class="icon-lighting" width="56" height="116" viewBox="0 0 56 116" fill="none" xmlns="http://www.w3.org/2000/svg" class="header_button_catalog__icon">
-                                            <path d="M56 48.15 27.451 116V67.85H0L28.549 0v48.15H56Z" ></path>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 67.849 28.55 0 0 67.849h9.5ZM27.451 116l9.05-48.151h-9.05V116Z" ></path>
-                                        </svg>                       
-                                      <span>Товар в наличии</span>  
-                                </div>
+                                @if ($product->stocks->sum('available') > 0)
+                                    <div class="product-availbale"><!--IF you need change color^ need add class "no-available"-->
+                                        <span>Товар в наличии</span>  
+                                    </div>
+                                @else
+                                    <div class="product-availbale unavailable"><!--IF you need change color^ need add class "no-available"-->
+                                        <span>Нет в наличии</span>  
+                                    </div>
+                                @endif
                             </div>
                             
 
@@ -390,6 +352,25 @@
                             @elseif ($product->children->count() > 0)
                                 <a class="parent-product-link" href="{{ route('catalog.products.index', ['parent_id' => $product->id]) }}">Купить товар дешевле</a>
                             @endif
+
+                            @if ($product->stocks->sum('available') > 0)
+                                @php($cityGroups = $product->stocksGroupedByCity())
+                                @foreach ($cityGroups as $key => $group)
+                                    <p class="city-group-title">{{ $key }}</p>
+                                    <ul class="city-group-stocks">
+                                        @foreach ($group as $stock)
+                                            <li>
+                                                <b>{{ $stock->store->translation()?->name }}:</b>
+                                                @if ($stock->available > $setting->product_min_amount)
+                                                    <span>Более {{ $setting->product_min_amount }} товаров</span>
+                                                @else
+                                                    <span>Менее {{ $setting->product_min_amount }} товаров</span>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
 
@@ -420,13 +401,16 @@
                     <div class="product-article">
                         Артикул: {{ $product->getArticle() }}
                     </div>
-                    <div class="product-availbale"><!--IF you need change color^ need add class "no-available"-->
-                            {{-- <svg class="icon-lighting" width="56" height="116" viewBox="0 0 56 116" fill="none" xmlns="http://www.w3.org/2000/svg" class="header_button_catalog__icon">
-                                <path d="M56 48.15 27.451 116V67.85H0L28.549 0v48.15H56Z" ></path>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 67.849 28.55 0 0 67.849h9.5ZM27.451 116l9.05-48.151h-9.05V116Z" ></path>
-                            </svg>                        --}}
-                          <span>Товар в наличии</span>  
-                    </div>
+                    @if ($product->stocks->sum('available') > 0)
+                        <div class="product-availbale"><!--IF you need change color^ need add class "no-available"-->
+                            <span>Товар в наличии</span>  
+                        </div>
+                    @else
+                        <div class="product-availbale unavailable"><!--IF you need change color^ need add class "no-available"-->
+                            <span>Нет в наличии</span>  
+                        </div>
+                    @endif
+                    
                 </div>
                 
                 <h1 class="product-title">
@@ -488,9 +472,30 @@
                         <a class="parent-product-link" href="{{ route('catalog.products.index', ['parent_id' => $product->id]) }}">Купить товар дешевле</a>
                     </div>
                 @endif
+
+                @if ($product->stocks->sum('available') > 0)
+                    <div class="delivery-address__wrap">
+                        @php($cityGroups = $product->stocksGroupedByCity())
+                        @foreach ($cityGroups as $key => $group)
+                            <p class="city-group-title">{{ $key }}</p>
+                            <ul class="city-group-stocks">
+                                @foreach ($group as $stock)
+                                    <li>
+                                        <b>{{ $stock->store->translation()?->name }}:</b>
+                                        @if ($stock->available > $setting->product_min_amount)
+                                            <span>Более {{ $setting->product_min_amount }} товаров</span>
+                                        @else
+                                            <span>Менее {{ $setting->product_min_amount }} товаров</span>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
-            <div class="product-side__bottom">
+            {{-- <div class="product-side__bottom">
                 <div class="side-banner">
                     <a href="#">
                         <img src="{{ asset('/assets/images/products/banner-1--sm.jpg') }}" alt="">
@@ -501,7 +506,7 @@
                         <img src="{{ asset('/assets/images/products/banner-2--sm.jpg') }}" alt="">
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </aside>
     </div>
 

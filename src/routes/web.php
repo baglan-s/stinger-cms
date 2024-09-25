@@ -23,6 +23,12 @@ Route::prefix('catalog')
                 Route::get('{slug}', [App\Http\Controllers\Catalog\ProductController::class, 'show'])->name('show');
                 Route::get('{productId}/{fileId}', [App\Http\Controllers\Catalog\ProductController::class, 'file'])->name('file');
             });
+
+        Route::prefix('cart')
+            ->name('cart.')
+            ->group(function () {
+                Route::get('/', [App\Http\Controllers\Catalog\CartController::class, 'index'])->name('index');
+            });
     });
 
 Route::get('/personal-account/{user_id}', [App\Http\Controllers\Cabinet\UserController::class, 'index'])
@@ -32,3 +38,7 @@ Route::post('send-code-email', [App\Http\Controllers\Cabinet\UserController::cla
 Route::post('cofirm-sms', [App\Http\Controllers\SmsController::class, 'confirmSms']);
 Route::post('cofirm-email-code', [App\Http\Controllers\Cabinet\UserController::class, 'confirmCode']);
 Route::post('user-register', [App\Http\Controllers\Cabinet\UserController::class, 'register'])->name('user.register');
+Route::get('test-sms', [App\Http\Controllers\TestController::class, 'testSms']);
+Route::get('auth-check', [App\Http\Controllers\Cabinet\UserController::class, 'authCheck'])->name('user.auth.check');
+Route::get('personal-account-logout', [App\Http\Controllers\Cabinet\UserController::class, 'personalAccountLogout'])->name('personal.account.logout');
+Route::get('comparison', [App\Http\Controllers\Pages\ComparisonController::class, 'index']);

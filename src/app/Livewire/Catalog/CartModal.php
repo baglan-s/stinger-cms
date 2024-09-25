@@ -4,10 +4,10 @@ namespace App\Livewire\Catalog;
 
 use Livewire\Component;
 
-class ProductFilterMobile extends Component
+class CartModal extends Component
 {
     public function render()
     {
-        return view('livewire.catalog.product-filter-mobile');
+        return view('livewire.catalog.cart-modal');
     }
 }

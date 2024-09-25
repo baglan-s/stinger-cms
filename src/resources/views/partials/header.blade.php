@@ -30,29 +30,30 @@
                     <div class="header-controls__inner">
                         <div class="header-controls__list">
                             <div class="header-controls__item">
-                                <button href="/personal-account" class="hc-item-profile-control control-item outline" data-bs-toggle="modal" data-bs-target="#login">
+                                <button href="/personal-account" class="hc-item-profile-control control-item outline" data-bs-toggle="modal" data-bs-target="#login" id="auth_btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path d="M16 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12ZM28 24a6 6 0 0 0-6-6H10a6 6 0 0 0-6 6v6h24v-6Z" />
                                     </svg>
                                     <span class="hc-control-item__name">Войти</span>
                                 </button>
-                                {{-- <button href="/personal-account" class="hc-item-profile-control control-item outline login-btn">
+                                <a href="" class="hc-item-profile-control control-item outline" id="authenticated" style="display: none">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path d="M16 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12ZM28 24a6 6 0 0 0-6-6H10a6 6 0 0 0-6 6v6h24v-6Z" />
                                     </svg>
-                                    <span class="hc-control-item__name">Войти</span>
-                                </button> --}}
+                                    <span class="hc-control-item__name" id="authenticated_user_name"></span>
+                                </a>
                             </div>
-                            <div class="header-controls__item">
+                            <!-- <div class="header-controls__item">
                                 <a href="/comparison" class="hc-item-status-control control-item outline">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M22 4H0v22h4a4 4 0 0 0 8 0h8a4 4 0 0 0 8 0h4V16a6 6 0 0 0-6-6h-4V4Zm0 10v4h6v-4h-6Z" />
                                     </svg>
                                     <span class="hc-control-item__name">Сравнение</span>
                                 </a>
-                            </div>
+                            </div> -->
+                            <livewire:comparison-modal />
                             <livewire:favourite-modal />
-                            <a href="/cart" class="header-controls__item">
+                            <a href="{{ route('catalog.cart.index') }}" class="header-controls__item">
                                 <div class="hc-item-cart-control control-item outline">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="hc-control-item__icon">
                                         <path d="M0 2v4h4.306l1.66 9.967-1.927 9.64c-.027.134-.04.268-.039.401.003.682 0 1.294 0 1.992a4 4 0 0 0 8 0h8a4 4 0 1 0 4-4H8.44l.8-4H30V2H0Z" />
@@ -121,7 +122,7 @@
     <div class="header-mobile__wrapp">
         <div class="header-mobile__scrollbar">
             <div class="header-mobile__logotype">
-                <a href="#" class="this-logotype"></a>
+                <a href="/" class="this-logotype"></a>
             </div>
             <!-- <button class="header-mobile__btn">
                 Каталог
@@ -290,5 +291,31 @@
         <!-- End search modal -->
     </div>
 </div>
-
 <!-- End mobile header -->
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        function checkAuth() {
+            $.ajax({
+            url: "{{route('user.auth.check')}}",
+            method: 'get',
+            success: function(response) {
+                if (response.status === 'success') {
+                    if (response.is_auth) {
+                        $('#auth_btn').hide();
+                        $('#authenticated').show().attr('href', response.personal_account_url);
+                        $('#authenticated_user_name').text(response.user_name);
+                    };
+                } else {
+                    alert('not success');
+                }
+            },
+            error: function(xhr, status, error) {}
+          });
+        }
+
+        checkAuth();
+    });
+</script>
+@endpush()

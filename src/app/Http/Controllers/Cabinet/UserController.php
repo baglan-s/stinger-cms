@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Cabinet;
 
 use Illuminate\Http\Request;
+use App\Services\LogService;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\EmailCodeNotification;
 use App\Repositories\EmailCodeMessageRepository;
@@ -16,10 +18,16 @@ class UserController extends Controller
     private $authService;
     private $emailCodeMessageRepo;
 
-    public function __construct(AuthService $authService, EmailCodeMessageRepository $emailCodeMessageRepo)
+    /**
+     * @var LogService
+     */
+    private $logService;
+
+    public function __construct(AuthService $authService, EmailCodeMessageRepository $emailCodeMessageRepo, LogService $logService)
     {
         $this->authService = $authService;
         $this->emailCodeMessageRepo = $emailCodeMessageRepo;
+        $this->logService = $logService;
     }
 
     public function index(Request $request)
@@ -62,14 +70,17 @@ class UserController extends Controller
                     ], 422);
                 }
         
+                $userId = null;
                 $user = $this->authService->register($request->only(['name', 'last_name', 'phone', 'email', 'city','password']));
                 if ($user) {
+                    $userId = $user->id;
                     $user->roles()->attach(3);
+                    $this->authService->loginByUserId($userId);
                 }
         
                 return response()->json([
                         'status' => 'success',
-                        'user_id' => $user->id
+                        'user_id' => $userId
                     ]);
             } catch (\Exception $e) {
                 return response()->json([
@@ -113,7 +124,7 @@ class UserController extends Controller
                 'user_id' => $user->id,
                 'message' => 'Код успешно отправлен на: ' . $email
             ]);
-        } elseif(!$smsSended) {
+        } elseif(!$codeSended) {
             return response()->json([
                 'status' => 'warning',
                 'message' => __('site.user.Not found')
@@ -151,6 +162,65 @@ class UserController extends Controller
                 'status' => 'error',
                 'message' => 'Ошибка отпавки смс.'
             ], 500);
+        }
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function authCheck(Request $request)
+    {
+        try {
+            $userName = null;
+            $isAuth = $this->authService->check();
+            $personalAccountUrl = null;
+            if ($isAuth) {
+                $user = $this->authService->user();
+                $userName = $user->name;
+                $personalAccountUrl = route('personal.account', ['user_id' => $user->id]);
+            }
+            return response()->json([
+                'status' => 'success',
+                'is_auth' => $isAuth,
+                'user_name' => $userName,
+                'personal_account_url' => $personalAccountUrl
+            ]);
+        } catch (\Exception $e) {
+            $this->logService
+                ->log(__METHOD__, 'authCheck', "message: {$e->getMessage()}")
+                ->write();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Internal server error'
+            ]);
+        }
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function personalAccountLogout(Request $request)
+    {
+        try {
+            $this->authService->logout();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Выход из аккаунта успешно'
+            ]);
+        } catch (\Exception $e) {
+            $this->logService
+                ->log(__METHOD__, 'authCheck', "message: {$e->getMessage()}")
+                ->write();
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Internal server error'
+            ], 500);    
         }
     }
 }

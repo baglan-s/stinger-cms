@@ -217,7 +217,7 @@
                       <label class="base-input">
                         <input
                           placeholder="Пароль"
-                          type="text"
+                          type="password"
                           name="password"
                           class="base-input__field base-input--primary"
                           id="password"
@@ -228,7 +228,7 @@
                       <label class="base-input">
                         <input
                           placeholder="Повторите пароль"
-                          type="text"
+                          type="password"
                           name="password_confirmation"
                           class="base-input__field base-input--primary"
                           id="password_confirmation"

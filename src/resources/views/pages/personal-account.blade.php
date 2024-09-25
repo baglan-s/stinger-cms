@@ -113,7 +113,7 @@
                   </g>
                 </svg>
 
-                <span>Выйти</span>
+                <span id="personal-accaunt-logout-btn">Выйти</span>
               </button>
             </li>
           </ul>
@@ -935,3 +935,23 @@
   </div>
 @endif
 @endsection
+
+@push('scripts')
+<script>
+  $(document).ready(function () {
+    $('#personal-accaunt-logout-btn').on('click', function (e) {
+      e.preventDefault();
+      $.ajax({
+        url: "{{ route('personal.account.logout') }}",
+        method: 'GET',
+        success: function (response) {
+          window.location.href = '/';
+        },
+        error: function (xhr, status, error) {
+          alert('Произошла ошибка при отправке запроса: ' + error);
+        }
+      });
+    })
+  });
+</script>
+@endpush

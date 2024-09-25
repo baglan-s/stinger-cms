@@ -5,4 +5,9 @@ return [
     'limit_to_ip' => env('SMS_LIMIT_TO_IP', 10),
     'limit_minutes' => env('SMS_LIMIT_MINUTES', 3),
     'otp_verification_limit' => env('OTP_VERIFICATION_LIMIT', 3),
+    'url' => env('SMS_URL'),
+    'auth' => [
+        'login' => env('SMS_LOGIN'),
+        'password' => env('SMS_PASSWORD')
+    ]
 ];

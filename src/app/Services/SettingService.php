@@ -32,4 +32,9 @@ class SettingService extends Service
     {
         return $this->repository->get();
     }
+
+    public function getWeeklyProduct()
+    {
+        return $this->repository->get()?->weeklyProduct;
+    }
 }

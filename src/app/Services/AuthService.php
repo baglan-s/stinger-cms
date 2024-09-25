@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Services\Service;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Integration\SmsService;
 
 class AuthService extends Service
@@ -61,5 +63,32 @@ class AuthService extends Service
     public function smsServiceSend($phone, $message)
     {
         return $this->smsService->send($phone, $message);
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function loginByUserId($userId): void
+    {
+        Auth::loginUsingId($userId);
+    }
+
+    public function check(): bool
+    {
+        return Auth::check();
+    }
+
+    /**
+     * 
+     * @return User|null|false
+     */
+    public function user()
+    {
+        return Auth::user();
+    }
+
+    public function logout(): void
+    {
+        Auth::logout(); 
     }
 }
