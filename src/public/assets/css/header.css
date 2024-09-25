@@ -2029,7 +2029,7 @@ a {
         width: 70px;
         height: 70px;
     }
-    .hc-item-favorite-control.is-active svg {
+    .hc-item-favorite-control.is-active svg, .hc-item-cart-control.is-active svg {
         width: 20px;
         height: 20px;
         fill: #e91e63;
@@ -2059,6 +2059,12 @@ a {
     }
     .hc-item-favorite-control:focus-within .control-item__dropdown,
     .hc-item-favorite-control:hover .hc-control-item__dropdown {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    .hc-item-cart-control:focus-within .control-item__dropdown,
+    .hc-item-cart-control:hover .hc-control-item__dropdown {
         transform: translateY(0);
         opacity: 1;
         visibility: visible;
