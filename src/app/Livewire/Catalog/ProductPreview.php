@@ -24,7 +24,8 @@ class ProductPreview extends Component
 
     public $listeners = [
         'favourites-modal-cleared' => 'onModalCleared',
-        'comparison-modal-cleared' => 'onModalComparisonCleared'
+        'comparison-modal-cleared' => 'onModalComparisonCleared',
+        'favourite-modal-removed' => 'onFavouriteModalRemoved',
     ];
 
     public function __construct()
@@ -67,6 +68,14 @@ class ProductPreview extends Component
         $this->favouriteProductIds = $this->productService->getRepository()->getFavouriteProductIds();
         $this->setFavouriteClass();
         $this->dispatch('favourite-removed', $this->product);
+    }
+
+    public function onFavouriteModalRemoved(int $productId)
+    {
+        if ($productId === $this->product->id) {
+            $this->favouriteProductIds = $this->productService->getRepository()->getFavouriteProductIds();
+            $this->setFavouriteClass();
+        }
     }
 
     public function removeFromComparison()
@@ -117,5 +126,10 @@ class ProductPreview extends Component
     {
         $this->comparisonProductIds = $this->productService->getRepository()->getComparisonProductIds();
         $this->setComparisonClass();
+    }
+
+    public function addProductToCart(int $productId)
+    {
+        $this->dispatch('productAddToCart', $productId);
     }
 }

@@ -13,6 +13,7 @@ class Favourites extends Component
 
     protected $listeners = [
         'favourites-modal-cleared' => 'onClearFavourites',
+        'favourite-modal-removed' => 'onRemoveFavourites',
     ];
 
     public function __construct()
@@ -31,6 +32,11 @@ class Favourites extends Component
     }
 
     public function onClearFavourites()
+    {
+        $this->products = $this->productService->getRepository()->getFavouriteProducts();
+    }
+
+    public function onRemoveFavourites(int $productId)
     {
         $this->products = $this->productService->getRepository()->getFavouriteProducts();
     }

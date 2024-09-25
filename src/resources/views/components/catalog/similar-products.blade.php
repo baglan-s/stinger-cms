@@ -9,14 +9,14 @@
         <div class="swiper-main js-main-products-novelty-slider mainSwiperSimilarSlider">
             <div class="swiper-wrapper">
                 @foreach ($products as $product)
-                    <livewire:catalog.product-preview :product="$product" :class="['swiper-slide']">
+                    <livewire:catalog.product-preview :product="$product" :class="['swiper-slide']" wire:key="{{ $product->id }}">
                 @endforeach
             </div>
         </div>
     </div>
     <div class="inner-products__mobile hide-desktop">
         @foreach ($products as $product)
-            <livewire:catalog.product-preview :product="$product">
+            <livewire:catalog.product-preview :product="$product" wire:key="{{ $product->id + 1 }}" wire:id="{{ $product->id + 1 }}">
         @endforeach
     </div>
 </div>

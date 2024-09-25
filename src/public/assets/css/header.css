@@ -1403,10 +1403,17 @@ a {
     max-height: 316px;
     overflow: auto;
     padding-top: 4px;
+    max-height: 170px;
+    overflow-y: auto;
 }
 
 .favorites-dropdown__footer {
     padding: 0 16px 16px;
+}
+
+.favourite-product-modal-container, .cart-product-modal-container {
+    display: flex;
+    align-items: center;
 }
 
 .header-favorites-product {
@@ -1568,6 +1575,10 @@ a {
 .resend-code-btn.modal-profile-auth__state,
 #timer {
     display: none;
+}
+
+.header-favorites-product-delete-wrap {
+    
 }
 
 .preloader-btn,

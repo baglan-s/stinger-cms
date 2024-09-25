@@ -98,7 +98,7 @@ class Product extends Model
 
     public function getDefaultImage()
     {
-        return $this->hasImages() ? $this->getFirstImage() : 'assets/images/default-product.png';
+        return $this->hasImages() ? $this->getFirstImage() : '/assets/images/default-product.png';
     }
 
     public function getArticle()
