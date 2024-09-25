@@ -33,6 +33,7 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->whereNull('parent_id')
+            ->with('stocks')
             ->latest()
             ->limit($limit)
             ->get();
@@ -42,6 +43,7 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->whereNull('parent_id')
+            ->with('stocks')
             ->orderBy('views', 'desc')
             ->limit($limit)
             ->get();
@@ -51,6 +53,7 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->whereNull('parent_id')
+            ->with('stocks')
             ->limit($limit)
             ->get();
     }
@@ -58,6 +61,7 @@ class ProductRepository extends Repository
     public function similar(int $categoryId, int $limit = 10)
     {
         return $this->filter(['category_id' => $categoryId])
+            ->with('stocks')
             ->limit($limit)
             ->get();
     }

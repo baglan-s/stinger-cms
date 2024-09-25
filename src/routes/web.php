@@ -42,4 +42,5 @@ Route::get('test-sms', [App\Http\Controllers\TestController::class, 'testSms']);
 Route::get('auth-check', [App\Http\Controllers\Cabinet\UserController::class, 'authCheck'])->name('user.auth.check');
 Route::get('personal-account-logout', [App\Http\Controllers\Cabinet\UserController::class, 'personalAccountLogout'])->name('personal.account.logout');
 Route::get('comparison', [App\Http\Controllers\Pages\ComparisonController::class, 'index']);
+Route::get('favourites', [App\Http\Controllers\Pages\FavouriteProductController::class, 'index']);
 Route::post('send-feedback', [App\Http\Controllers\FeedbackController::class, 'sendFeedback']);
