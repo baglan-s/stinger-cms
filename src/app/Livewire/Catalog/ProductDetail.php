@@ -3,9 +3,12 @@
 namespace App\Livewire\Catalog;
 
 use Livewire\Component;
+use App\Models\Catalog\City;
 use App\Models\Catalog\Product;
 use App\Services\ProductService;
 use App\Services\SettingService;
+use App\Repositories\CityRepository;
+use Illuminate\Support\Facades\Cookie;
 
 class ProductDetail extends Component
 {
@@ -18,6 +21,8 @@ class ProductDetail extends Component
     public array $favouriteProductIds;
 
     public bool $isFavourite;
+
+    private const KASPI_MERCHANT_CODE = 'Nemo';
 
     public $listeners = ['favourites-modal-cleared' => 'onModalCleared'];
 
@@ -36,8 +41,11 @@ class ProductDetail extends Component
 
     public function render()
     {
+        $currentCity = app(CityRepository::class)->getActive()->find(Cookie::get('city_id', 1));
         return view('livewire.catalog.product-detail', [
-            'setting' => app(SettingService::class)->getSetting()
+            'setting' => app(SettingService::class)->getSetting(),
+            'currentCity' => $currentCity,
+            'kaspiMerchantCode' => self::KASPI_MERCHANT_CODE
         ]);
     }
 
