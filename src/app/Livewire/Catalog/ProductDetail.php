@@ -39,13 +39,13 @@ class ProductDetail extends Component
     }
 
     public function render()
-    {
+    {   
         $currentCity = app(CityRepository::class)->getActive()->find(Cookie::get('city_id', 1));
-        self::kaspiBtnRender();
         return view('livewire.catalog.product-detail', [
             'setting' => app(SettingService::class)->getSetting(),
             'currentCity' => $currentCity,
-            'kaspiMerchantCode' => self::KASPI_MERCHANT_CODE
+            'kaspiMerchantCode' => self::KASPI_MERCHANT_CODE,
+            'isKaspiWidget' => self::kaspiWidgetRender()
         ]);
     }
 
@@ -86,7 +86,11 @@ class ProductDetail extends Component
         $this->dispatch('productAddToCart', $productId);
     }
 
-    private function kaspiWidgetRender()
+    /**
+     * 
+     * @return bool
+     */
+    private function kaspiWidgetRender(): bool
     {
         $isKaspiWidget = false;
         if (self::checkStocks()) {
