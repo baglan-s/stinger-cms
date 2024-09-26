@@ -24,6 +24,8 @@ class ProductDetail extends Component
     private const KASPI_MERCHANT_CODE = 'Nemo';
     private const CITY_ALMATY_GUID = '1c8049e8-ad06-11ed-ab65-00155d3c3e3b';
 
+    private $currentCity;
+
     public $listeners = ['favourites-modal-cleared' => 'onModalCleared'];
 
     public function __construct()
@@ -40,12 +42,13 @@ class ProductDetail extends Component
 
     public function render()
     {   
-        $currentCity = app(CityRepository::class)->getActive()->find(Cookie::get('city_id', 1));
+        $this->currentCity = app(CityRepository::class)->getActive()->find(Cookie::get('city_id', 1));
         return view('livewire.catalog.product-detail', [
             'setting' => app(SettingService::class)->getSetting(),
-            'currentCity' => $currentCity,
+            'currentCity' => $this->currentCity,
             'kaspiMerchantCode' => self::KASPI_MERCHANT_CODE,
-            'isKaspiWidget' => self::kaspiWidgetRender()
+            'localStock' => $this->product->cityStocks->sum('available') > 0,
+            'almaty' => self::almatyStock(),
         ]);
     }
 
@@ -90,31 +93,13 @@ class ProductDetail extends Component
      * 
      * @return bool
      */
-    private function kaspiWidgetRender(): bool
-    {
-        $isKaspiWidget = false;
-        if (self::checkStocks()) {
-            $isKaspiWidget = true;
-        }
-        
-        return $isKaspiWidget;
-    }
-
-    /**
-     * 
-     * @return bool
-     */
-    private function checkStocks(): bool
+    private function almatyStock(): array
     {
         $almatyCity = app(CityRepository::class)->getActive()->where('guid', self::CITY_ALMATY_GUID)->first();
         $almatyStoreIds = Store::where('city_id', $almatyCity->id)->pluck('id')->toArray();
-        if ($this->product->cityStocks->sum('available') > 0) {
-            return true;
-        }
-        if ($this->product->stocks->whereIn('store_id', $almatyStoreIds)->sum('available') > 0) {
-            return true;
-        }
-
-        return false;
+        return [
+            'stock' => $this->product->stocks->whereIn('store_id', $almatyStoreIds)->sum('available') > 0,
+            'almatyCityKaspiIndex' => $almatyCity->kaspi_index
+        ];
     }
 }

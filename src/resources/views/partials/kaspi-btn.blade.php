@@ -1,9 +1,9 @@
-@if($product->id_1c && $currentCity->kaspi_index)
+@if($product->id_1c && $kaspiIndex)
     <div class="ks-widget"
         data-template="button"
         data-merchant-sku="{{ $product->id_1c }}"
         data-merchant-code="{{ $kaspiMerchantCode }}"
-        data-city="{{ $currentCity->kaspi_index }}">
+        data-city="{{ $kaspiIndex }}">
     </div>
 
     <!-- it's a placeholder for dynamic example -->
