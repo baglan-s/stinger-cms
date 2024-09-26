@@ -48,7 +48,7 @@ class FavouriteModal extends Component
 
     public function setFavouriteProducts()
     {
-        $this->products = $this->productService->getRepository()->getFavouriteProducts(3);
+        $this->products = $this->productService->getRepository()->getFavouriteProducts(6);
     }
 
     public function setProductsData()
@@ -73,6 +73,13 @@ class FavouriteModal extends Component
         $this->productService->getRepository()->clearFavouriteProductIds();
         $this->setProductsData();
         $this->dispatch('favourites-modal-cleared');
+    }
+
+    public function removeFromFavourites(int $productId)
+    {
+        $this->productService->getRepository()->removeFavouriteProductId($productId);
+        $this->setProductsData();
+        $this->dispatch('favourite-modal-removed', $productId);
     }
 
     public function toFavourites()

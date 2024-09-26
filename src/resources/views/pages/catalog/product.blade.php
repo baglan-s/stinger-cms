@@ -17,7 +17,11 @@
         </div>
     </div>
 
-    <livewire:catalog.product-detail :product="$product" :similarProducts="$similarProducts" />
+    <livewire:catalog.product-detail :product="$product" />
+
+    <div class="product-wrap h-container">
+        <x-catalog.similar-products :products="$similarProducts" />
+    </div>
  </div>
 
 <!-- End Catalog page content -->
