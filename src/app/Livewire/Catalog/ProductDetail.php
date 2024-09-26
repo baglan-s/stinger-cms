@@ -4,6 +4,7 @@ namespace App\Livewire\Catalog;
 
 use Livewire\Component;
 use App\Models\Catalog\City;
+use App\Models\Catalog\Store;
 use App\Models\Catalog\Product;
 use App\Services\ProductService;
 use App\Services\SettingService;
@@ -21,6 +22,7 @@ class ProductDetail extends Component
     public bool $isFavourite;
 
     private const KASPI_MERCHANT_CODE = 'Nemo';
+    private const CITY_ALMATY_GUID = '1c8049e8-ad06-11ed-ab65-00155d3c3e3b';
 
     public $listeners = ['favourites-modal-cleared' => 'onModalCleared'];
 
@@ -39,6 +41,7 @@ class ProductDetail extends Component
     public function render()
     {
         $currentCity = app(CityRepository::class)->getActive()->find(Cookie::get('city_id', 1));
+        self::kaspiBtnRender();
         return view('livewire.catalog.product-detail', [
             'setting' => app(SettingService::class)->getSetting(),
             'currentCity' => $currentCity,
@@ -81,5 +84,33 @@ class ProductDetail extends Component
     public function addToCart(int $productId)
     {
         $this->dispatch('productAddToCart', $productId);
+    }
+
+    private function kaspiWidgetRender()
+    {
+        $isKaspiWidget = false;
+        if (self::checkStocks()) {
+            $isKaspiWidget = true;
+        }
+        
+        return $isKaspiWidget;
+    }
+
+    /**
+     * 
+     * @return bool
+     */
+    private function checkStocks(): bool
+    {
+        $almatyCity = app(CityRepository::class)->getActive()->where('guid', self::CITY_ALMATY_GUID)->first();
+        $almatyStoreIds = Store::where('city_id', $almatyCity->id)->pluck('id')->toArray();
+        if ($this->product->cityStocks->sum('available') > 0) {
+            return true;
+        }
+        if ($this->product->stocks->whereIn('store_id', $almatyStoreIds)->sum('available') > 0) {
+            return true;
+        }
+
+        return false;
     }
 }

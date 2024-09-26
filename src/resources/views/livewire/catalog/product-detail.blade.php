@@ -542,7 +542,7 @@
 <!-- Example: adding another button placeholder dynamically after 1sec -->
 <script>
     setTimeout(function () {
-        document.getElementById('dynamic').innerHTML = '<div class="ks-widget" data-template="button" data-merchant-sku="data-merchant-sku" data-merchant-code="data-merchant-code" data-city="750000000" ></div>'
+        document.getElementById('dynamic').innerHTML = '<div class="ks-widget" data-template="button" data-merchant-sku="УТ-00000795" data-merchant-code="Nemo" data-city="750000000" ></div>'
     // you should run this method to recheck buttons in DOM:
     ksWidgetInitializer.reinit()
     }, 1000)
