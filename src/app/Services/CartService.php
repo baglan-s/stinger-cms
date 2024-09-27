@@ -70,6 +70,7 @@ class CartService extends Service
         return $this->products->map(function ($product) {
             $product->quantity = $this->items[$product->id] ?? 0;
             $product->totalPrice = $product->getPrice() * $product->quantity;
+            $product->totalOldPrice = $product->getOldPrice() * $product->quantity;
 
             return $product;
         });
