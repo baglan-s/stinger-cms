@@ -1,9 +1,12 @@
 @if($product->id_1c && $kaspiIndex)
     <div class="ks-widget"
-        data-template="button"
+        {{-- data-template="button" --}}
+        data-template="flatButton"
         data-merchant-sku="{{ $product->id_1c }}"
         data-merchant-code="{{ $kaspiMerchantCode }}"
-        data-city="{{ $kaspiIndex }}">
+        data-city="{{ $kaspiIndex }}"
+        data-style="desktop"
+        >
     </div>
 
     <!-- it's a placeholder for dynamic example -->
@@ -25,7 +28,7 @@
         setTimeout(function () {
             document.getElementById('dynamic').innerHTML = '<div class="ks-widget" data-template="button" data-merchant-sku="УТ-00000795" data-merchant-code="Nemo" data-city="750000000" ></div>'
         // you should run this method to recheck buttons in DOM:
-        ksWidgetInitializer.reinit()
+        // window.ksWidgetInitializer.reinit()
         }, 1000)
     </script>
     @endpush

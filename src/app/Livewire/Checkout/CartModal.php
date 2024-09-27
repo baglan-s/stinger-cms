@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Catalog;
+namespace App\Livewire\Checkout;
 
 use Livewire\Component;
 use App\Services\ProductService;
@@ -25,6 +25,9 @@ class CartModal extends Component
     protected $listeners = [
         'productAddToCart' => 'onProductAddToCart',
         'productRemoveFromCart' => 'onProductRemoveFromCart',
+        'cartIncremented' => 'setCartData',
+        'cartDecremented' => 'setCartData',
+        'cartCleared' => 'setCartData',
     ];
 
     public function mount()
@@ -40,7 +43,7 @@ class CartModal extends Component
 
     public function render()
     {
-        return view('livewire.catalog.cart-modal');
+        return view('livewire.checkout.cart-modal');
     }
 
     public function addToCart(int $productId, int $quantity = 1)
@@ -76,6 +79,6 @@ class CartModal extends Component
 
     public function toCart()
     {
-        return redirect()->route('catalog.cart.index');
+        return redirect()->route('checkout.cart.index');
     }
 }

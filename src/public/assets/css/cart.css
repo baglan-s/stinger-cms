@@ -223,6 +223,9 @@
     justify-content: space-between;
     gap: 5px;
 }
+.order-item .order-item-image {
+    width: 180px;
+}
 .order-item:not(:last-child) {
     border-bottom: 1px solid var(--gray-light);
 }
@@ -234,6 +237,32 @@
 }
 .order-item-content h3{
     width: 225px;
+}
+
+.cart-item-amount {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-item-amount .cart-item-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: var(--gray-light);
+    color: var(--semi-gray);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    transition: all 0.3 ease-in;
+    border: 1px solid #ebebeb;
+}
+
+.cart-item-amount .cart-item-btn:disabled {
+    color: #cdcdcd;
 }
 
 .order-item-prices{
@@ -638,12 +667,18 @@
     border-radius: 24px;
     padding: 20px 15px;
 }
-.cart-side-mobile .base-button{
+.cart-side-mobile .base-button {
+    background-color: var(--blue);
     color: var(--white);
     font-size: 16px;
     font-weight: 700;
     width: 100%;
     padding: 15px 0;
+    line-height: 1.5;
+}
+
+.cart-side-mobile .base-button:hover {
+    background-color: var(--black);
 }
 
 .cart-side{
@@ -780,15 +815,38 @@
     background-color: var(--white);
     padding-left: 5px;
 }
+
+.cart-total-content {
+    padding: 20px 0;
+}
+
+.cart-total-content .cart-total-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.cart-total-item .cart-total-item__title {
+    font-weight: 600;
+    color: var(--blue);
+    margin-right: 5px;
+}
+
+.cart-total-item .cart-total-item__price {
+    font-weight: 400;
+    color: var(--black);
+}
+
 .cart-total-price{
     font-size: 16px;
     font-weight: 400;
     line-height: 1.2;
     color: var(--semi-black);
-    margin-top: 50px;
+    margin-top: 30px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid var(--gray-light);
     margin-bottom: 10px;
 }
 .cart-total-price span:first-child{
