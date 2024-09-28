@@ -1,7 +1,10 @@
 @extends('layouts.main')
 
-@section('content')
+@push('styles')
+<link rel="stylesheet" href="{{ asset('assets/css/shops.css') }}">
+@endpush
 
+@section('content')
 <!-- Start madrobots_stores_block -->
 <section class="madrobots_stores_block">
     <div class="container">
@@ -248,175 +251,172 @@
     </div>
 </section>
 <!-- End madrobots_stores_block -->
+@endsection
 
+@push('scripts')
 <script src="https://api-maps.yandex.ru/2.1/?apikey=7240ea03-95e6-44f3-a9c4-e4b336df23ec&lang=ru_RU"></script>
-    <script>
-
-
-        var swiper = new Swiper(".store-slider", {
-            cssMode: true,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            mousewheel: true,
-            keyboard: true,
-        });
+<script>
+    var swiper = new Swiper(".store-slider", {
+        cssMode: true,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        mousewheel: true,
+        keyboard: true,
+    });
 
 
 
-        const tabs = document.querySelector(".wrapper");
-        const tabButton = document.querySelectorAll(".tab-button");
-        const tabMobile = document.querySelectorAll(".tab-button_m");
-        const contents = document.querySelectorAll(".content");
-        const btns = document.querySelectorAll(".onclic_btn")
+    const tabs = document.querySelector(".wrapper");
+    const tabButton = document.querySelectorAll(".tab-button");
+    const tabMobile = document.querySelectorAll(".tab-button_m");
+    const contents = document.querySelectorAll(".content");
+    const btns = document.querySelectorAll(".onclic_btn")
 
-        tabs.onclick = e => {
-            const id = e.target.dataset.id;
-            if (id) {
-                tabButton.forEach(btn => {
-                    btn.classList.remove("active");
-                });
-                e.target.classList.add("active");
+    tabs.onclick = e => {
+        const id = e.target.dataset.id;
+        if (id) {
+            tabButton.forEach(btn => {
+                btn.classList.remove("active");
+            });
+            e.target.classList.add("active");
 
-                tabMobile.forEach(btn => {
-                    btn.classList.remove("active");
-                });
-                e.target.classList.add("active");
+            tabMobile.forEach(btn => {
+                btn.classList.remove("active");
+            });
+            e.target.classList.add("active");
 
-                contents.forEach(content => {
-                    content.classList.remove("active");
-                });
-                const element = document.getElementById(id);
-                element.classList.add("active");
-            }
-
+            contents.forEach(content => {
+                content.classList.remove("active");
+            });
+            const element = document.getElementById(id);
+            element.classList.add("active");
         }
 
-        let tabNext = document.querySelector('.onclick_next');
-        tabNext.addEventListener('click', () => {
-            for (let nav of tabMobile) {
-                if (nav.classList.contains('active')) {
-                    let nextElement = nav.nextElementSibling ?? tabMobile[0];
-                    nextElement.classList.add('active');
-                    nav.classList.remove('active')
+    }
 
-                    break;
-                }
+    let tabNext = document.querySelector('.onclick_next');
+    tabNext.addEventListener('click', () => {
+        for (let nav of tabMobile) {
+            if (nav.classList.contains('active')) {
+                let nextElement = nav.nextElementSibling ?? tabMobile[0];
+                nextElement.classList.add('active');
+                nav.classList.remove('active')
+
+                break;
             }
+        }
 
-            for (nav of contents) {
-                if (nav.classList.contains('active')) {
-                    let tabElement = nav.nextElementSibling ?? contents[0]
-                    tabElement.classList.add('active');
-                    nav.classList.remove('active')
+        for (nav of contents) {
+            if (nav.classList.contains('active')) {
+                let tabElement = nav.nextElementSibling ?? contents[0]
+                tabElement.classList.add('active');
+                nav.classList.remove('active')
 
-                    break;
-                }
+                break;
             }
+        }
 
-        })
+    })
 
-        let tabPrev = document.querySelector('.onclick_prev');
-        tabPrev.addEventListener('click', () => {
+    let tabPrev = document.querySelector('.onclick_prev');
+    tabPrev.addEventListener('click', () => {
 
-            for (nav of tabMobile) {
-                if (nav.classList.contains('active')) {
-                    let prevElement = nav.previousElementSibling ?? tabMobile[tabMobile.length - 1]
-                    prevElement.classList.add('active');
-                    nav.classList.remove('active')
+        for (nav of tabMobile) {
+            if (nav.classList.contains('active')) {
+                let prevElement = nav.previousElementSibling ?? tabMobile[tabMobile.length - 1]
+                prevElement.classList.add('active');
+                nav.classList.remove('active')
 
-                    break;
-                }
+                break;
             }
+        }
 
-            for (nav of contents) {
-                if (nav.classList.contains('active')) {
-                    let tabElement = nav.previousElementSibling ?? contents[contents.length - 1]
-                    tabElement.classList.add('active');
-                    nav.classList.remove('active')
+        for (nav of contents) {
+            if (nav.classList.contains('active')) {
+                let tabElement = nav.previousElementSibling ?? contents[contents.length - 1]
+                tabElement.classList.add('active');
+                nav.classList.remove('active')
 
-                    break;
-                }
+                break;
             }
-        })
+        }
+    })
 
 
 
-        ymaps.ready(function () {
+    ymaps.ready(function() {
 
-            let myMap = new ymaps.Map('map-test', {
-                center: [59.91795236804815, 30.304908500000003],
-                zoom: 15,
-                controls: ['routePanelControl']
-            });
-
-            let control = myMap.controls.get('routePanelControl');
-            let city = 'Санкт-Петербург';
-
-            // let location = ymaps.geolocation.get();
-
-            // location.then(function(res) {
-            // 	let locationText = res.geoObjects.get(0).properties.get('text');
-            // 	console.log(locationText)
-            // });
-
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0
-            };
-
-            function success(pos) {
-                const crd = pos.coords;
-
-                console.log(`Latitude : ${crd.latitude}`);
-                console.log(`Longitude: ${crd.longitude}`);
-
-
-                let reverseGeocoder = ymaps.geocode([crd.latitude, crd.longitude]);
-                let locationText = null;
-                reverseGeocoder.then(function (res) {
-                    locationText = res.geoObjects.get(0).properties.get('text')
-                    console.log(locationText)
-
-                    control.routePanel.state.set({
-                        type: 'masstransit',
-                        fromEnabled: false,
-                        from: locationText,
-                        toEnabled: true,
-                        to: `${city}, Невский проспект 146`,
-                    });
-                });
-
-                console.log(locationText)
-
-
-
-                control.routePanel.options.set({
-                    types: {
-                        masstransit: true,
-                        pedestrian: true,
-                        taxi: true
-                    }
-                })
-            }
-
-            function error(err) {
-                console.warn(`ERROR(${err.code}): ${err.message}`);
-            }
-
-            navigator.geolocation.getCurrentPosition(success, error, options);
-
-
-
+        let myMap = new ymaps.Map('map-test', {
+            center: [59.91795236804815, 30.304908500000003],
+            zoom: 15,
+            controls: ['routePanelControl']
         });
 
+        let control = myMap.controls.get('routePanelControl');
+        let city = 'Санкт-Петербург';
 
-    </script>
+        // let location = ymaps.geolocation.get();
 
-@endsection
+        // location.then(function(res) {
+        // 	let locationText = res.geoObjects.get(0).properties.get('text');
+        // 	console.log(locationText)
+        // });
+
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
+        function success(pos) {
+            const crd = pos.coords;
+
+            console.log(`Latitude : ${crd.latitude}`);
+            console.log(`Longitude: ${crd.longitude}`);
+
+
+            let reverseGeocoder = ymaps.geocode([crd.latitude, crd.longitude]);
+            let locationText = null;
+            reverseGeocoder.then(function(res) {
+                locationText = res.geoObjects.get(0).properties.get('text')
+                console.log(locationText)
+
+                control.routePanel.state.set({
+                    type: 'masstransit',
+                    fromEnabled: false,
+                    from: locationText,
+                    toEnabled: true,
+                    to: `${city}, Невский проспект 146`,
+                });
+            });
+
+            console.log(locationText)
+
+
+
+            control.routePanel.options.set({
+                types: {
+                    masstransit: true,
+                    pedestrian: true,
+                    taxi: true
+                }
+            })
+        }
+
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error, options);
+
+
+
+    });
+</script>
+@endpush

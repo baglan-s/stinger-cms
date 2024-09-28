@@ -48,3 +48,4 @@ Route::get('personal-account-logout', [App\Http\Controllers\Cabinet\UserControll
 Route::get('comparison', [App\Http\Controllers\Pages\ComparisonController::class, 'index']);
 Route::get('favourites', [App\Http\Controllers\Pages\FavouriteProductController::class, 'index']);
 Route::post('send-feedback', [App\Http\Controllers\FeedbackController::class, 'sendFeedback']);
+Route::get('shops', [App\Http\Controllers\Pages\ShopController::class, 'index']);
