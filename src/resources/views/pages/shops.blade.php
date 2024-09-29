@@ -6,21 +6,26 @@
 
 @section('content')
 <!-- Start madrobots_stores_block -->
+@if($shops)
 <section class="madrobots_stores_block">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <h4 class="madrobots_stores_title">Наши магазины</h4>
-                <p class="madrobots_stores_text">Приходите в магазины Madrobots. Наши консультанты<br>с
+                <p class="madrobots_stores_text">Приходите в магазины Nemo Наши консультанты<br>с
                     удовольствием ответят на ваши вопросы.</p>
                 <div class="wrapper">
                     <div class="buttonWrapper">
-                        <button class="tab-button active" style="border-radius: 15px;"
+                        @foreach($shops as $shop)
+                        <button class="tab-button @if($loop->index == 0) active @endif" style="border-radius: 15px;"
+                            data-id="home">{{ $shop->translation()?->name }}</button>
+                        @endforeach
+                        <!-- <button class="tab-button active" style="border-radius: 15px;"
                             data-id="home">Москва</button>
                         <button class="tab-button" style="border-radius: 15px;"
                             data-id="about">Санкт-Петербург</button>
                         <button class="tab-button" style="border-radius: 15px;"
-                            data-id="contact">Екатеринбург</button>
+                            data-id="contact">Екатеринбург</button> -->
                     </div>
                     <div class="heaeder_tabs_mobile">
                         <div class="header_wrapper-mobile">
@@ -250,6 +255,11 @@
         </div>
     </div>
 </section>
+@else
+<div class="alert alert-info" role="alert">
+    <h1>Нет данных</h1>
+</div>
+@endif
 <!-- End madrobots_stores_block -->
 @endsection
 
