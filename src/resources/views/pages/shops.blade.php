@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<!-- Start madrobots_stores_block -->
+<!-- Start stores_block -->
 @if($shops)
 <section class="madrobots_stores_block">
     <div class="container">
@@ -17,15 +17,17 @@
                 <div class="wrapper">
                     <div class="buttonWrapper">
                         @foreach($shops as $shop)
-                        <button class="tab-button @if($loop->index == 0) active @endif" style="border-radius: 15px;"
-                            data-id="home">{{ $shop->translation()?->name }}</button>
+                        <button class="tab-button @if($loop->index == 0) active @endif" 
+                                style="border-radius: 15px;"
+                                data-id="home"
+                                data-lat="{{ $shop->lat }}"
+                                data-lng="{{ $shop->lon }}"
+                                data-name="{{ $shop->translation()?->name }}"
+                                data-address="{{ $shop->translation()?->address }}"
+                                data-hours="{{ $shop->translation()?->description }}">
+                            {{ $shop->translation()?->name }}
+                        </button>
                         @endforeach
-                        <!-- <button class="tab-button active" style="border-radius: 15px;"
-                            data-id="home">Москва</button>
-                        <button class="tab-button" style="border-radius: 15px;"
-                            data-id="about">Санкт-Петербург</button>
-                        <button class="tab-button" style="border-radius: 15px;"
-                            data-id="contact">Екатеринбург</button> -->
                     </div>
                     <div class="heaeder_tabs_mobile">
                         <div class="header_wrapper-mobile">
@@ -91,14 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="store-shop__side">
-                                    <div id="map-test" class="map"></div>
-                                    <div class="store-shop__routes">
-                                        <a href="#" class="btn-routes">
-                                            Маршрут от Новослободской
-                                            <i class="fa fa-external-link" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="#" class="btn-routes">Маршрут от Белорусской</a>
-                                    </div>
+                                    <div id="map" class="map"></div>
                                 </div>
                             </div>
                         </div>
@@ -223,7 +218,7 @@
                     </div>
                 </div>
                 <header class="store-description__header">
-                    <h2 class="store__title">Madrobots</h2>
+                    <h2 class="store__title">Nemo</h2>
                     <div class="store__subtitle"> Интернет-магазин экспериментальных гаджетов с&nbsp;краудфандинг
                         площадок Kickstarter и&nbsp;Indiegogo </div>
                 </header>
@@ -260,7 +255,7 @@
     <h1>Нет данных</h1>
 </div>
 @endif
-<!-- End madrobots_stores_block -->
+<!-- End stores_block -->
 @endsection
 
 @push('scripts')
@@ -280,153 +275,195 @@
         keyboard: true,
     });
 
+    $(document).ready(function () {
+        // Инициализация карты
+        let myMap;
+        let activePlacemark;
 
+        // Инициализация Yandex карты и активной метки
+        ymaps.ready(init);
 
-    const tabs = document.querySelector(".wrapper");
-    const tabButton = document.querySelectorAll(".tab-button");
-    const tabMobile = document.querySelectorAll(".tab-button_m");
-    const contents = document.querySelectorAll(".content");
-    const btns = document.querySelectorAll(".onclic_btn")
+        function init() {
+            // Находим активный элемент и считываем его координаты
+            let activeButton = document.querySelector('.tab-button.active');
+            if (activeButton) {
+                let lat = parseFloat(activeButton.dataset.lat);
+                let lng = parseFloat(activeButton.dataset.lng);
+                let name = activeButton.dataset.name;
+                let address = activeButton.dataset.address;
+                let hours = activeButton.dataset.hours;
 
-    tabs.onclick = e => {
-        const id = e.target.dataset.id;
-        if (id) {
-            tabButton.forEach(btn => {
-                btn.classList.remove("active");
-            });
-            e.target.classList.add("active");
+                // Делаем карту
+                myMap = new ymaps.Map("map", {
+                    center: [lat, lng],
+                    zoom: 12
+                });
 
-            tabMobile.forEach(btn => {
-                btn.classList.remove("active");
-            });
-            e.target.classList.add("active");
-
-            contents.forEach(content => {
-                content.classList.remove("active");
-            });
-            const element = document.getElementById(id);
-            element.classList.add("active");
-        }
-
-    }
-
-    let tabNext = document.querySelector('.onclick_next');
-    tabNext.addEventListener('click', () => {
-        for (let nav of tabMobile) {
-            if (nav.classList.contains('active')) {
-                let nextElement = nav.nextElementSibling ?? tabMobile[0];
-                nextElement.classList.add('active');
-                nav.classList.remove('active')
-
-                break;
+                // Делаем и добавляем начальную метку
+                activePlacemark = createPlacemark(lat, lng, name, address, hours);
+                myMap.geoObjects.add(activePlacemark);
             }
         }
 
-        for (nav of contents) {
-            if (nav.classList.contains('active')) {
-                let tabElement = nav.nextElementSibling ?? contents[0]
-                tabElement.classList.add('active');
-                nav.classList.remove('active')
+        // Обработчик клика по табам
+        const tabs = document.querySelector(".wrapper");
+        const tabButton = document.querySelectorAll(".tab-button");
+        const tabMobile = document.querySelectorAll(".tab-button_m");
+        const contents = document.querySelectorAll(".content");
 
-                break;
+        tabs.onclick = e => {
+            const id = e.target.dataset.id;
+            if (id) {
+                // Обновляем классы активных элементов
+                updateActiveClass(tabButton, e.target);
+                updateActiveClass(tabMobile, e.target);
+                updateContent(contents, id);
+
+                // Обновление метки на карте
+                let newLat = parseFloat(e.target.dataset.lat);
+                let newLng = parseFloat(e.target.dataset.lng);
+                let newName = e.target.dataset.name;
+                let newAddress = e.target.dataset.address;
+                let newHours = e.target.dataset.hours;
+
+                updateMap(newLat, newLng, newName, newAddress, newHours);
             }
-        }
-
-    })
-
-    let tabPrev = document.querySelector('.onclick_prev');
-    tabPrev.addEventListener('click', () => {
-
-        for (nav of tabMobile) {
-            if (nav.classList.contains('active')) {
-                let prevElement = nav.previousElementSibling ?? tabMobile[tabMobile.length - 1]
-                prevElement.classList.add('active');
-                nav.classList.remove('active')
-
-                break;
-            }
-        }
-
-        for (nav of contents) {
-            if (nav.classList.contains('active')) {
-                let tabElement = nav.previousElementSibling ?? contents[contents.length - 1]
-                tabElement.classList.add('active');
-                nav.classList.remove('active')
-
-                break;
-            }
-        }
-    })
-
-
-
-    ymaps.ready(function() {
-
-        let myMap = new ymaps.Map('map-test', {
-            center: [59.91795236804815, 30.304908500000003],
-            zoom: 15,
-            controls: ['routePanelControl']
-        });
-
-        let control = myMap.controls.get('routePanelControl');
-        let city = 'Санкт-Петербург';
-
-        // let location = ymaps.geolocation.get();
-
-        // location.then(function(res) {
-        // 	let locationText = res.geoObjects.get(0).properties.get('text');
-        // 	console.log(locationText)
-        // });
-
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
         };
 
-        function success(pos) {
-            const crd = pos.coords;
+        // Функция для обновления классов активных элементов
+        function updateActiveClass(buttons, target) {
+            buttons.forEach(btn => btn.classList.remove('active'));
+            target.classList.add('active');
+        }
 
-            console.log(`Latitude : ${crd.latitude}`);
-            console.log(`Longitude: ${crd.longitude}`);
+        // Функция для обновления контента
+        function updateContent(contents, id) {
+            contents.forEach(content => content.classList.remove('active'));
+            const element = document.getElementById(id);
+            element.classList.add('active');
+        }
 
+        // Функция для обновления карты
+        function updateMap(lat, lng, name, address, hours) {
+            if (myMap) {
+                // Удаляем старую метку
+                myMap.geoObjects.remove(activePlacemark);
+                // Устанавливаем центр карты на новые координаты
+                myMap.setCenter([lat, lng]);
+                // Создаем новую метку и добавляем на карту
+                activePlacemark = createPlacemark(lat, lng, name, address, hours);
+                myMap.geoObjects.add(activePlacemark);
+            }
+        }
 
-            let reverseGeocoder = ymaps.geocode([crd.latitude, crd.longitude]);
-            let locationText = null;
-            reverseGeocoder.then(function(res) {
-                locationText = res.geoObjects.get(0).properties.get('text')
-                console.log(locationText)
-
-                control.routePanel.state.set({
-                    type: 'masstransit',
-                    fromEnabled: false,
-                    from: locationText,
-                    toEnabled: true,
-                    to: `${city}, Невский проспект 146`,
-                });
+        // Функция для добавления метки
+        function createPlacemark(lat, lng, name, address, hours) {
+            return new ymaps.Placemark([lat, lng], {
+                balloonContent: `<strong>${name}</strong><br>
+                                 Адрес: ${address}<br>
+                                 Режим работы: ${hours}`
+            }, {
+                preset: 'islands#icon',
+                iconColor: '#0095b6'
             });
-
-            console.log(locationText)
-
-
-
-            control.routePanel.options.set({
-                types: {
-                    masstransit: true,
-                    pedestrian: true,
-                    taxi: true
-                }
-            })
         }
 
-        function error(err) {
-            console.warn(`ERROR(${err.code}): ${err.message}`);
+        // Обработчики кнопок "Next" и "Prev"
+        let tabNext = document.querySelector('.onclick_next');
+        let tabPrev = document.querySelector('.onclick_prev');
+
+        tabNext.addEventListener('click', () => switchTab('next'));
+        tabPrev.addEventListener('click', () => switchTab('prev'));
+
+        function switchTab(direction) {
+            let currentTab = Array.from(tabMobile).find(nav => nav.classList.contains('active'));
+            let newTab;
+            
+            if (direction === 'next') {
+                newTab = currentTab.nextElementSibling ?? tabMobile[0];
+            } else {
+                newTab = currentTab.previousElementSibling ?? tabMobile[tabMobile.length - 1];
+            }
+
+            if (newTab) {
+                // Обновление активных классов и контента
+                updateActiveClass(tabMobile, newTab);
+                updateActiveClass(tabButton, newTab);
+                updateContent(contents, newTab.dataset.id);
+                // Обновление карты
+                updateMap(parseFloat(newTab.dataset.lat), parseFloat(newTab.dataset.lng), newTab.dataset.name, newTab.dataset.address, newTab.dataset.hours);
+            }
         }
-
-        navigator.geolocation.getCurrentPosition(success, error, options);
-
-
-
     });
+
+
+
+    // Старый метод карты
+    // ymaps.ready(function() {
+
+    //     let myMap = new ymaps.Map('map-test', {
+    //         // center: [59.91795236804815, 30.304908500000003],
+    //         center: [51.143964, 71.435819],
+    //         zoom: 15,
+    //         // controls: ['routePanelControl']
+    //     });
+
+    //     let control = myMap.controls.get('routePanelControl');
+    //     let city = 'Санкт-Петербург';
+
+    //     // let location = ymaps.geolocation.get();
+
+    //     // location.then(function(res) {
+    //     // 	let locationText = res.geoObjects.get(0).properties.get('text');
+    //     // 	console.log(locationText)
+    //     // });
+
+    //     const options = {
+    //         enableHighAccuracy: true,
+    //         timeout: 5000,
+    //         maximumAge: 0
+    //     };
+
+    //     function success(pos) {
+    //         const crd = pos.coords;
+
+    //         console.log(`Latitude : ${crd.latitude}`);
+    //         console.log(`Longitude: ${crd.longitude}`);
+
+
+    //         let reverseGeocoder = ymaps.geocode([crd.latitude, crd.longitude]);
+    //         let locationText = null;
+    //         reverseGeocoder.then(function(res) {
+    //             locationText = res.geoObjects.get(0).properties.get('text')
+    //             console.log(locationText)
+
+    //             control.routePanel.state.set({
+    //                 type: 'masstransit',
+    //                 fromEnabled: false,
+    //                 from: locationText,
+    //                 toEnabled: true,
+    //                 to: `${city}, Невский проспект 146`,
+    //             });
+    //         });
+
+    //         console.log(locationText)
+
+
+
+    //         control.routePanel.options.set({
+    //             types: {
+    //                 masstransit: true,
+    //                 pedestrian: true,
+    //                 taxi: true
+    //             }
+    //         })
+    //     }
+
+    //     function error(err) {
+    //         console.warn(`ERROR(${err.code}): ${err.message}`);
+    //     }
+
+    //     navigator.geolocation.getCurrentPosition(success, error, options);
+    // });
 </script>
 @endpush
