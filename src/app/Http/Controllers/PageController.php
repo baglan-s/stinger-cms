@@ -14,6 +14,10 @@ class PageController extends Controller
             ->where('slug', $slug)
             ->first();
 
+        if (!$pageTranslation) {
+            abort(404);
+        }
+
         return view('pages.pages', compact('pageTranslation'));
     }
 }

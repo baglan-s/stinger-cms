@@ -136,7 +136,8 @@ return [
                     ],
                     'product_categories' => [
                         'category' => 'категорию товара',
-                        'specifications' => 'Спецификации'
+                        'specifications' => 'Спецификации',
+                        'brands' => 'Бренды',
                     ],
                     'products' => [
                         'product' => 'Товар',
@@ -146,7 +147,8 @@ return [
                         'volume_unit' => 'Единица объема',
                         'article' => 'Артикул',
                         'choose_specs' => 'Выберите характеристики',
-                        'category' => 'Категория'
+                        'category' => 'Категория',
+                        'cons' => 'Минусы'
                     ],
                     'product_reviews' => [
                         'review' => 'Отзыв',
@@ -184,6 +186,10 @@ return [
                         'weekly_product' => 'Товар недели',
                         'weekly_product_starts_at' => 'Дата начала товара недели',
                         'weekly_product_ends_at' => 'Дата окончания товара недели',
+                        'product' => [
+                            'product' => 'Товар',
+                            'product_min_amount' => 'Минимальное количество товара (больше, меньше)'
+                        ]
 
                     ],
                     'posts' => [
@@ -193,7 +199,12 @@ return [
                         'categories' => [
                             'category' => 'Категорию'
                         ]
-                    ]
+                    ],
+                    'files' => [
+                        'files' => 'Файлы',
+                        'mime_type' => 'Формат',
+                        'size' => 'Размер (MB)',
+                    ],
             ]
             ],
             'seo' => [

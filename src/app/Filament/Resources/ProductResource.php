@@ -24,7 +24,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
-use App\Helpers\CategoryHelper;
+use Filament\Forms\Components\TagsInput;
 
 class ProductResource extends Resource
 {
@@ -57,19 +57,7 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         $languages = Language::where('active', true)->get();
-
-        $brands = Brand::with([
-            'translations' => fn ($query) => $query->select(['name']),
-        ])
-            ->select(['id'])
-            ->get();
-
-        $brandOptions = [];
         $tabs = [];
-
-        foreach ($brands as $brand) {
-            $brandOptions[$brand->id] = $brand->translation()?->name;
-        }
 
         foreach ($languages as $language) {
             $tabs[] = Tabs\Tab::make($language->name)
@@ -78,6 +66,11 @@ class ProductResource extends Resource
                         ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
+                    TagsInput::make('translations.' . $language->code . '.cons')
+                        ->label(__('admin.crud.create.products.cons'))
+                        ->separator(',')
+                        ->required()
+                        ->hidden(fn (Forms\Get $get): bool => !$get('parent_id')),
                     TextInput::make('translations.' . $language->code . '.slug')
                         ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
@@ -87,6 +80,10 @@ class ProductResource extends Resource
                     Textarea::make('translations.' . $language->code . '.meta_description')
                         ->label(__('admin.seo.meta_description'))
                         ->rows(8),
+                    Forms\Components\Toggle::make('translations.' . $language->code . '.is_html')
+                        ->label(__('HTML'))
+                        ->default(false)
+                        ->live(),
                     RichEditor::make('translations.' . $language->code . '.description')
                         ->label(__('admin.crud.create.description'))
                         ->fileAttachmentsDirectory('images/products/content')
@@ -107,6 +104,10 @@ class ProductResource extends Resource
                             'underline',
                             'undo',
                         ]),
+                    Textarea::make('translations.' . $language->code . '.content')
+                        ->label(__('admin.crud.create.description'))
+                        ->rows(8)
+                        ->hidden(fn (Forms\Get $get): bool => !$get('translations.' . $language->code . '.is_html')),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
@@ -134,11 +135,28 @@ class ProductResource extends Resource
                              return [$category->id => $category->translation()?->name];
                          })->toArray();
                     })
-                    ->getOptionLabelUsing(fn ($value): ?string => ProductCategory::find($value)?->translation()?->name),
+                    ->getOptionLabelUsing(fn ($value): ?string => ProductCategory::find($value)?->translation()?->name)
+                    ->live(),
                 Select::make('brand_id')
                     ->label(__('admin.crud.create.brands.brand'))
                     ->searchable()
-                    ->options($brandOptions),
+                    ->options(function (Forms\Get $get): array {
+                        $options = [];
+
+                        if (!$get('product_category_id')) {
+                            return $options;
+                        }
+
+                        $categoryBrands = ProductCategory::find($get('product_category_id'))
+                            ->brands ?? [];
+
+                        foreach ($categoryBrands as $categoryBrand) {
+                            $options[$categoryBrand->id] = $categoryBrand->translation()?->name;
+                        }
+
+                        return $options;
+                    }),
+
                 Select::make('parent_id')
                     ->label(__('admin.crud.create.parent_id'))
                     ->searchable()
@@ -158,7 +176,8 @@ class ProductResource extends Resource
                              return [$product->id => $product->translation()?->name];
                          })->toArray();
                     })
-                    ->getOptionLabelUsing(fn ($value): ?string => Product::find($value)?->translation()?->name),
+                    ->getOptionLabelUsing(fn ($value): ?string => Product::find($value)?->translation()?->name)
+                    ->live(),
                 Forms\Components\TextInput::make('guid')
                     ->label(__('admin.crud.create.guid')),
                 Forms\Components\TextInput::make('weight')
@@ -220,7 +239,7 @@ class ProductResource extends Resource
                                     
                                     return $options;
                                 })
-                                ->multiple($categorySpecification->multiple);
+                                ->multiple((bool)$categorySpecification->multiple);
                         }
 
                         return $schema;
@@ -292,7 +311,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\FilesRelationManager::class,
         ];
     }
 

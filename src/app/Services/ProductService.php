@@ -44,7 +44,7 @@ class ProductService extends Service
                 ->get();
 
             foreach ($products as $productItem) {
-                $product = $productItem['product'];
+                $product = $productItem['product'] ?? $productItem;
                 $existedProduct = $dbProducts->where('guid', $product['guid'])->first();
                 $brand = $brands->where('guid', $product['brend']['guid'])->first() ?? $this->brandRepository->model();
                 $productCategory = $productCategories->where('guid', $product['parent']['guid'])->first() ?? $this->productCategoryRepository->model();
@@ -69,6 +69,10 @@ class ProductService extends Service
                                 $defaultLanguage->id, 
                             ));
                             $dbProducts->push($parentProduct);
+
+                            if ($parentProductBrand->id && $parentProductCategory->id && $parentProductCategory->brands()->where('brands.id', $parentProductBrand->id)->count() === 0) {
+                                $parentProductCategory->brands()->attach($parentProductBrand->id);
+                            }
                         }
                     }
                 }
@@ -97,6 +101,10 @@ class ProductService extends Service
                         $product, 
                         $defaultLanguage->id,
                     ));
+                }
+
+                if ($brand->id && $productCategory->id && $productCategory->brands()->where('brands.id', $brand->id)->count() === 0) {
+                    $productCategory->brands()->attach($brand->id);
                 }
 
                 $synchronized++;
@@ -137,10 +145,10 @@ class ProductService extends Service
             $dbStores = $this->storeRepository->all();
 
             foreach ($stocks as $stock) {
-                $dbProduct = $dbProducts->where('guid', $stock['product']['guid'])->first();
+                $dbProduct = $dbProducts->where('guid', $stock['guid'])->first();
 
                 if ($dbProduct) {
-                    foreach ($stock['product']['stores'] as $store) {
+                    foreach ($stock['stores'] as $store) {
                         $dbStore = $dbStores->where('guid', $store['guid'])->first();
 
                         if ($dbStore) {
@@ -172,14 +180,17 @@ class ProductService extends Service
         try {
             $synchronized = 0;
             $dbProducts = $this->repository->all();
-            $priceTypes = $this->priceTypeRepository->all();
 
             foreach ($prices as $price) {
-                $dbProduct = $dbProducts->where('guid', $price['product']['guid'])->first();
+                $dbProduct = $dbProducts->where('guid', $price['guid'])->first();
 
                 if ($dbProduct) {
-                    foreach ($price['product']['prices'] as $priceData) {
-                        $priceType = $priceTypes->where('guid', $priceData['guid'])->first();
+                    foreach ($price['prices'] as $priceData) {
+                        $priceType = $this->priceTypeRepository->firstOrCreate(
+                            $priceData['name'],
+                            $priceData['guid'],
+                            $priceData['id'] ?? null
+                        );
 
                         if ($priceType) {
                             $createdPrice = $dbProduct->prices()->firstOrCreate([

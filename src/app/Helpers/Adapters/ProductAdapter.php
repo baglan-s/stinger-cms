@@ -23,7 +23,8 @@ class ProductAdapter
             'product_category_id' => $category->id,
             'brand_id' => $brand->id,
             'parent_id' => $product['markdown'] ? $parent->id : null,
-            'sort' => 0
+            'sort' => 0,
+            'kaspi_link' => $product['refKaspi']
         ];
     }
 

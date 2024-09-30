@@ -8,6 +8,7 @@ use App\Models\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Catalog\ProductCategoryTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Catalog\Brand;
 
 class ProductCategory extends Model
 {
@@ -39,5 +40,15 @@ class ProductCategory extends Model
             'product_category_id',
             'specification_id'
         );
+    }
+
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class, 'product_category_brands', 'product_category_id', 'brand_id');
+    }
+
+    public function getImage()
+    {
+        return $this->image ? 'storage/' . $this->image : 'assets/images/default-image.png';
     }
 }

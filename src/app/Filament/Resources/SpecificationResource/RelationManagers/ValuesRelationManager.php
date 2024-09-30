@@ -32,14 +32,14 @@ class ValuesRelationManager extends RelationManager
             $tabs[] = Tabs\Tab::make($language->name)
                 ->schema([
                     TextInput::make('translations.' . $language->code . '.name')
-                        ->label('Name')
+                        ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.slug')
-                        ->label('Slug')
+                        ->label(__('admin.crud.create.slug'))
                         ->maxLength(255),
                     TextInput::make('translations.' . $language->code . '.description')
-                        ->label('Description')
+                        ->label(__('admin.crud.create.description'))
                         ->maxLength(255),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->default($language->id),
@@ -68,6 +68,7 @@ class ValuesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.crud.create.name'))
                     ->state(fn (SpecificationValue $value) => $value->translation()?->name)
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         return $query->whereHas('translations', function (Builder $query) use ($search) {

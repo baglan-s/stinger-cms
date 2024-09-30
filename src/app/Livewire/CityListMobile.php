@@ -34,6 +34,12 @@ class CityListMobile extends Component
     {
         Cookie::queue('city_id', $cityId, 43200);
         $this->setCurrentCity();
+        Cookie::queue(
+            'price_type_id', 
+            $this->currentCity->price_type_id ?? config('price_types.region', 3),  
+            43200
+        );
+        $this->js('window.location.reload()');
     }
 
     public function setCurrentCity()
