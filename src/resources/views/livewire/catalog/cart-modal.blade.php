@@ -14,7 +14,7 @@
 		@if ($hasProduct)
 
 			<span class="hc-control-item__number">{{ $productCount }}</span>
-			@if (!request()->routeIs('checkout.cart.index'))
+			@if (!request()->routeIs('catalog.cart.index'))
 				<div class="hc-control-item__dropdown">
 					<div class="favorites-dropdown">
 						<div class="favorites-dropdown__wrapper">

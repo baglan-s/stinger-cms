@@ -5,7 +5,7 @@
         <div class="cart-head-wrap  h-container">
             <div class="cart-head">
                 <h1>Корзина</h1>
-                <x-checkout.cart-steps step-name="cart" />
+                <x-catalog.cart-steps step-name="cart" />
             </div>
             <div class="cart-head-mobile">
                 <a href="{{ route('home') }}">
@@ -145,15 +145,9 @@
                             <span>К оплате</span>
                             <span>{{ $products->sum('totalPrice') }} ₸</span>
                         </div>
-                        
-
-
-
-
-                        
                     </div>
                     <hr>
-                    <button class="base-button">Перейти к оформлению</button>
+                    <a class="base-button" href="{{ route('catalog.cart.checkout') }}">Перейти к оформлению</a>
                     <p class="mt-3">Нажимая на кнопку вы даете согласие на</p>
                     <div class="link-policy">
                         <a href="#">обработку персональных данных</a>

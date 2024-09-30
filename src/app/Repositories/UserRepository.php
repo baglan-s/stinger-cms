@@ -23,7 +23,7 @@ class UserRepository extends Repository
             'last_name' => $data['last_name'],
             'phone' => ltrim(remove_phone_mask($data['phone'])),
             'email' => $data['email'],
-            'city' => $data['city'],
+            // 'city' => $data['city'],
             'password' => Hash::make($data['password']),
         ]);
     }

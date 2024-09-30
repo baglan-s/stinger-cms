@@ -9,6 +9,11 @@ class CartController extends Controller
 {
     public function index()
     {
-        return view('pages.checkout.cart');
+        return view('pages.catalog.cart');
+    }
+
+    public function checkout()
+    {
+        return view('pages.catalog.checkout');
     }
 }

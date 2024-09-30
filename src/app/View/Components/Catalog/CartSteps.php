@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Checkout;
+namespace App\View\Components\Catalog;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -21,7 +21,7 @@ class CartSteps extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.checkout.cart-steps', [
+        return view('components.catalog.cart-steps', [
             'stepName' => $this->stepName,
             'steps' => $this->steps,
         ]);

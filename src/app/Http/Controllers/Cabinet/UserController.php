@@ -53,7 +53,7 @@ class UserController extends Controller
                     'last_name' => 'required|string|max:255',
                     'phone' => 'required|string|max:20|unique:users,phone',
                     'email' => 'required|email|max:255|unique:users,email',
-                    'city' => 'required|string|max:255',
+                    // 'city' => 'required|string|max:255',
                     'password' => [
                         'required',
                         'string',
@@ -71,7 +71,7 @@ class UserController extends Controller
                 }
         
                 $userId = null;
-                $user = $this->authService->register($request->only(['name', 'last_name', 'phone', 'email', 'city','password']));
+                $user = $this->authService->register($request->only(['name', 'last_name', 'phone', 'email', 'password']));
                 if ($user) {
                     $userId = $user->id;
                     $user->roles()->attach(3);
