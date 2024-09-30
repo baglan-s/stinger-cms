@@ -7,11 +7,12 @@
 @section('content')
 
 
-<livewire:checkout.cart>
+<livewire:catalog.checkout>
 
 
 @endsection
 
 @push('scripts')
 <script type="text/javascript" src="{{ asset('assets/js/cart.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/cart-auth.js') }}"></script>
 @endpush

@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Livewire\Checkout;
+namespace App\Livewire\Catalog;
 
 use Livewire\Component;
 use App\Services\ProductService;
 use App\Services\CartService;
 
-class CartModal extends Component
+class Cart extends Component
 {
-    private ProductService $productService;
-
     private CartService $cartService;
 
     public bool $hasProduct = false;
@@ -22,14 +20,6 @@ class CartModal extends Component
 
     public $products;
 
-    protected $listeners = [
-        'productAddToCart' => 'onProductAddToCart',
-        'productRemoveFromCart' => 'onProductRemoveFromCart',
-        'cartIncremented' => 'setCartData',
-        'cartDecremented' => 'setCartData',
-        'cartCleared' => 'setCartData',
-    ];
-
     public function mount()
     {
         $this->setCartData();
@@ -37,25 +27,26 @@ class CartModal extends Component
 
     public function __construct()
     {
-        $this->productService = app(ProductService::class);
         $this->cartService = app(CartService::class);
     }
 
     public function render()
     {
-        return view('livewire.checkout.cart-modal');
+        return view('livewire.catalog.cart');
     }
 
     public function addToCart(int $productId, int $quantity = 1)
     {
         $this->cartService->add($productId, $quantity);
         $this->setCartData();
+        $this->dispatch('cartIncremented');
     }
 
     public function removeFromCart(int $productId, int $quantity = 1)
     {
         $this->cartService->remove($productId, $quantity);
         $this->setCartData();
+        $this->dispatch('cartDecremented');
     }
 
     public function setCartData()
@@ -67,18 +58,10 @@ class CartModal extends Component
         $this->totalPrice = $this->cartService->getTotalPrice();
     }
 
-    public function onProductAddToCart(int $productId)
+    public function clearCart()
     {
-        $this->addToCart($productId);
-    }
-
-    public function onProductRemoveFromCart(int $productId, int $quantity)
-    {
-        $this->removeFromCart($productId, $quantity);
-    }
-
-    public function toCart()
-    {
-        return redirect()->route('checkout.cart.index');
+        $this->cartService->clear();
+        $this->setCartData();
+        $this->dispatch('cartCleared');
     }
 }

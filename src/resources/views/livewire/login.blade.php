@@ -161,7 +161,7 @@
                         @error('email') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
                       </label>
-                      <label class="base-input">
+                      {{-- <label class="base-input">
                         <input
                           placeholder="Город"
                           type="text"
@@ -171,7 +171,7 @@
                         />
                         @error('city') <span class="error">{{ $message }}</span> @enderror
                         <span class="the-personal-input__error">Поле обязательно для заполнения</span>
-                      </label>
+                      </label> --}}
                       <label class="base-input">
                         <input
                           placeholder="Пароль"

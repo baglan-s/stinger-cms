@@ -126,13 +126,13 @@
     font-weight: 800;
     line-height: 1.1;
     color: var(--black);
+    margin-right: 70px;
 
 }
 .cart-steps{
     display: flex;
     flex-direction: row;
     align-items: end;
-    margin-left: 120px;
 }
 .cart-step{
     display: flex;
@@ -412,15 +412,58 @@
     color: var(--white);
 }
 
+#checkSmsBtn {
+    display: none;
+}
+
+.auth-phone-invalid-feedback, 
+.auth-phone-required-feedback, 
+.auth-phone-not-found-feedback, 
+.sms-invalid-feedback, 
+.sms-required-feedback {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: var(--red);
+    display: none;
+}
+
 .cart-contact-form-new{
     max-width: 350px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-top: 50px;
+    gap: 10px;
+    margin-top: 30px;
 }
-.cart-contact-form-new input{
+
+.cart-sms-timer-block {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-sms-timer-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--semi-gray);
+    display: none;
+}
+
+.cart-sms-timer-text .cart-sms-timer-time {
+    color: var(--black);
+}
+
+.cart-sms-timer-block .cart-sms-timer-btn {
+    color: var(--blue);
+    background-color: transparent !important;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    display: none;
+}
+
+.cart-contact-form-new input {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.2;
@@ -441,7 +484,9 @@
     background-color: var(--blue);
 }
 
-
+.base-button.register {
+    padding: 0;
+}
 
 .cart-contact-form-new__delivery {
     margin-top: 10px;
@@ -468,6 +513,11 @@
     max-width: 400px;
     width: 100%;
 } 
+
+.form-floating.hidden-sms {
+    display: none;
+}
+
 .cart-contact-form-new__delivery__list{
     display: flex;
     gap: 10px;
@@ -677,6 +727,10 @@
     line-height: 1.5;
 }
 
+.cart-side-mobile .base-button.gray {
+    background-color: var(--semi-gray);
+}
+
 .cart-side-mobile .base-button:hover {
     background-color: var(--black);
 }
@@ -684,8 +738,6 @@
 .cart-side{
     width: 300px;
     flex-shrink: 0;
-
-
 }
 .cart-side-content{
     background-color: var(--white);

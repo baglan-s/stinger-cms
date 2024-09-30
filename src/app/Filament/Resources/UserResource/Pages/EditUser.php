@@ -20,6 +20,8 @@ class EditUser extends EditRecord
 
     protected function handleRecordUpdate(Model $user, array $data): Model
     {
+        $data['phone'] = remove_phone_mask($data['phone']);
+        
         if (!$data['password']) {
             unset($data['password'], $data['password_confirm']);
         }

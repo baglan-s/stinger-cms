@@ -17,11 +17,12 @@ $(document).ready(function() {
     phoneNumber.mask("+7 (000) 000-00-00");
     resendCodeBtn = $('.resend-code-btn');
     // For timer resend sms
-    var duration = 7; // Таймер на 60 секунд
+    var duration = 60; // Таймер на 60 секунд
     var codeTimer = $('#timer');
     var resendSmsMessage = codeTimer.data('value');
     var preloaderResend = $('.preloader-resend-btn');
     var errorMessageEl = $('.the-personal-input__error');
+
 
     $(btnAuthSms).on('click', function(e) {
       e.preventDefault();
@@ -263,5 +264,5 @@ $(document).ready(function() {
               $(codeTimer).hide();
           }
       }, 1000);
-  }
+    }
 });
