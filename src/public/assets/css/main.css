@@ -974,7 +974,7 @@ svg.hc-control-item__icon {
 }
 
 .city-prompt-modal__title {
-    color: var(--semi-gray);
+    color: #778ba5;
     font-size: 24px;
     text-align: center;
     margin-bottom: 30px;
@@ -989,7 +989,7 @@ svg.hc-control-item__icon {
 }
 
 .city-prompt-modal__button {
-    background-color: var(--blue);
+    background-color: #03a9f4;
     color: #fff;
     border-radius: 15px;
     padding: 10px 20px;
@@ -1002,7 +1002,7 @@ svg.hc-control-item__icon {
 }
 
 .city-prompt-modal__button.cancel {
-    background-color: var(--semi-gray);
+    background-color: #778ba5;
 }
 
 @media screen and (max-width: 991px) {
