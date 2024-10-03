@@ -485,7 +485,8 @@
 }
 
 .base-button.register {
-    padding: 0;
+    padding: 10px;
+    line-height: 1.5;
 }
 
 .cart-contact-form-new__delivery {
@@ -629,6 +630,18 @@
     font-weight: 700;
     line-height: 1.2;
     color: var(--black);
+}
+
+.cart-delivery {
+    padding: 30px 0;
+}
+
+.cart-delivery .form-check input {
+    margin-left: 0;
+}
+
+.cart-delivery .form-check:last-child {
+    margin-bottom: 16px;
 }
 
 .cart-pay{
@@ -1064,13 +1077,6 @@
         max-width: 600px;
         width: 100%;
     }
-    
-   
-
-
-
-
-
 
 }
 
@@ -1083,7 +1089,7 @@
         flex-direction: column;
     }
     .cart-block-wrap{
-        display: none;
+        /* display: none; */
     }
     form .cart-block-wrap{
         display: block;

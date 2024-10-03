@@ -42,6 +42,11 @@ return [
         'host' => env('1C_HOST'),
         'login' => env('1C_LOGIN'),
         'password' => env('1C_PASSWORD'),
+    ],
+
+    'yandex' => [
+        'key' => env('YANDEX_API_KEY'),
+        'geo_suggest_key' => env('YANDEX_GEO_SUGGEST_API_KEY'),
     ]
 
 ];
