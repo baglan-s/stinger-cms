@@ -12,6 +12,10 @@ class CityList extends Component
 
     private $cityService;
 
+    protected $listeners = [
+        'cityApproved' => 'selectCity'
+    ];
+
     public function __construct() 
     {
         $this->cityService = app(CityService::class);

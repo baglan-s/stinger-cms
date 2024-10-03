@@ -951,6 +951,60 @@ svg.hc-control-item__icon {
     right: 15px;
 }
 
+.city-prompt-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 9999;
+    padding-top: 3rem;
+}
+
+.city-prompt-modal {
+    width: 40%;
+    min-width: 280px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.city-prompt-modal__title {
+    color: var(--semi-gray);
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.city-prompt-modal__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+.city-prompt-modal__button {
+    background-color: var(--blue);
+    color: #fff;
+    border-radius: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 700;
+    width: 30%;
+    min-width: 240px;
+    /* margin-bottom: 20px; */
+}
+
+.city-prompt-modal__button.cancel {
+    background-color: var(--semi-gray);
+}
+
 @media screen and (max-width: 991px) {
     .blog_video-play {
         width: 34px;

@@ -111,12 +111,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let deliveryDate = document.getElementById('deliveryDate')
 
-deliveryDate.addEventListener('change',(e)=>{
-  let startDateVal = e.target.value
-  document.getElementById('deliverytDateSelected').innerText = startDateVal
-})
+if (deliveryDate) {
+    deliveryDate.addEventListener('change',(e)=>{
+        let startDateVal = e.target.value
+        document.getElementById('deliverytDateSelected').innerText = startDateVal
+    })
+}
 
+const geoAddressInput = document.getElementById('geoAddress');
 
+console.log(geoAddressInput)
+
+if (geoAddressInput) {
+    window.ymaps.ready(() => {
+        var suggestView = new window.ymaps.SuggestView(geoAddressInput);
+    })
+}
 
 
 
