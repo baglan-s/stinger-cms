@@ -46,3 +46,4 @@ Route::get('comparison', [App\Http\Controllers\Pages\ComparisonController::class
 Route::get('favourites', [App\Http\Controllers\Pages\FavouriteProductController::class, 'index']);
 Route::post('send-feedback', [App\Http\Controllers\FeedbackController::class, 'sendFeedback']);
 Route::get('shops', [App\Http\Controllers\Pages\ShopController::class, 'index']);
+Route::get('test-payment', [App\Http\Controllers\Checkout\OnlinePaymentController::class, 'processPayment']);

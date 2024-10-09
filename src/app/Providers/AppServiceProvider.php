@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(LogService::class)
             );
         });
+
+        App::bind(OnlinePaymentInterface::class, TipTopPay::class);
+        $this->app->singleton(PaymentFactory::class, function() {
+            return new PaymentFactory();
+        });
     }
 
     /**
