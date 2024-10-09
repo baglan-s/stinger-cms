@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Checkout;
 
 use Illuminate\Http\Request;
+use App\Models\Catalog\Order;
 use App\Http\Controllers\Controller;
 use App\Drivers\Contracts\OnlinePaymentInterface;
+use App\Services\Integration\Payment\PaymentFactory;
 
 class OnlinePaymentController extends Controller
 {
@@ -17,8 +19,8 @@ class OnlinePaymentController extends Controller
 
     public function processPayment(Request $request)
     {
-        $order = Order::find(123);
-        $paymentType = $request->get('payment_type', 'tiptop');
+        $order = Order::find(1);
+        $paymentType = $request->get('payment_type', 'tiptoppay');
         $payment = $this->paymentFactory->make($paymentType);
         if ($payment instanceof OnlinePaymentInterface) {
             dd(123);
