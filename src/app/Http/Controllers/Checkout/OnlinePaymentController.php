@@ -17,6 +17,11 @@ class OnlinePaymentController extends Controller
         $this->paymentFactory = $paymentFactory;
     }
 
+    public function index()
+    {
+        return view('pages.tests.tip-top-pay');
+    }
+
     public function processPayment(Request $request)
     {
         $order = Order::find(1);
