@@ -20,10 +20,12 @@ class OnlinePaymentController extends Controller
     public function processPayment(Request $request)
     {
         $order = Order::find(1);
-        $paymentType = $request->get('payment_type', 'tiptoppay');
+        $paymentType = $request->get('payment_type', 'tip-top-pay');
         $payment = $this->paymentFactory->make($paymentType);
         if ($payment instanceof OnlinePaymentInterface) {
-            dd(123);
+            $payment->pay($order);
+        } else {
+            return;
         }
     }
 }
