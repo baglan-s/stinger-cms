@@ -1,20 +1,18 @@
 <?php
 
-namespace App\View\Components\Catalog\CartSteps;
+namespace App\View\Components\Catalog;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\Catalog\Store;
 
-class Delivery extends Component
+class Preloader extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public string $shippingMethod,
-        public Store|null $selectedStore = null,
+        public array $class = []
     ) {}
 
     /**
@@ -22,6 +20,6 @@ class Delivery extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.catalog.cart-steps.delivery');
+        return view('components.catalog.preloader');
     }
 }

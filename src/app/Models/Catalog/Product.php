@@ -150,8 +150,11 @@ class Product extends Model
     public function stocksGroupedByCity()
     {
         $stocks = [];
+        $localStocks = $this->stocks->filter(function ($stock) {
+            return $stock->store->city_id == Cookie::get('city_id') || $stock->store->is_distributor;
+        })->all();
 
-        foreach ($this->stocks as $stock) {
+        foreach ($localStocks as $stock) {
             if ($stock->store->city_id) {
                 $stocks[$stock->store?->city?->translation()?->name ?? $stock->store?->city?->id][] = $stock;
             }

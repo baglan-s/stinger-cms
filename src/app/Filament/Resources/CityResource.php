@@ -92,6 +92,9 @@ class CityResource extends Resource
                 Toggle::make('active')
                     ->label(__('admin.crud.create.active'))
                     ->default(true),
+                Toggle::make('has_delivery')
+                    ->label(__('admin.crud.create.has_delivery'))
+                    ->default(false),
                 Tabs::make('translations')
                     ->label('Translations')
                     ->tabs($tabs)

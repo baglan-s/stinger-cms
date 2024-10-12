@@ -13,7 +13,7 @@
 
     <div class="tab-content">
 
-        <div class="delivery_1 tab-pane fade show active" id="delivery_1" role="tabpanel" aria-labelledby="delivery_1-tab">
+        <div class="delivery_1" id="delivery_1" role="tabpanel" aria-labelledby="delivery_1-tab">
             <h3>Пункт Самовывоза</h3>
             <div class="custom-select-wrapper">
                 <select  class="selectpicker my-select" data-width="100%">
@@ -30,47 +30,7 @@
                 с 10.00 до 20.00
             </div>
             <hr>
-            <div class="delivery_1-consumer">
-                <h3>Получатель</h3>
-                <div class="delivery_1-list">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="delivery" id="delivery-1-1">
-                        <label class="form-check-label" for="delivery-1-1">Я</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="delivery" id="delivery-1-2" checked>
-                        <label class="form-check-label" for="delivery-1-2">Другой человек</label>
-                    </div>
-                </div>
-                <div class="cart-contact-form-new__delivery_1">
-                  <div class="cart-contact-form-new__delivery__list">
-                      <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="name-1" placeholder="Имя">
-                        <label for="name-1">Имя</label>
-                        <div class="invalid-feedback">Поле Имя обязательно для заполнения.</div>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="last_name-1" placeholder="Фамилия">
-                        <label for="last_name-1">Фамилия</label>
-                        <div class="invalid-feedback">Поле Фамилия обязательно для заполнения.</div>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="phone-1" placeholder="Телефон">
-                        <label for="phone-1">Телефон</label>
-                        <div class="invalid-feedback">Поле Телефон обязательно для заполнения.</div>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="email-1" placeholder="Email">
-                        <label for="email-1">Email</label>
-                        <div class="invalid-feedback">Поле Email обязательно для заполнения.</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-floating mt-3 delivery-comment">
-                    <textarea class="form-control" placeholder="Оставьте комментарии к доставке" id="floatingTextarea2" style="height: 100px"></textarea>
-                    <label for="floatingTextarea2">Комментарии</label>
-                </div>
-            </div>
+            
 
         </div>
 

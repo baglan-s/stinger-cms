@@ -47,6 +47,10 @@ return [
     'yandex' => [
         'key' => env('YANDEX_API_KEY'),
         'geo_suggest_key' => env('YANDEX_GEO_SUGGEST_API_KEY'),
+    ],
+
+    'kaspi' => [
+        'merchant_code' => env('KASPI_MERCHANT_CODE')
     ]
 
 ];

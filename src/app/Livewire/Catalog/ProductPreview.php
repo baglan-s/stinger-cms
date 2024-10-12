@@ -5,6 +5,7 @@ namespace App\Livewire\Catalog;
 use Livewire\Component;
 use App\Models\Catalog\Product;
 use App\Services\ProductService;
+use Illuminate\Support\Facades\Cookie;
 
 class ProductPreview extends Component
 {
@@ -35,6 +36,10 @@ class ProductPreview extends Component
 
     public function mount(Product $product, array $class = [])
     {
+        $product->cityStocks = $product->stocks->filter(function ($stock) {
+            return $stock->store?->city_id == Cookie::get('city_id', 1) || $stock->store?->is_distributor;
+        });
+
         $this->product = $product;
         $this->class = $class;
         $this->favouriteProductIds = $this->productService->getRepository()->getFavouriteProductIds();

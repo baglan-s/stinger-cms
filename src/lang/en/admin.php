@@ -91,6 +91,8 @@ return [
                 'main_images' => 'Главное изображение',
                 'additional_images' => 'Дополнительное изображение',
                 'is_public' => 'Публичный',
+                'is_distributor' => 'Распределительный центр',
+                'has_delivery' => 'Есть доставка',
                 'author' => 'Автор',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',

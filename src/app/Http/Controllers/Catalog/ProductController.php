@@ -28,13 +28,12 @@ class ProductController extends Controller
                 $query->where('slug', $slug);
             })
             ->with([
-                'cityStocks' => function ($query) {
+                'stocks' => function ($query) {
                     $query->whereHas('store', function ($query) {
                         $query->where('city_id', Cookie::get('city_id'))
-                            ->orWhere('city_id', 7);
+                            ->orWhere('is_distributor', true);
                     });
                 },
-                'stocks',
                 'stocks.store',
                 'stocks.store.city',
                 'translations',
