@@ -66,6 +66,7 @@ class Checkout extends Component
 
     protected $listeners = [
         'onAddressAdd' => 'setAddress',
+        'savePayment'
     ];
 
 
@@ -268,10 +269,22 @@ class Checkout extends Component
         // $this->currentStep = 'confirm';
     }
 
-    // Новый метод для обработки успешной оплаты
+   
     public function paymentSuccess()
     {
-        $this->currentStep = 'confirm';  // Устанавливаем текущий шаг на 'confirm'
+        $this->currentStep = 'confirm'; 
+    }
+
+    
+    public function savePayment($invoiceId)
+    {
+        if ($this->order) {
+            $this->order->payments()->create([
+                'guid' => $invoiceId
+            ]);
+            $this->dispatchBrowserEvent('payment-saved');
+        }
+        $this->currentStep = 'confirm'; 
     }
 
     public function updated()
