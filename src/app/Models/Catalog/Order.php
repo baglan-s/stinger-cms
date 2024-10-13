@@ -47,4 +47,9 @@ class Order extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function totalSum()
+    {
+        return $this->items->sum('total');
+    }
 }

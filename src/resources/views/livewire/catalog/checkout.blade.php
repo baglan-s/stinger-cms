@@ -1,3 +1,6 @@
+@push('styles')
+    <script src="https://widget.tiptoppay.kz/bundles/widget.js"></script>
+@endpush
 <div class="cart-wrap">
 
     <div class="cart-head-wrap  h-container">
@@ -159,7 +162,10 @@
                                 </label>
                             </div>
                         </div>
-                          
+                        <!-- Запускаем платежный фрейм -->
+                        @if($isPaymentActive)
+                            
+                        @endif
                           
                     </div>
                 @elseif ($currentStep == 'confirm')
@@ -310,6 +316,64 @@
                 
             });
         }
+
+        // Online payment
+        function pay(order) {
+                var widget = new tiptop.Widget();
+                widget.pay('auth', // или 'charge'
+                    { //options
+                        publicId: order.publicId, //id из личного кабинета
+                        description: order.description, //назначение
+                        amount: order.amount, //сумма
+                        currency: 'KZT', //валюта
+                        accountId: 'user@example.com', //идентификатор плательщика (необязательно)
+                        invoiceId: '1234567', //номер заказа  (необязательно)
+                        email: 'user@example.com', //email плательщика (необязательно)
+                        skin: "mini", //дизайн виджета (необязательно)
+                        autoClose: 3, //время в секундах до авто-закрытия виджета (необязательный)
+                        data: {
+                            myProp: 'myProp value'
+                        },
+                        payer: {
+                            firstName: 'Тест',
+                            lastName: 'Тестов',
+                            middleName: 'Тестович',
+                            birth: '1955-02-24',
+                            address: 'тестовый проезд дом тест',
+                            street: 'Lenina',
+                            city: 'MO',
+                            country: 'KZ',
+                            phone: '123',
+                            postcode: '345'
+                        }
+                    }, {
+                        onSuccess: function(options) { // success
+                            //действие при успешной оплате
+                            alert(789);
+                            //Livewire.emit('paymentSuccess');
+                            $.each(options, function(key, value) {
+                                alert(key + ": " + value);
+                                console.log(key + ": " + value);
+                                $.each(value, function (index, item) {
+                                    console.log(index + ": " + item);
+                                });
+                            });
+                        },
+                        onFail: function(reason, options) { // fail
+                            //действие при неуспешной оплате
+                            alert(456);
+                        },
+                        onComplete: function(paymentResult,
+                            options
+                            ) { //Вызывается как только виджет получает от api.tiptoppay ответ с результатом транзакции.
+                            //например вызов вашей аналитики
+                            alert(123);
+                        }
+                    }
+                )
+            };
+
+            //$('#checkout-pay-btn').click(pay);
     </script>
 
 </div>
