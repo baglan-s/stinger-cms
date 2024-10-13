@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\OrderStatusResource\Pages;
-use App\Filament\Resources\OrderStatusResource\RelationManagers;
-use App\Models\Catalog\OrderStatus;
+use App\Filament\Resources\PaymentTypeResource\Pages;
+use App\Filament\Resources\PaymentTypeResource\RelationManagers;
+use App\Models\Catalog\PaymentType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,15 +12,15 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Models\Language;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Hidden;
-use App\Models\Language;
 
-class OrderStatusResource extends Resource
+class PaymentTypeResource extends Resource
 {
-    protected static ?string $model = OrderStatus::class;
+    protected static ?string $model = PaymentType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -33,17 +33,17 @@ class OrderStatusResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('admin.navigation.orders.statuses');
+        return __('admin.crud.create.payments.types');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('admin.navigation.orders.statuses');
+        return __('admin.crud.create.payments.types');
     }
 
     public static function getModelLabel(): string
     {
-        return __('admin.crud.create.orders.statuses.status');
+        return __('admin.crud.create.payments.type');
     }
 
     public static function form(Form $form): Form
@@ -58,9 +58,6 @@ class OrderStatusResource extends Resource
                         ->label(__('admin.crud.create.name'))
                         ->required()
                         ->maxLength(255),
-                    TextInput::make('translations.' . $language->code . '.description')
-                        ->label(__('admin.crud.create.description'))
-                        ->maxLength(255),
                     Hidden::make('translations.' . $language->code . '.language_id')
                         ->label(__('admin.crud.create.language_id'))
                         ->default($language->id),
@@ -70,12 +67,18 @@ class OrderStatusResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
-                    ->label(__('admin.crud.create.code'))
+                    ->label('Код')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('guid')
-                    ->label(__('GUID'))
+                    ->label('GUID'),
+                Forms\Components\TextInput::make('id_1c')
+                    ->label('ID в 1С')
                     ->maxLength(255),
+                Forms\Components\Toggle::make('active')
+                    ->label(__('admin.crud.create.active'))
+                    ->default(false)
+                    ->required(),
                 Tabs::make('translations')
                     ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs)
@@ -90,7 +93,7 @@ class OrderStatusResource extends Resource
                     ->label(__('admin.crud.create.id'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->state(fn (OrderStatus $status) => $status->translation()?->name)
+                    ->state(fn (PaymentType $type) => $type->translation()?->name)
                     ->label(__('admin.crud.create.name'))
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         return $query->whereHas('translations', function (Builder $query) use ($search) {
@@ -100,6 +103,9 @@ class OrderStatusResource extends Resource
                 Tables\Columns\TextColumn::make('code')
                     ->label(__('admin.crud.create.code'))
                     ->searchable(),
+                Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.crud.create.active'))
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('admin.crud.create.created_at'))
                     ->dateTime()
@@ -134,9 +140,9 @@ class OrderStatusResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrderStatuses::route('/'),
-            'create' => Pages\CreateOrderStatus::route('/create'),
-            'edit' => Pages\EditOrderStatus::route('/{record}/edit'),
+            'index' => Pages\ListPaymentTypes::route('/'),
+            'create' => Pages\CreatePaymentType::route('/create'),
+            'edit' => Pages\EditPaymentType::route('/{record}/edit'),
         ];
     }
 }

@@ -52,20 +52,18 @@
                             @endif
 
                             <div class="new-address @if (!$isNewAddress) d-none @endif">
-                                <button class="map-open" data-city="{{ $currentCity?->translation()?->name }}">Выбрать из карты</button>
-
-                                <div class="map-container">
+                                <div class="map-container" data-city="{{ $currentCity?->translation()?->name }}">
                                     <div id="map"></div>
                                 </div>
 
                                 <div class="delivery_2-address-center">
                                     <div class="form-floating delivery_2-street mb-3">
-                                        <input type="text" class="form-control delivery-street" id="floatingInput1" placeholder="Улица" wire:model="street">
+                                        <input type="text" class="form-control delivery-street" id="floatingInput1" disabled placeholder="Улица" wire:model="street">
                                         <label for="floatingInput1">Улица</label>
                                         @if (isset($validErrors['street'])) <div class="invalid-feedbacks">{{ $validErrors['street'] }}</div> @endif
                                     </div>
                                     <div class="form-floating delivery_2-house mb-3">
-                                        <input type="text" class="form-control delivery-building" id="floatingInput2" placeholder="Дом" wire:model="building">
+                                        <input type="text" class="form-control delivery-building" id="floatingInput2" disabled placeholder="Дом" wire:model="building">
                                         <label for="floatingInput2">Дом</label>
                                         @if (isset($validErrors['building'])) <div class="invalid-feedbacks">{{ $validErrors['building'] }}</div> @endif
                                     </div>
@@ -123,11 +121,14 @@
                     </div>
                 @elseif ($currentStep == 'payment')
                     <div class="cart-pay">
-                        <h3 class="mb-3">Выберите тип оплаты</h3>
-                        <div class="cart-payment-types d-flex align-items-center mb-4">
-                            <button class="pay-item-btn">Оплатить картой</button>
-                            <button class="pay-item-btn">Kaspi QR</button>
-                        </div>
+                        @if ($paymentTypes->count() > 0)
+                            <h3 class="mb-3">Выберите тип оплаты</h3>
+                            <div class="cart-payment-types d-flex align-items-center mb-4">
+                                @foreach ($paymentTypes as $type)
+                                    <button @class(['pay-item-btn', 'active' => $type->id == $paymentTypeId]) wire:click="setPaymentTypeId({{ $type->id }})">{{ $type->translation()?->name }}</button>
+                                @endforeach
+                            </div>
+                        @endif
                         <h3 class="mb-3">Уведомления о статусе заказа</h3>
                         <div class="notification-togglers">
                             <div class="notification-toggler">
@@ -220,99 +221,94 @@
     </div>
 
     <script>
-        function initGeoCoder() {
-            const mapOpenBtn = document.querySelector('.map-open');
+        function initGeoCoder(coords1 = null, coords2 = null) {
             const mapContainer = document.querySelector('.map-container');
             const streetInput = document.querySelector('.delivery-street');
             const buildingInput = document.querySelector('.delivery-building');
 
-            if (mapOpenBtn) {
-                mapOpenBtn.addEventListener('click', function() {
-                    mapContainer.classList.toggle('active');
-                });
-
-                const ymaps = window.ymaps
+            const ymaps = window.ymaps
                                     
-                // Инициализация карты после загрузки API
-                ymaps.ready(function() {
-                    var center = [43.237163, 76.945654];
-                
-                    ymaps.geocode(mapOpenBtn.dataset.city).then(function (res) {
-                        var firstGeoObject = res.geoObjects.get(0);
-                        if (firstGeoObject) {
-                            // Получаем координаты
-                            var coords = firstGeoObject.geometry.getCoordinates();
-                            center = [coords[0], coords[1]];
-                        }
-                
-                        var placemark;
-                        console.log(document.querySelector('#map'))
-                        var map = new ymaps.Map(document.querySelector('#map'), {
-                            center: center,
-                            zoom: 10
-                        });
-                
-                        function parseAdress(address) {
-                            const addressParts = address.split(',');
-                            const [city, street, building] = addressParts;
-                
-                            return {
-                                city: city?.trim(),
-                                street: street?.trim(),
-                                building: building?.trim()
-                            };
-                        }
-                
-                        // Функция для создания метки на карте
-                        function createPlacemark(coords) {
-                            if (placemark) {
-                                placemark.geometry.setCoordinates(coords);
-                            } else {
-                                placemark = new ymaps.Placemark(coords, {}, {
-                                    preset: 'islands#icon',
-                                    iconColor: '#0095b6'
-                                });
-                                map.geoObjects.add(placemark);
-                            }
-                        }
-                
-                        // Определение адреса по координатам
-                        function getAddress(coords) {
-                            placemark.properties.set('iconCaption', 'Идет поиск...');
-                            ymaps.geocode(coords).then(function(res) {
-                                var firstGeoObject = res.geoObjects.get(0);
-                                var address = firstGeoObject.getAddressLine();
-                
-                                let parsedAddress = parseAdress(address);
-                                window.Livewire.dispatch('onAddressAdd', {
-                                    street: parsedAddress.street,
-                                    building: parsedAddress.building ?? '-'
-                                })
-                                // streetInput.value = parsedAddress.street;
-                                // buildingInput.value = parsedAddress.building;
-                
-                                placemark.properties.set({
-                                    iconCaption: address,
-                                    balloonContent: address
-                                });
-                            }).catch(error => console.log(error));
-                        }
-                
-                        if (map.events) {
-                            // Слушаем клик на карте
-                            map.events.add('click', function(e) {
-                                var coords = e.get('coords');
-                                createPlacemark(coords);
-                                getAddress(coords);
-                            });
-                
-                        }
-                    }).catch(error => {
-                        console.error('Ошибка обработки запроса карты:', error);
+            // Инициализация карты после загрузки API
+            ymaps.ready(function() {
+                var center = [43.237163, 76.945654];
+            
+                ymaps.geocode(mapContainer.dataset.city).then(function (res) {
+                    var firstGeoObject = res.geoObjects.get(0);
+                    if (firstGeoObject) {
+                        // Получаем координаты
+                        var coords = firstGeoObject.geometry.getCoordinates();
+                        center = [coords[0], coords[1]];
+                    }
+            
+                    var placemark;
+                    var map = new ymaps.Map(document.querySelector('#map'), {
+                        center: center,
+                        zoom: 10
                     });
-                    
+
+                    if (coords1 && coords2) {
+                        createPlacemark([coords1, coords2])
+                    }
+            
+                    function parseAdress(address) {
+                        const addressParts = address.split(',');
+                        const [city, street, building] = addressParts;
+            
+                        return {
+                            city: city?.trim(),
+                            street: street?.trim(),
+                            building: building?.trim()
+                        };
+                    }
+            
+                    // Функция для создания метки на карте
+                    function createPlacemark(coords) {
+                        if (placemark) {
+                            placemark.geometry.setCoordinates(coords);
+                        } else {
+                            placemark = new ymaps.Placemark(coords, {}, {
+                                preset: 'islands#icon',
+                                iconColor: '#0095b6'
+                            });
+                            map.geoObjects.add(placemark);
+                        }
+                    }
+            
+                    // Определение адреса по координатам
+                    function getAddress(coords) {
+                        placemark.properties.set('iconCaption', 'Идет поиск...');
+                        ymaps.geocode(coords).then(function(res) {
+                            var firstGeoObject = res.geoObjects.get(0);
+                            var address = firstGeoObject.getAddressLine();
+            
+                            let parsedAddress = parseAdress(address);
+                            window.Livewire.dispatch('onAddressAdd', {
+                                street: parsedAddress.street,
+                                building: parsedAddress.building ?? '-',
+                                coords: coords
+                            })
+            
+                            placemark.properties.set({
+                                iconCaption: address,
+                                balloonContent: address
+                            });
+                        }).catch(error => console.log(error));
+                    }
+            
+                    if (map.events) {
+                        // Слушаем клик на карте
+                        map.events.add('click', function(e) {
+                            var coords = e.get('coords');
+                            createPlacemark(coords);
+                            getAddress(coords);
+                        });
+            
+                    }
+                }).catch(error => {
+                    console.error('Ошибка обработки запроса карты:', error);
                 });
-            }
+                
+            });
         }
     </script>
 

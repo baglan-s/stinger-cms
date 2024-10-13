@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Filament\Resources\OrderStatusResource\Pages;
+namespace App\Filament\Resources\PaymentTypeResource\Pages;
 
-use App\Filament\Resources\OrderStatusResource;
+use App\Filament\Resources\PaymentTypeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use App\Models\Language;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalog\OrderStatus;
+use App\Models\Catalog\PaymentType;
 
-class EditOrderStatus extends EditRecord
+class EditPaymentType extends EditRecord
 {
-    protected static string $resource = OrderStatusResource::class;
+    protected static string $resource = PaymentTypeResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -22,14 +22,13 @@ class EditOrderStatus extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        $orderStatus = OrderStatus::find($data['id']);
+        $type = PaymentType::find($data['id']);
         $languages = Language::where('active', true)->get();
 
         foreach ($languages as $language) {
-            $translation = $orderStatus->translations->where('language_id', $language->id)->first();
+            $translation = $type->translations->where('language_id', $language->id)->first();
             $data['translations'][$language->code] = [
                 'name' => $translation->name ?? null,
-                'description' => $translation->description ?? null,
                 'language_id' => $language->id,
             ];
         }
@@ -37,30 +36,31 @@ class EditOrderStatus extends EditRecord
         return $data;
     }
 
-    protected function handleRecordUpdate(Model $orderStatus, array $data): Model
+    protected function handleRecordUpdate(Model $type, array $data): Model
     {
-        $orderStatus->update([
+        $type->update([
             'code' => $data['code'],
+            'active' => $data['active'],
             'guid' => $data['guid'] ?? null,
+            'id_1c' => $data['id_1c'] ?? null,
         ]);
 
         foreach ($data['translations'] as $translation) {
             $updates = [
                 'name' => $translation['name'],
-                'description' => $translation['description'] ?? null,
             ];
-            $orderStatusTranslation = $orderStatus->translations()
+            $typeTranslation = $type->translations()
                 ->where('language_id', $translation['language_id'])
                 ->first();
 
-            if (!$orderStatusTranslation) {
+            if (!$typeTranslation) {
                 $updates['language_id'] = $translation['language_id'];
-                $orderStatusTranslation = $orderStatus->translations()->create($updates);
+                $typeTranslation = $type->translations()->create($updates);
             } else {
-                $orderStatusTranslation->update($updates);
+                $typeTranslation->update($updates);
             }
         }
 
-        return $orderStatus;
+        return $type;
     }
 }

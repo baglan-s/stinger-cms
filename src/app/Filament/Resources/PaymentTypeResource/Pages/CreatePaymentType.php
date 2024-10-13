@@ -1,32 +1,33 @@
 <?php
 
-namespace App\Filament\Resources\OrderStatusResource\Pages;
+namespace App\Filament\Resources\PaymentTypeResource\Pages;
 
-use App\Filament\Resources\OrderStatusResource;
+use App\Filament\Resources\PaymentTypeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Catalog\OrderStatus;
+use App\Models\Catalog\PaymentType;
 
-class CreateOrderStatus extends CreateRecord
+class CreatePaymentType extends CreateRecord
 {
-    protected static string $resource = OrderStatusResource::class;
+    protected static string $resource = PaymentTypeResource::class;
 
     protected function handleRecordCreation(array $data): Model
     {
-        $orderStatus = OrderStatus::create([
+        $type = PaymentType::create([
             'code' => $data['code'],
+            'active' => $data['active'],
             'guid' => $data['guid'] ?? null,
+            'id_1c' => $data['id_1c'] ?? null,
         ]);
         
         foreach ($data['translations'] as $translation) {
-            $orderStatus->translations()->create([
+            $type->translations()->create([
                 'name' => $translation['name'],
-                'description' => $translation['description'] ?? null,
                 'language_id' => $translation['language_id'],
             ]);
         }
 
-        return $orderStatus;
+        return $type;
     }
 }

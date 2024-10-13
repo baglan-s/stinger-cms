@@ -705,7 +705,7 @@ li.order-item.disabled .order-item-wrapper, li.order-item-mobile.disabled .order
 
 .map-container {
     margin-top: 20px;
-    display: none;
+    display: block;
     width: 100%;
     height: 400px;
     padding: 10px;
