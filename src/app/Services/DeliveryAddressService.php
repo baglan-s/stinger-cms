@@ -31,7 +31,7 @@ class DeliveryAddressService extends Service
                 $data['user_id'] = $request->user()->id;
             }
 
-            return $this->repository->create($data);
+            return $this->repository->model()->firstOrCreate($data);
         } catch (\Exception $e) {
             $this->logService
                 ->log('Error creating delivery address', 'single', $e)

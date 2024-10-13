@@ -4,17 +4,23 @@ namespace App\Services;
 
 use App\Services\Service;
 use App\Repositories\OrderRepository;
+use App\Repositories\OrderStatusRepository;
+use App\Repositories\LanguageRepository;
 use App\Models\Catalog\Order;
 use App\Models\Catalog\OrderItem;
+use App\Models\Catalog\OrderStatus;
 use App\Services\Integration\OneCApiService;
 use App\Services\LogService;
 use App\Helpers\Adapters\OrderAdapter;
+use App\Helpers\Adapters\OrderStatusAdapter;
 use Illuminate\Support\Facades\DB;
 
 class OrderService extends Service
 {
     public function __construct(
         protected OrderRepository $repository,
+        protected OrderStatusRepository $orderStatusRepository,
+        protected LanguageRepository $languageRepository,
         protected OneCApiService $oneCApiService,
         protected LogService $logService
     ) {}
@@ -71,5 +77,54 @@ class OrderService extends Service
     public function createOrderItem(Order $order, array $orderItem): OrderItem
     {
         return $order->items()->create($orderItem);
+    }
+
+    /**
+     * Takes types from 1C and creates or updates it in DB.
+     *
+     * @param array $statuses
+     * @return void
+     */
+    public function syncStatusesWithOneC(array $statuses)
+    {
+        try {
+            $dbStatuses = $this->orderStatusRepository->all();
+            $synchronized = 0;
+            $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+
+            foreach ($statuses as $status) {
+                $existedStatus = $dbStatuses->where('guid', $status['guid'])->first();
+
+                if (!$existedStatus) {
+                    $existedStatus = $this->orderStatusRepository->create(OrderStatusAdapter::adaptOneCOrderStatus($status));
+                    $existedStatus->translations()->create(
+                        OrderStatusAdapter::adaptOneCOrderStatusTranslation($status, $defaultLanguage->id)
+                    );
+                    $dbStatuses->push($existedStatus);
+                } else {
+                    $existedStatus->update(OrderStatusAdapter::adaptOneCOrderStatus($status));
+                    $existedStatus->translations()->where('language_id', $defaultLanguage->id)->update(
+                        OrderStatusAdapter::adaptOneCOrderStatusTranslation($status, $defaultLanguage->id)
+                    );
+                }
+
+                $synchronized++;
+            }
+
+            $this->logService
+                ->log('OrderStatus synchronization', '1c', "OrderStatuses synchronized: $synchronized")
+                ->write();
+        } catch (\Exception $e) {
+            $this->logService
+                ->log('OrderStatus synchronization error', '1c', $e)
+                ->write();
+        }
+    }
+
+    public function getStatusByCode(string $code): OrderStatus|null
+    {
+        return $this->orderStatusRepository->model()
+            ->where('code', $code)
+            ->first();
     }
 }

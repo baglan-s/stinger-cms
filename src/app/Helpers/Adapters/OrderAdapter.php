@@ -20,8 +20,9 @@ class OrderAdapter
                     'number' => $order->user->getPhoneArray()['number'],
                 ]
             ],
+            'statusId' => $order->status->id_1c,
             'storeId' => (int)$order->store->id_1c,
-            'delivery' => $order->is_delivery,
+            'delivery' => (bool)$order->is_delivery,
             'created' => $order->created_at,
             'products' => []
         ];
@@ -39,7 +40,7 @@ class OrderAdapter
 
         foreach ($order->items as $item) {
             $orderData['products'][] = [
-                'productId' => $item->product->id_1c,
+                'id' => $item->product->id_1c,
                 'name' => $item->product->translation()->name,
                 'count' => $item->quantity,
                 'costPerUnit' => $item->cost,
@@ -48,6 +49,6 @@ class OrderAdapter
             ];
         }
 
-        return $orderData;
+        return ['order' => $orderData];
     }
 }

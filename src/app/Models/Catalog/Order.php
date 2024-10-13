@@ -10,6 +10,7 @@ use App\Models\Catalog\OrderStatus;
 use App\Models\Catalog\DeliveryAddress;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Catalog\Payment;
 
 class Order extends Model
 {
@@ -40,5 +41,10 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 }
