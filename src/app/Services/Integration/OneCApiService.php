@@ -183,6 +183,10 @@ class OneCApiService extends Service
                 return [];
             }
 
+            $this->logService
+                ->log('1C Order created.', '1c', json_encode($response->json()))
+                ->write();
+
             return $response->json();
         } catch (\Exception $e) {
             $this->logService

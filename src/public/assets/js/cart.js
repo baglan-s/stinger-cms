@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    // $('#phone-1').mask('+7 (999) 999-99-99', {
-    //     placeholder: "_"
-    // });
 
     $('#submit-btn, #submit-btn-1').on('click', function(e) {
         let activeTab = $('.tab-pane.active');  
@@ -117,16 +114,3 @@ if (deliveryDate) {
         document.getElementById('deliverytDateSelected').innerText = startDateVal
     })
 }
-
-const geoAddressInput = document.getElementById('geoAddress');
-
-console.log(geoAddressInput)
-
-if (geoAddressInput) {
-    window.ymaps.ready(() => {
-        var suggestView = new window.ymaps.SuggestView(geoAddressInput);
-    })
-}
-
-
-

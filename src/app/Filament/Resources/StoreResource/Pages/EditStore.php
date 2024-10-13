@@ -55,6 +55,7 @@ class EditStore extends EditRecord
             'lat' => $data['lat'] ?? null,
             'active' => $data['active'] ?? false,
             'is_public' => $data['is_public'] ?? false,
+            'is_distributor' => $data['is_distributor'] ?? false,
             'sort' => $data['sort'] ?? 0,
         ]);
 

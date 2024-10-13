@@ -82,13 +82,11 @@ class User extends Authenticatable implements FilamentUser
 
     public function getPhoneArray(): array
     {
-        $phoneParts = explode('(', $this->phone);
-        $countryCode = $phoneParts[0];
-        $restParts = explode(')',$phoneParts[1]);
-        $operator = $restParts[0];
-        $number = implode('', explode('-', $restParts[1]));
-
-        return compact('countryCode', 'operator', 'number');
+        return [
+            'countryCode' => substr($this->phone, 0, 2),
+            'operator' => substr($this->phone, 2, 3),
+            'number' => substr($this->phone, 5),
+        ];
     }
 
     /**
