@@ -42,6 +42,8 @@ class CartService extends Service
 
     private string $shippingMethod;
 
+    private int $paymentTypeId;
+
     public function __construct(
         protected OrderService $orderService,
         protected LogService $logService,
@@ -72,6 +74,8 @@ class CartService extends Service
         if ($deliveryAddressId = Cookie::get('ct_dlvr_addr')) {
             $this->deliveryAddress = DeliveryAddress::find($deliveryAddressId);
         }
+
+        $this->paymentTypeId = (int)Cookie::get('ct_pay_mtd', null);
     }
 
     public function add(int $productId, int $quantity)
@@ -188,6 +192,17 @@ class CartService extends Service
         return $this->shippingMethod;
     }
 
+    public function setPaymentTypeId(int $paymentTypeId): void
+    {
+        $this->paymentTypeId = $paymentTypeId;
+        Cookie::queue(Cookie::make('ct_pay_mtd', $paymentTypeId, $this->storeTime));
+    }
+
+    public function getPaymentTypeId(): int
+    {
+        return $this->paymentTypeId;
+    }
+
     public function setNotificationMethod(string $notificationMethod): void
     {
         $this->notificationMethod = $notificationMethod;
@@ -271,8 +286,8 @@ class CartService extends Service
             $products = $this->getProducts();
             $orderData = [
                 'user_id' => auth()->user()?->id,
-                'order_status_id' => 1,
-                'is_paid' => true,
+                'order_status_id' => $this->orderService->getStatusByCode(config('app.order.status_new'))?->id,
+                'is_paid' => false,
                 'notification_method' => $this->notificationMethod,
                 'comment' => $this->comment,
                 'store_id' => $this->shippingMethod === 'pickup' 
@@ -307,7 +322,9 @@ class CartService extends Service
                 $this->remove($orderItem->product_id, $orderItem->quantity);
             }
 
-            $this->clearCookieData();            
+            $this->clearCookieData();
+
+            return $order;
         } catch (\Exception $e) {
             $this->logService->log('Error creating order', 'order', $e)->write();
             throw $e;
@@ -322,5 +339,6 @@ class CartService extends Service
         Cookie::queue('ct_comment', '', -1);
         Cookie::queue('ct_dlvr_addr', '', -1);
         Cookie::queue('ct_ntf_mtd', '', -1);
+        Cookie::queue('ct_pay_mtd', '', -1);
     }
 }

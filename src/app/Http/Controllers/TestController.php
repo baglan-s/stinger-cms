@@ -22,6 +22,7 @@ class TestController extends Controller
 
     public function index($lang = null)
     {
+        dd(config('app.order.status_new'));
         $product = $this->productService->getRepository()
             ->model()
             ->whereHas('files')

@@ -63,6 +63,54 @@ class OneCApiService extends Service
         }
     }
 
+    public function paymentTypes(): array
+    {
+        try {
+            $response = Http::withBasicAuth($this->login, $this->password)
+                ->get("{$this->host}/TEST/hs/excsite/GetTypesOfPayments");
+
+            if (!$response->successful()) {
+                $this->logService
+                    ->log('1C PaymentTypes API error', '1c', $response->body())
+                    ->write();
+
+                return [];
+            }
+
+            return $response->json();
+        } catch (\Exception $e) {
+            $this->logService
+                ->log('1C PaymentTypes API error', '1c', $e)
+                ->write();
+
+            return [];
+        }
+    }
+
+    public function orderStatuses(): array
+    {
+        try {
+            $response = Http::withBasicAuth($this->login, $this->password)
+                ->get("{$this->host}/TEST/hs/excsite/GetStatuses");
+
+            if (!$response->successful()) {
+                $this->logService
+                    ->log('1C OrderStatuses API error', '1c', $response->body())
+                    ->write();
+
+                return [];
+            }
+
+            return $response->json();
+        } catch (\Exception $e) {
+            $this->logService
+                ->log('1C OrderStatuses API error', '1c', $e)
+                ->write();
+
+            return [];
+        }
+    }
+
     public function cities(array $cityIds = [], array $storeIds = []): array
     {
         try {

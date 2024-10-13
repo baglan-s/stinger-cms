@@ -5,7 +5,7 @@ namespace App\Livewire\Catalog;
 use Livewire\Component;
 use App\Services\CartService;
 use App\Services\DeliveryAddressService;
-use App\Services\OrderService;
+use App\Repositories\PaymentTypeRepository;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\Catalog\Store;
 use App\Models\Catalog\City;
@@ -16,6 +16,8 @@ class Checkout extends Component
     private CartService $cartService;
 
     private DeliveryAddressService $deliveryAddressService;
+
+    private PaymentTypeRepository $paymentTypeRepository;
 
     public Store|null $selectedStore;
 
@@ -55,6 +57,8 @@ class Checkout extends Component
 
     public string $notificationMethod = 'sms';
 
+    public int $paymentTypeId;
+
     protected $listeners = [
         'onAddressAdd' => 'setAddress',
     ];
@@ -64,14 +68,16 @@ class Checkout extends Component
     {
         $this->cartService = app(CartService::class);
         $this->deliveryAddressService = app(DeliveryAddressService::class);
+        $this->paymentTypeRepository = app(PaymentTypeRepository::class);
     }
 
-    public function mount()
+    public function mount(string $currentStep = 'delivery')
     {
         $this->currentCity = $this->cartService->getCurrentCity();
         $this->selectedStore = $this->cartService->selectedStore;
-        $this->currentStep = 'delivery';
+        $this->currentStep = $currentStep;
         $this->shippingMethod = $this->cartService->getShippingMethod();
+        $this->paymentTypeId = $this->cartService->getPaymentTypeId();
 
         if ($this->currentStep == 'delivery' && $user = auth()->user()) {
             $this->deliveryAddresses = $user->deliveryAddresses()
@@ -84,11 +90,19 @@ class Checkout extends Component
         }
 
         $this->setCartData();
+
+        if ($this->products->count() === 0 && $this->currentStep != 'confirm') {
+            return redirect()->route('catalog.cart.index');
+        }
     }
 
     public function render()
     {
-        return view('livewire.catalog.checkout');
+        return view('livewire.catalog.checkout', [
+            'paymentTypes' => $this->paymentTypeRepository->model()
+                ->where('active', true)
+                ->get()
+        ]);
     }
 
     public function toStep(string $step)
@@ -210,8 +224,15 @@ class Checkout extends Component
 
     public function confirm()
     {
-        $this->cartService->createOrder();
+        if (!$this->paymentTypeId) {
+            return false;
+        }
+
+        $order = $this->cartService->createOrder();
         $this->dispatch('cartDecremented');
+
+        // TODO: Payment action
+
         $this->currentStep = 'confirm';
     }
 
@@ -227,9 +248,20 @@ class Checkout extends Component
         $this->setCartData();
     }
 
-    public function setAddress(string $street, string $building)
+    public function setAddress(string $street, string $building, $coords = null)
     {
         $this->street = $street;
         $this->building = $building;
+        $this->setCartData();
+        
+        $lon = $coords[0] ?? null;
+        $lat = $coords[1] ?? null;
+        $this->js("initGeoCoder($lon, $lat)");
+    }
+
+    public function setPaymentTypeId(int $paymentTypeId) {
+        $this->paymentTypeId = $paymentTypeId;
+        $this->cartService->setPaymentTypeId($paymentTypeId);
+        $this->setCartData();
     }
 }
