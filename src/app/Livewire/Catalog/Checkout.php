@@ -3,6 +3,7 @@
 namespace App\Livewire\Catalog;
 
 use Livewire\Component;
+use App\Models\Catalog\Order;
 use App\Services\CartService;
 use App\Services\DeliveryAddressService;
 use App\Repositories\PaymentTypeRepository;
@@ -59,8 +60,13 @@ class Checkout extends Component
 
     public int $paymentTypeId;
 
+    public bool $isPaymentActive = false;
+
+    private Order|null $order;
+
     protected $listeners = [
         'onAddressAdd' => 'setAddress',
+        'savePayment'
     ];
 
 
@@ -177,9 +183,9 @@ class Checkout extends Component
 
     public function toPayment()
     {
-        if ($this->validateDelivery()) {
-            return false;
-        }
+        // if ($this->validateDelivery()) {
+        //     return false;
+        // }
 
         if ($this->shippingMethod === 'delivery') {
             if ($this->isNewAddress) {
@@ -230,10 +236,55 @@ class Checkout extends Component
 
         $order = $this->cartService->createOrder();
         $this->dispatch('cartDecremented');
+        $prepareOrderData = [];
 
         // TODO: Payment action
+        if ($orderId = optional($order)->id) {
+            $this->isPaymentActive = true;
+            $prepareOrderData = [
+                'publicId' => 'test_api_00000000000000000000002',
+                'description' => 'Оплата товаров в example.com',
+                'amount' => $order->totalSum(),
+                'accountId' => optional($order->user)->id,
+                'invoiceId' => $orderId,
+                'email' => optional($order->user)->email,
+                'payer' => [
+                    'firstName' => optional($order->user)->name,
+                    'lastName' => optional($order->user)->last_name,
+                    'birth' => optional($order->user)->birthday,
+                    // 'address' => 'тестовый проезд дом тест',
+                    'address' => optional($order->deliveryAddress)->building . ', ' . optional($order->deliveryAddress)->apartment,
+                    'street' => optional($order->deliveryAddress)->street,
+                    'city' => $this->currentCity->translation()?->name,
+                    'country' => 'KZ',
+                    'phone' => optional($order->user)->phone,
+                    'postcode' => optional($order->deliveryAddress)->zip_code
+                ]
+            ];
+            $orderDataJson = json_encode($prepareOrderData, true);
+            $this->js("pay($orderDataJson)");
+        }
 
-        $this->currentStep = 'confirm';
+        // TODO: Установить его когда платеж успешен и нужно показать страницу спасибо за покупку
+        // $this->currentStep = 'confirm';
+    }
+
+   
+    public function paymentSuccess()
+    {
+        $this->currentStep = 'confirm'; 
+    }
+
+    
+    public function savePayment($invoiceId)
+    {
+        if ($this->order) {
+            $this->order->payments()->create([
+                'guid' => $invoiceId
+            ]);
+            $this->dispatchBrowserEvent('payment-saved');
+        }
+        $this->currentStep = 'confirm'; 
     }
 
     public function updated()
