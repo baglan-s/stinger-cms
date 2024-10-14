@@ -16,6 +16,7 @@ class CreateOrderStatus extends CreateRecord
     {
         $orderStatus = OrderStatus::create([
             'code' => $data['code'],
+            'guid' => $data['guid'] ?? null,
         ]);
         
         foreach ($data['translations'] as $translation) {

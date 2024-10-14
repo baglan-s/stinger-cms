@@ -20,23 +20,27 @@ class OrderAdapter
                     'number' => $order->user->getPhoneArray()['number'],
                 ]
             ],
-            'storeId' => $order->store->id_1c,
-            'delivery' => $order->is_delivery,
+            'statusId' => $order->status->id_1c,
+            'storeId' => (int)$order->store->id_1c,
+            'delivery' => (bool)$order->is_delivery,
             'created' => $order->created_at,
-            'deliveryAddress' => [
+            'products' => []
+        ];
+
+        if ($order->is_delivery) {
+            $orderData['deliveryAddress'] = [
                 'country' => $order->deliveryAddress->country,
                 'city' => $order->deliveryAddress->city,
                 'street' => $order->deliveryAddress->street,
                 'building' => $order->deliveryAddress->building,
                 'apartment' => $order->deliveryAddress->apartment,
-            ],
-            'courierPartner' => $order->delivery_company,
-            'products' => []
-        ];
+            ];
+            $orderData['courierPartner'] = $order->delivery_company;
+        }
 
         foreach ($order->items as $item) {
             $orderData['products'][] = [
-                'productId' => $item->product->id_1c,
+                'id' => $item->product->id_1c,
                 'name' => $item->product->translation()->name,
                 'count' => $item->quantity,
                 'costPerUnit' => $item->cost,
@@ -45,6 +49,6 @@ class OrderAdapter
             ];
         }
 
-        return $orderData;
+        return ['order' => $orderData];
     }
 }

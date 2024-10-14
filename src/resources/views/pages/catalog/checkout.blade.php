@@ -11,7 +11,7 @@
 @section('content')
 
 
-<livewire:catalog.checkout>
+<livewire:catalog.checkout :currentStep="$step ?? 'delivery'">
 
 
 @endsection

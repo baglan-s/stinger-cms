@@ -93,6 +93,7 @@ return [
                 'main_images' => 'Главное изображение',
                 'additional_images' => 'Дополнительное изображение',
                 'is_public' => 'Публичный',
+                'is_distributor' => 'Распределительный центр',
                 'author' => 'Автор',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
@@ -120,6 +121,11 @@ return [
                 'cities' => [
                     'city' => 'Город',
                     'price_types' => 'Типы цен'
+                ],
+                'payments' => [
+                    'title' => 'Платежи',
+                    'types' => 'Типы платежей',
+                    'type' => 'Тип'
                 ],
                 'orders'=> [
                     'order' => 'Заказ',

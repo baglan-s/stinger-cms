@@ -5,12 +5,16 @@ namespace App\Livewire\Catalog;
 use Livewire\Component;
 use App\Services\ProductService;
 use App\Services\CartService;
+use App\Models\Catalog\Store;
+use Illuminate\Support\Facades\Cookie;
 
 class Cart extends Component
 {
     private CartService $cartService;
 
     public bool $hasProduct = false;
+
+    public string $shippingMethod = 'pickup';
 
     public int $productCount = 0;
 
@@ -20,9 +24,17 @@ class Cart extends Component
 
     public $products;
 
+    public $stores;
+
+    public Store|null $selectedStore;
+
     public function mount()
     {
+        $this->shippingMethod = $this->cartService->getShippingMethod();
         $this->setCartData();
+        
+        $storesCollection = collect($this->stores);
+        $this->selectedStore = $this->cartService->selectedStore ?? $storesCollection->first();
     }
 
     public function __construct()
@@ -54,8 +66,9 @@ class Cart extends Component
         $this->cartItems = $this->cartService->getItems();
         $this->productCount = $this->cartService->itemsCount();
         $this->hasProduct = $this->productCount > 0;
-        $this->products = $this->cartService->getProducts();
         $this->totalPrice = $this->cartService->getTotalPrice();
+        $this->stores = $this->cartService->getStores();
+        $this->products = $this->cartService->getProducts();
     }
 
     public function clearCart()
@@ -63,5 +76,19 @@ class Cart extends Component
         $this->cartService->clear();
         $this->setCartData();
         $this->dispatch('cartCleared');
+    }
+
+    public function setShippingMethod(string $shippingMethod)
+    {
+        $this->shippingMethod = $shippingMethod;
+        $this->cartService->setShippingMethod($this->shippingMethod);
+        $this->setCartData();
+    }
+
+    public function selectStore(Store|null $store)
+    {
+        $this->selectedStore = $store;
+        $this->cartService->setStore($store);
+        $this->setCartData();
     }
 }

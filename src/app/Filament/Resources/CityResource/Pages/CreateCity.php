@@ -20,6 +20,7 @@ class CreateCity extends CreateRecord
             'guid' => $data['guid'] ?? null,
             'kaspi_index' => $data['kaspi_index'] ?? null,
             'active' => $data['active'] ?? false,
+            'has_delivery' => $data['has_delivery'] ?? false,
             'sort' => $data['sort'] ?? 0,
         ]);
         

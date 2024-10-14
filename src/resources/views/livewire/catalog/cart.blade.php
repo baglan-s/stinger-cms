@@ -22,7 +22,7 @@
             <button class="cart-reset" wire:click="clearCart">Очистить корзину</button>
             <ul class="order-list">
                 @foreach ($products as $product)
-                    <li class="order-item-mobile">
+                    <li @class(['order-item-mobile', 'disabled' => !$product->isAvailable])>
                         <div class="order-item">
                             <div class="order-item-image">
                                 <img src="{{ $product->getDefaultImage() }}" alt="">
@@ -59,9 +59,28 @@
                                 <button class="cart-item-plus cart-item-btn" wire:click="addToCart('{{ $product->id }}')" wire:loading.attr="disabled">+</button>
                             </div>
                         </div>
+                        <div class="order-item-wrapper">
+                            <div class="order-item-wrapper__content">
+                                @if ($shippingMethod === 'pickup')
+                                    <div class="order-disabled-link">
+                                        <span>В данном пункте самовывоза отсутствует этот товар.</span>
+                                    </div>
+                                @else
+                                    <div class="order-disabled-link">
+                                        <span>
+                                            В вашем городе отсутствует доставка. <br> 
+                                            Но вы можете заказать его через <a href="{{ $product->kaspi_link }}" target="_blank">Kaspi.kz</a>
+                                        </span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </li> 
                 @endforeach
             </ul>
+            <div wire:loading>
+                <x-catalog.preloader :class="['active', 'absolute']" />
+            </div>
         </div>
 
         
@@ -74,7 +93,7 @@
                     <ul class="order-list">
                         @foreach ($products as $product)
 
-                            <li class="order-item">
+                            <li @class(['order-item', 'disabled' => !$product->isAvailable])>
                                 <div class="order-item-image">
                                     <img src="{{ $product->getDefaultImage() }}" alt="">
                                 </div>
@@ -116,10 +135,29 @@
                                         </g>
                                     </svg>
                                 </button>
+                                <div class="order-item-wrapper">
+                                    <div class="order-item-wrapper__content">
+                                        @if ($shippingMethod === 'pickup')
+                                            <div class="order-disabled-link">
+                                                <span>В данном пункте самовывоза отсутствует этот товар.</span>
+                                            </div>
+                                        @else
+                                            <div class="order-disabled-link">
+                                                <span>
+                                                    В вашем городе отсутствует доставка. <br> 
+                                                    Но вы можете заказать его через <a href="{{ $product->kaspi_link }}" target="_blank">Kaspi.kz</a>
+                                                </span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
                             </li>
 
                         @endforeach
                     </ul>
+                    <div wire:loading>
+                        <x-catalog.preloader :class="['active', 'absolute']" />
+                    </div>
                 </div>
             </main>
 
@@ -127,27 +165,60 @@
                 <div class="cart-side-mobile">
                     <div class="side-checkout">
                         <h5>Ваш заказ</h5>
+                        <div class="cart-shipping-info">
+                            <div class="shipping-method">
+                                <div class="shipping-method__tabs">
+                                    <button class="tab-pickup @if($shippingMethod === 'pickup') active @endif" wire:click="setShippingMethod('pickup')">Самовывоз</button>
+                                    <button class="tab-delivery @if($shippingMethod === 'delivery') active @endif" wire:click="setShippingMethod('delivery')">Доставка</button>
+                                </div>
+                                <div class="shipping-method__content">
+                                    @if($shippingMethod === 'pickup')
+                                        <div class="tab-pickup-content">
+                                            <span class="tab-content__text d-block mb-2">Выберите пункт самовывоза</span>
+                                            <div class="live-select" x-data="{ open: false }">
+                                                <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M10 14a.997.997 0 01-.707-.293l-5-5a.999.999 0 111.414-1.414L10 11.586l4.293-4.293a.999.999 0 111.414 1.414l-5 5A.997.997 0 0110 14z" fill="#5C5F62"/>
+                                                </svg>
+                                                <div class="live-select__selected" @click="open = true">
+                                                    <span class="selected__text">{{ $selectedStore?->translation()?->name ?? '-' }}</span>
+                                                </div>
+                                                <div class="live-select__options" x-show="open" @click.outside="open = false">
+                                                    @foreach ($stores as $store)
+                                                        <div @click="open = false" wire:click="selectStore({{ $store }})" @class(['live-select__option', 'selected' => $selectedStore?->id == $store->id])>{{ $store->translation()?->name }}</div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="tab-delivery-content">
+                                            <span class="tab-content__text d-block mb-2">Заполните данные для доставки в следующем шаге</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="cart-total-content">
                             <div class="cart-total-item">
-                                <span class="cart-total-item__title">{{ $products->sum('quantity') }} товаров на сумму</span>
-                                <span class="cart-total-item__price">{{ $products->sum('totalPrice') }} ₸</span>
+                                <span class="cart-total-item__title">{{ $products->sum('availableQuantity') }} товаров на сумму</span>
+                                <span class="cart-total-item__price">{{ $products->sum('availableTotalPrice') }} ₸</span>
                             </div>
-                            @if ($products->sum('totalOldPrice') > 0)
+                            @if ($products->sum('availableTotalOldPrice') > 0)
                                 <div class="cart-total-item">
                                     <span class="cart-total-item__title">Скидка</span>
-                                    <span class="cart-total-item__price">{{ $products->sum('totalOldPrice') }} ₸</span>
+                                    <span class="cart-total-item__price">{{ $products->sum('availableTotalOldPrice') }} ₸</span>
                                 </div>
                             @endif
                         </div>
 
                         <div class="cart-total-price">
                             <span>К оплате</span>
-                            <span>{{ $products->sum('totalPrice') }} ₸</span>
+                            <span>{{ $products->sum('availableTotalPrice') }} ₸</span>
                         </div>
                     </div>
                     <hr>
-                    <a class="base-button" href="{{ route('catalog.cart.checkout') }}">Перейти к оформлению</a>
+                    <button class="base-button cart-button" disabled wire:loading>Перейти к оформлению</button>
+                    <a class="base-button" @if($products->sum('availableTotalPrice') > 0) href="{{ route('catalog.cart.checkout') }}" @endif wire:loading.remove>Перейти к оформлению</a>
                     <p class="mt-3">Нажимая на кнопку вы даете согласие на</p>
                     <div class="link-policy">
                         <a href="#">обработку персональных данных</a>

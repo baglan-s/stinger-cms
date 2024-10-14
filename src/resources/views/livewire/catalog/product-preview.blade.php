@@ -39,6 +39,9 @@
                     @endif
                 </div>
                 <a href="{{ route('catalog.products.show', $product->translation()?->slug ?? '-') }}" class="inner-product-card__title">{{ $product->translation()?->name }}</a>
+                @if($product->cityStocks->sum('available') <= 0)
+                    <small class="availability-label">Нет в наличии</small>
+                @endif
             </div>
         </div>
         <div class="inner-product-card__bottom">
@@ -52,7 +55,7 @@
             </a>
             <div class="inner-product-card__action">
                 <div class="product-card-action">
-                    <button class="inner-product-card-action__btn" wire:click="addProductToCart({{ $product->id }})" @if ($product->stocks->sum('available') <= 0) disabled @endif >
+                    <button class="inner-product-card-action__btn" wire:click="addProductToCart({{ $product->id }})" @if ($product->cityStocks->sum('available') <= 0) disabled @endif >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="inner-product-card-action__icon svg-icons">
                             <path d="M0 2v4h4.306l1.66 9.967-1.927 9.64c-.027.134-.04.268-.039.401.003.682 0 1.294 0 1.992a4 4 0 0 0 8 0h8a4 4 0 1 0 4-4H8.44l.8-4H30V2H0Z" />
                         </svg>
