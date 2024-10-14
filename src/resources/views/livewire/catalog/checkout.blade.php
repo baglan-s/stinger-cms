@@ -341,39 +341,33 @@
                     description: order.description, //назначение
                     amount: order.amount, //сумма
                     currency: 'KZT', //валюта
-                    accountId: 'user@example.com', //идентификатор плательщика (необязательно)
-                    invoiceId: '1234567', //номер заказа  (необязательно)
-                    email: 'user@example.com', //email плательщика (необязательно)
+                    accountId: order.accountId, //идентификатор плательщика (необязательно)
+                    invoiceId: order.invoiceId, //номер заказа  (необязательно)
+                    email: order.email, //email плательщика (необязательно)
                     skin: "mini", //дизайн виджета (необязательно)
                     autoClose: 3, //время в секундах до авто-закрытия виджета (необязательный)
                     data: {
                         myProp: 'myProp value'
                     },
                     payer: {
-                        firstName: 'Тест',
-                        lastName: 'Тестов',
-                        middleName: 'Тестович',
-                        birth: '1955-02-24',
-                        address: 'тестовый проезд дом тест',
-                        street: 'Lenina',
-                        city: 'MO',
+                        firstName: order.firstName,
+                        lastName: order.lastName,
+                        birth: order.birth,
+                        address: order.address,
+                        street: order.street,
+                        city: order.city,
                         country: 'KZ',
-                        phone: '123',
-                        postcode: '345'
+                        phone: order.phone,
+                        postcode: order.postcode
                     }
                 }, {
-                    onSuccess: function(options) { // success
-                        //действие при успешной оплате
-                        alert(789);
-                        Livewire.emit('paymentSuccess');
-                        // $.each(options, function(key, value) {
-                        //     alert(key + ": " + value);
-                        //     console.log(key + ": " + value);
-                        //     $.each(value, function (index, item) {
-                        //         alert(index + ": " + item);
-                        //         console.log(index + ": " + item);
-                        //     });
-                        // });
+                    onSuccess: function(paymentResult, options) { // success
+                        if (paymentResult.invoiceId) {
+                            window.Livewire.dispatch('savePaymentFront', {
+                                invoiceId: paymentResult.invoiceId,
+                                orderId: order.invoiceId
+                            });
+                        }
                     },
                     onFail: function(reason, options) { // fail
                         //действие при неуспешной оплате
@@ -383,27 +377,10 @@
                         options
                     ) { //Вызывается как только виджет получает от api.tiptoppay ответ с результатом транзакции.
                         //например вызов вашей аналитики
-                        // Проверяем статус транзакции
-                        alert(paymentResult.status);
-                        if (paymentResult.success === true) {
-                            Livewire.emit('savePayment', paymentResult.invoiceId);
-                            if (paymentResult.invoiceId) {
-                                // Отправляем invoiceId в Livewire компонент для сохранения
-                                Livewire.emit('savePayment', paymentResult.invoiceId);
-                            }
-                        }
                     }
                 }
             )
         };
-
-        document.addEventListener('livewire:load', function() {
-            window.addEventListener('payment-saved', function() {
-                location.reload();
-            });
-        });
-
-        //$('#checkout-pay-btn').click(pay);
     </script>
 
 </div>

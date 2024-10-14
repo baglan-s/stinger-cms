@@ -66,7 +66,7 @@ class Checkout extends Component
 
     protected $listeners = [
         'onAddressAdd' => 'setAddress',
-        'savePayment'
+        'savePaymentFront' => 'savePayment'
     ];
 
 
@@ -243,7 +243,7 @@ class Checkout extends Component
             $this->isPaymentActive = true;
             $prepareOrderData = [
                 'publicId' => 'test_api_00000000000000000000002',
-                'description' => 'Оплата товаров в example.com',
+                'description' => 'Оплата товаров в https://nemo.com',
                 'amount' => $order->totalSum(),
                 'accountId' => optional($order->user)->id,
                 'invoiceId' => $orderId,
@@ -261,30 +261,28 @@ class Checkout extends Component
                     'postcode' => optional($order->deliveryAddress)->zip_code
                 ]
             ];
+
             $orderDataJson = json_encode($prepareOrderData, true);
+           
             $this->js("pay($orderDataJson)");
+            
+            $order->payments()->create([
+                'payment_type_id' => $this->paymentTypeId,
+                'amount' => $order->totalSum()
+            ]);
         }
-
-        // TODO: Установить его когда платеж успешен и нужно показать страницу спасибо за покупку
-        // $this->currentStep = 'confirm';
     }
-
-   
-    public function paymentSuccess()
-    {
-        $this->currentStep = 'confirm'; 
-    }
-
     
-    public function savePayment($invoiceId)
+    public function savePayment($orderId, $invoiceId)
     {
-        if ($this->order) {
-            $this->order->payments()->create([
+        $order = Order::find($orderId);
+        if ($order && $invoiceId) {
+            $order->payments()->update([
                 'guid' => $invoiceId
             ]);
-            $this->dispatchBrowserEvent('payment-saved');
+
+            $this->currentStep = 'confirm'; 
         }
-        $this->currentStep = 'confirm'; 
     }
 
     public function updated()
