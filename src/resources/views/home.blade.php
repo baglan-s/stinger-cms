@@ -14,7 +14,7 @@
         </div>
     </div>
     <x-video-review />
-    <x-partners />
+    
     <div class="wrapper-inner">
         <!-- Novelty -->
         <div class="main-page-content-section-products__block">
@@ -27,6 +27,7 @@
             </div>
         </div>
     </div>
+    <x-partners />
 </div>
 <!-- End home page content -->
 @endsection

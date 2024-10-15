@@ -33,6 +33,12 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->whereNull('parent_id')
+            ->whereHas('stocks', function ($query) {
+                $query->whereHas('store', function ($query) {
+                    $query->where('city_id', Cookie::get('city_id'))
+                        ->orWhere('is_distributor', true);
+                })->where('available', '>', 0);
+            })
             ->with('stocks')
             ->latest()
             ->limit($limit)
@@ -43,6 +49,12 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->whereNull('parent_id')
+            ->whereHas('stocks', function ($query) {
+                $query->whereHas('store', function ($query) {
+                    $query->where('city_id', Cookie::get('city_id'))
+                        ->orWhere('is_distributor', true);
+                })->where('available', '>', 0);
+            })
             ->with('stocks')
             ->orderBy('views', 'desc')
             ->limit($limit)
@@ -193,7 +205,10 @@ class ProductRepository extends Repository
             })
             ->when(isset($filter['available']) && $filter['available'], function ($query) {
                 $query->whereHas('stocks', function ($query) {
-                    $query->where('available', '>', 0);
+                    $query->whereHas('store', function ($query) {
+                        $query->where('city_id', Cookie::get('city_id'))
+                            ->orWhere('is_distributor', true);
+                    })->where('available', '>', 0);
                 });
             })
             ->when(isset($filter['specs']), function ($query) use ($filter) {

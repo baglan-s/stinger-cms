@@ -56,7 +56,7 @@ class ProductController extends Controller
 
         return view('pages.catalog.product', [
             'product' => $product,
-            'similarProducts' => $this->productService->getRepository()->similar($product->product_category_id)
+            'similarProducts' => $product->product_category_id ? $this->productService->getRepository()->similar($product->product_category_id): $this->productService->getRepository()->latest()
         ]);
     }
 
