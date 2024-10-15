@@ -337,15 +337,15 @@
             var widget = new tiptop.Widget();
             widget.pay('auth', // или 'charge'
                 { //options
-                    publicId: order.publicId, //id из личного кабинета
-                    description: order.description, //назначение
-                    amount: order.amount, //сумма
-                    currency: 'KZT', //валюта
-                    accountId: order.accountId, //идентификатор плательщика (необязательно)
-                    invoiceId: order.invoiceId, //номер заказа  (необязательно)
-                    email: order.email, //email плательщика (необязательно)
-                    skin: "mini", //дизайн виджета (необязательно)
-                    autoClose: 3, //время в секундах до авто-закрытия виджета (необязательный)
+                    publicId: order.publicId,
+                    description: order.description,
+                    amount: order.amount,
+                    currency: 'KZT',
+                    accountId: order.accountId,
+                    invoiceId: order.invoiceId,
+                    email: order.email,
+                    skin: "mini",
+                    autoClose: 3,
                     data: {
                         myProp: 'myProp value'
                     },
