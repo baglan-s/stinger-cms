@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Services\Service;
+use App\Repositories\UserRepository;
 
 class UserService extends Service
 {
@@ -15,6 +16,10 @@ class UserService extends Service
         'admin',
         'moderator'
     ];
+
+    public function __construct(
+        protected UserRepository $repository,
+    ) {}
 
     /**
      * 

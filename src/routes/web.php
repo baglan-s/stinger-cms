@@ -32,8 +32,28 @@ Route::prefix('catalog')
         });
 });
 
-Route::get('/personal-account/{user_id}', [App\Http\Controllers\Cabinet\UserController::class, 'index'])
-    ->name('personal.account');
+Route::prefix('account')
+    ->name('account.')
+    ->middleware([App\Http\Middleware\Client::class])
+    ->group(function () {
+        Route::get('/{user_id}', [App\Http\Controllers\Cabinet\UserController::class, 'index'])
+            ->name('index');
+        Route::put('/{user_id}', [App\Http\Controllers\Cabinet\UserController::class, 'update'])
+            ->name('update');
+        Route::get('/{user_id}/orders', [App\Http\Controllers\Catalog\OrderController::class, 'userOrders'])
+            ->name('orders');
+        Route::get('/{user_id}/addresses', [App\Http\Controllers\Catalog\DeliveryAddressController::class, 'index'])
+            ->name('addresses.index');
+        Route::post('/{user_id}/addresses/{id}', [App\Http\Controllers\Catalog\DeliveryAddressController::class, 'create'])
+            ->name('addresses.create');
+        Route::put('/{user_id}/addresses/{id}', [App\Http\Controllers\Catalog\DeliveryAddressController::class, 'update'])
+            ->name('addresses.update');
+        Route::delete('/{user_id}/addresses/{id}', [App\Http\Controllers\Catalog\DeliveryAddressController::class, 'destroy'])
+            ->name('addresses.delete');
+        Route::get('logout', [App\Http\Controllers\Cabinet\UserController::class, 'personalAccountLogout'])
+            ->name('logout');
+    });
+
 Route::post('send-sms', [App\Http\Controllers\SmsController::class, 'sendSms']);
 Route::post('send-code-email', [App\Http\Controllers\Cabinet\UserController::class, 'sendCodeEmail']);
 Route::post('cofirm-sms', [App\Http\Controllers\SmsController::class, 'confirmSms']);
@@ -41,7 +61,6 @@ Route::post('cofirm-email-code', [App\Http\Controllers\Cabinet\UserController::c
 Route::post('user-register', [App\Http\Controllers\Cabinet\UserController::class, 'register'])->name('user.register');
 Route::get('test-sms', [App\Http\Controllers\TestController::class, 'testSms']);
 Route::get('auth-check', [App\Http\Controllers\Cabinet\UserController::class, 'authCheck'])->name('user.auth.check');
-Route::get('personal-account-logout', [App\Http\Controllers\Cabinet\UserController::class, 'personalAccountLogout'])->name('personal.account.logout');
 Route::get('comparison', [App\Http\Controllers\Pages\ComparisonController::class, 'index']);
 Route::get('favourites', [App\Http\Controllers\Pages\FavouriteProductController::class, 'index']);
 Route::post('send-feedback', [App\Http\Controllers\FeedbackController::class, 'sendFeedback']);

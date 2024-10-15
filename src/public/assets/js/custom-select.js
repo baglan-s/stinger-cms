@@ -19,6 +19,12 @@ $(document).ready(function () {
       .find("input")
       .val(selectedValue);
 
+    const dataSaveBtn = document.querySelector('.data-save');
+
+    if (dataSaveBtn) {
+      document.querySelector('.data-save').removeAttribute('disabled');
+    }
+
     $(".select-items div").removeClass(
       "the-personal-select__item--selected"
     );
