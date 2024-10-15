@@ -101,7 +101,7 @@ class CartService extends Service
             }
         }
         
-        Cookie::queue('cart', json_encode($this->items), $this->storeTime);
+        Cookie::queue('cart', json_encode($this->items), !empty($this->items) ? : -1);
     }
 
     public function getItems(): array
