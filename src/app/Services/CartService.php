@@ -50,32 +50,38 @@ class CartService extends Service
         protected ProductRepository $productRepository,
         private array $items = [],
     ) {
-        $this->setShippingMethod(Cookie::get('ct_spg_mtd', 'pickup'));
+        // $this->setShippingMethod(Cookie::get('ct_spg_mtd', 'pickup'));
+        $this->setShippingMethod(session()->get('shippingMethod', 'pickup'));
+        $this->setNotificationMethod(session()->get('notificationMethod', 'sms'));
         $this->currentCity = City::find(Cookie::get('city_id')) ?? City::first();
         $this->setItems();
         $this->setStores();
         $firstStore = $this->stores[0] ?? null;
-        $this->setStore(Store::find(Cookie::get('ct_store')) ?? $firstStore);
+        $this->setStore(Store::find(session()->get('selectedStore')) ?? $firstStore);
         $this->setProducts();
 
-        if (Cookie::get('ct_receiver')) {
-            $receiver = json_decode(Cookie::get('ct_receiver'), true);
+        // if (Cookie::get('ct_receiver')) {
+        if (session()->has('receiver')) {
+            // $receiver = json_decode(Cookie::get('ct_receiver'), true);
+            $receiver = json_decode(session()->get('receiver'), true);
             $this->setReveiverData(
-                $receiver['name'],
-                $receiver['lastName'],
-                $receiver['phone'],
+                $receiver['name'] ?? '-',
+                $receiver['lastName'] ?? '-',
+                $receiver['phone'] ?? '-',
                 $receiver['email'] ?? null,
-                Cookie::get('ct_comment', null),
+                session()->get('cartComment', null),
+                // Cookie::get('ct_comment', null),
                 false
             );
             $this->hasReceiver = true;
         }
 
-        if ($deliveryAddressId = Cookie::get('ct_dlvr_addr')) {
+        if ($deliveryAddressId = session()->get('deliveryAddress')) {
             $this->deliveryAddress = DeliveryAddress::find($deliveryAddressId);
         }
 
-        $this->paymentTypeId = (int)Cookie::get('ct_pay_mtd', null);
+        // $this->paymentTypeId = (int)Cookie::get('ct_pay_mtd', null);
+        $this->paymentTypeId = (int)session()->get('paymentTypeId', null);
     }
 
     public function add(int $productId, int $quantity)
@@ -101,7 +107,7 @@ class CartService extends Service
             }
         }
         
-        Cookie::queue('cart', json_encode($this->items), !empty($this->items) ? : -1);
+        Cookie::queue('cart', json_encode($this->items), $this->storeTime);
     }
 
     public function getItems(): array
@@ -184,7 +190,8 @@ class CartService extends Service
     public function setShippingMethod(string $shippingMethod)
     {
         $this->shippingMethod = $shippingMethod;
-        Cookie::queue(Cookie::make('ct_spg_mtd', $this->shippingMethod, $this->storeTime));
+        // Cookie::queue(Cookie::make('ct_spg_mtd', $this->shippingMethod, $this->storeTime));
+        session()->put('shippingMethod', $this->shippingMethod);
     }
 
     public function getShippingMethod(): string
@@ -195,7 +202,8 @@ class CartService extends Service
     public function setPaymentTypeId(int $paymentTypeId): void
     {
         $this->paymentTypeId = $paymentTypeId;
-        Cookie::queue(Cookie::make('ct_pay_mtd', $paymentTypeId, $this->storeTime));
+        session()->put('paymentTypeId', $this->paymentTypeId);
+        // Cookie::queue(Cookie::make('ct_pay_mtd', $paymentTypeId, $this->storeTime));
     }
 
     public function getPaymentTypeId(): int
@@ -206,7 +214,8 @@ class CartService extends Service
     public function setNotificationMethod(string $notificationMethod): void
     {
         $this->notificationMethod = $notificationMethod;
-        Cookie::queue(Cookie::make('ct_ntf_mtd', $notificationMethod, $this->storeTime));
+        session()->put('notificationMethod', $notificationMethod);
+        // Cookie::queue(Cookie::make('ct_ntf_mtd', $notificationMethod, $this->storeTime));
     }
 
     public function getNotificationMethod(): string
@@ -217,7 +226,8 @@ class CartService extends Service
     public function setDeliveryAddress(DeliveryAddress $deliveryAddress)
     {
         $this->deliveryAddress = $deliveryAddress;
-        Cookie::queue(Cookie::make('ct_dlvr_addr', $deliveryAddress->id, $this->storeTime));
+        // Cookie::queue(Cookie::make('ct_dlvr_addr', $deliveryAddress->id, $this->storeTime));
+        session()->put('deliveryAddress', $deliveryAddress->id);
     }
 
     public function getDeliveryAddress(): DeliveryAddress|null
@@ -242,7 +252,8 @@ class CartService extends Service
     public function setStore(Store|null $store)
     {
         $this->selectedStore = $store;
-        Cookie::queue(Cookie::make('ct_store', $store?->id, $this->storeTime));
+        session()->put('selectedStore',  $store?->id);
+        // Cookie::queue(Cookie::make('ct_store', $store?->id, $this->storeTime));
     }
 
     public function setReveiverData($name, $lastName, $phone, $email = null, $comment = null, $store = true)
@@ -254,20 +265,22 @@ class CartService extends Service
         $this->comment = $comment;
 
         if ($store) {
-            Cookie::queue(Cookie::make('ct_receiver', json_encode([
+            session()->put('receiver', json_encode([
                 'name' => $name,
                 'lastName' => $lastName,
                 'phone' => $phone,
                 'email' => $email,
-            ]), $this->storeTime));
-            Cookie::queue(Cookie::make('ct_comment', $comment, $this->storeTime));
+            ]),);
+            // Cookie::queue(Cookie::make('ct_comment', $comment, $this->storeTime));
+            session()->put('cartComment', $comment);
         }
     }
 
     public function setComment(string|null $comment)
     {
         $this->comment = $comment;
-        Cookie::queue(Cookie::make('ct_comment', $comment, $this->storeTime));
+        session()->put('cartComment', $this->comment);
+        // Cookie::queue(Cookie::make('ct_comment', $comment, $this->storeTime));
     }
 
     public function setHasReceiver(bool $hasReceiver)
@@ -275,7 +288,8 @@ class CartService extends Service
         $this->hasReceiver = $hasReceiver;
 
         if (!$hasReceiver) {
-            Cookie::queue(Cookie::make('ct_receiver', null, -1));
+            // Cookie::queue(Cookie::make('ct_receiver', null, -1));
+            session()->put('receiver', $hasReceiver);
         }
     }
 
@@ -333,12 +347,21 @@ class CartService extends Service
 
     public function clearCookieData()
     {
-        Cookie::queue('ct_spg_mtd', json_encode([]), -1);
-        Cookie::queue('ct_store', json_encode([]), -1);
-        Cookie::queue('ct_receiver', json_encode([]), -1);
-        Cookie::queue('ct_comment', '', -1);
-        Cookie::queue('ct_dlvr_addr', '', -1);
-        Cookie::queue('ct_ntf_mtd', '', -1);
-        Cookie::queue('ct_pay_mtd', '', -1);
+        // Cookie::queue('ct_spg_mtd', json_encode([]), -1);
+        // Cookie::queue('ct_store', json_encode([]), -1);
+        // Cookie::queue('ct_receiver', json_encode([]), -1);
+        // Cookie::queue('ct_comment', '', -1);
+        // Cookie::queue('ct_dlvr_addr', '', -1);
+        // Cookie::queue('ct_ntf_mtd', '', -1);
+        // Cookie::queue('ct_pay_mtd', '', -1);
+        session()->forget([
+            'shippingMethod',
+            'paymentTypeId',
+            'notificationMethod',
+            'deliveryAddress',
+            'selectedStore',
+            'cartComment',
+            'receiver',
+        ]);
     }
 }
