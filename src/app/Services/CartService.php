@@ -309,7 +309,7 @@ class CartService extends Service
             if ($this->shippingMethod === 'delivery') {
                 $orderData['delivery_address_id'] = $this->deliveryAddress->id;
                 $orderData['is_delivery'] = true;
-                $orderData['delivery_company'] = 'NEMO';
+                $orderData['delivery_company'] = '';
             }
 
             $order = $this->orderService->createOrder(array_merge($orderData, $receiverData));

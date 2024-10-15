@@ -238,12 +238,14 @@ class Checkout extends Component
             return false;
         }
 
-        $order = $this->cartService->createOrder();
-        $this->dispatch('cartDecremented');
-        $prepareOrderData = [];
+        try {
+
+            $order = $this->cartService->createOrder();
+            $this->dispatch('cartDecremented');
+            $prepareOrderData = [];
 
         // TODO: Payment action
-        try {
+        
             if ($orderId = optional($order)->id) {
                 $this->isPaymentActive = true;
                 $prepareOrderData = [
