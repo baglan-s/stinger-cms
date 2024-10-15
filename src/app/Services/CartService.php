@@ -51,7 +51,7 @@ class CartService extends Service
         private array $items = [],
     ) {
         $this->setShippingMethod(Cookie::get('ct_spg_mtd', 'pickup'));
-        $this->currentCity = City::find(Cookie::get('city_id', 1));
+        $this->currentCity = City::find(Cookie::get('city_id')) ?? City::first();
         $this->setItems();
         $this->setStores();
         $firstStore = $this->stores[0] ?? null;
