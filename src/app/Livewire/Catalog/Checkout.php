@@ -95,6 +95,10 @@ class Checkout extends Component
                 ->get();
             $this->isNewAddress = $this->deliveryAddresses->count() < 1;
             $this->selectedDeliveryAddress = $this->cartService->deliveryAddress ?? $this->deliveryAddresses->first();
+
+            if ($this->isNewAddress) {
+                $this->js('initGeoCoder()');
+            }
         } else {
             $this->deliveryAddresses = collect([]);
         }

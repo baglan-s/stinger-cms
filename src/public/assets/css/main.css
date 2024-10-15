@@ -396,7 +396,7 @@ img {
     top: 9px;
     color: #fff;
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
     line-height: 20px;
 }
@@ -1355,7 +1355,7 @@ svg.hc-control-item__icon {
     }
     .inner-product-discount__counting {
         top: 13px;
-        font-size: 28px;
+        font-size: 14px;
         list-style: 28px;
     }
     .inner-product-card__favorite,
