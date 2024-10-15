@@ -9,10 +9,11 @@ class OrderAdapter
     public static function adaptOneCOrder(Order $order): array
     {
         $orderData = [
-            'id' => $order->id,
+            'id' => (string)$order->id,
             'customer' => [
                 'firstName' => $order->user->name,
                 'lastName' => $order->user->last_name,
+                'patronymic' => '',
                 'email' => $order->user->email,
                 'phone' => [
                     'countryCode' => $order->user->getPhoneArray()['countryCode'],
@@ -24,7 +25,9 @@ class OrderAdapter
             'storeId' => (int)$order->store->id_1c,
             'delivery' => (bool)$order->is_delivery,
             'created' => $order->created_at,
-            'products' => []
+            'paymentIds' => [],
+            'products' => [],
+            'courierPartner' => ''
         ];
 
         if ($order->is_delivery) {
@@ -33,7 +36,7 @@ class OrderAdapter
                 'city' => $order->deliveryAddress->city,
                 'street' => $order->deliveryAddress->street,
                 'building' => $order->deliveryAddress->building,
-                'apartment' => $order->deliveryAddress->apartment,
+                'apartment' => $order->deliveryAddress->apartment ?? '',
             ];
             $orderData['courierPartner'] = $order->delivery_company;
         }
@@ -42,13 +45,13 @@ class OrderAdapter
             $orderData['products'][] = [
                 'id' => $item->product->id_1c,
                 'name' => $item->product->translation()->name,
-                'count' => $item->quantity,
-                'costPerUnit' => $item->cost,
-                'discountSum' => $item->discount,
-                'totalCost' => $item->total,
+                'count' => (int)$item->quantity,
+                'costPerUnit' => (int)$item->cost,
+                'discountSum' => (int)$item->discount,
+                'totalCost' => (int)$item->total,
             ];
         }
 
-        return ['order' => $orderData];
+        return $orderData;    
     }
 }

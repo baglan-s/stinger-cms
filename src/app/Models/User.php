@@ -29,6 +29,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'last_name',
         'email',
+        'birthdate',
         'email_verified_at',
         'phone',
         'password',
@@ -87,6 +88,11 @@ class User extends Authenticatable implements FilamentUser
             'operator' => substr($this->phone, 2, 3),
             'number' => substr($this->phone, 5),
         ];
+    }
+
+    public function getFullName()
+    {
+        return $this->name. ' '. $this->last_name;
     }
 
     /**
