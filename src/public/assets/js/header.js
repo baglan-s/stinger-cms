@@ -44,6 +44,16 @@ $(document).ready(function() {
         isVisibleDesktopSearchResults = !isVisibleDesktopSearchResults;
     });
 
+    // $('.header-search__input').on('change', function() {
+    //     $('.desktop-search-results').fadeIn();
+
+    //     if (isVisibleDesktopSearchResults) {
+    //         elemFadeOut('.desktop-search-results');
+    //     }
+
+    //     isVisibleDesktopSearchResults = !isVisibleDesktopSearchResults;
+    // });
+
     $('.header-mobile-search__input').on('click', function() {
         $('.mobile-search-results').fadeIn();
 

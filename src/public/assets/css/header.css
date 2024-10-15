@@ -306,7 +306,6 @@ a {
 }
 
 .this-logotype {
-    background-image: url(../images/icons/header/logo.svg);
     background-size: cover;
     display: block;
     width: 60px;
@@ -880,7 +879,7 @@ a {
     width: 100%;
     font-size: 16px;
     line-height: 1.5;
-    color: #029AAD;
+    color: #03a9f4;
     font-weight: 600;
 }
 
@@ -1198,7 +1197,7 @@ a {
     z-index: 9;
     top: calc(100% + 12px);
     max-width: 688px;
-    display: none;
+    /* display: none; */
 }
 
 .desktop-search-container:first-child:not(:empty) {
@@ -1234,7 +1233,7 @@ a {
     width: 100%;
     font-size: 16px;
     line-height: 1.5;
-    color: #029AAD;
+    color: #03a9f4;
     font-weight: 600;
 }
 
@@ -1332,7 +1331,7 @@ a {
     width: 100%;
     font-size: 16px;
     line-height: 1.5;
-    color: #029AAD;
+    color: #03a9f4;
     font-weight: 600;
 }
 

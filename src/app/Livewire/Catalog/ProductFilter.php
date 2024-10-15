@@ -135,8 +135,15 @@ class ProductFilter extends Component
     private function getMaxPrice(): int
     {
         return ProductPrice::whereHas('product')
-            ->whereHas('product.category', function ($query) {
-                $query->where('id', $this->filter['category_id']);
+            ->when(isset($this->filter['category_id']), function ($query) {
+                $query->whereHas('product.category', function ($query) {
+                    $query->where('id', $this->filter['category_id']);
+                });
+            })
+            ->when(isset($this->filter['search']), function ($query) {
+                $query->whereHas('product.translations', function ($query) {
+                    $query->whereRaw("lower(name) LIKE '%". mb_strtolower($this->filter['search']). "%'");
+                });
             })
             ->where('price_type_id', Cookie::get('price_type_id', config('price_types.region', 3)))
             ->orderBy('price', 'desc')
