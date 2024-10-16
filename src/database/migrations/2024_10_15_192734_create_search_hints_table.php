@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('search_associations', function (Blueprint $table) {
+        Schema::create('search_hints', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->string('search_word');
-            $table->string('association');
+            $table->unsignedBigInteger('setting_id');
+            $table->text('search_word');
+            $table->string('search_hint');
             $table->timestamps();
 
-            $table->foreign('product_id')
+            $table->foreign('setting_id')
                 ->references('id')
-                ->on('products')
+                ->on('settings')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('search_associations');
+        Schema::dropIfExists('search_hints');
     }
 };

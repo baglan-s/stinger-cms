@@ -813,7 +813,7 @@ a {
     z-index: 9;
     top: calc(100% + 12px);
     max-width: 688px;
-    display: none;
+    /* display: none; */
 }
 
 .mobile-search-wrapper,

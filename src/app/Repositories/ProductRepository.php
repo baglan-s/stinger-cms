@@ -8,6 +8,7 @@ use App\Repositories\Repository;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Models\Catalog\ProductPrice;
+use App\Models\SearchHint;
 
 class ProductRepository extends Repository
 {
@@ -178,6 +179,13 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->when(isset($filter['search']), function ($query) use ($filter) {
+                $searchHint = SearchHint::whereRaw("lower(search_word) LIKE '%". mb_strtolower($filter['search']). "%'")
+                    ->first();
+
+                if ($searchHint) {
+                    $filter['search'] = $searchHint->search_hint;
+                }
+                
                 $query->whereHas('translations', function ($query) use ($filter) {
                     $query->whereRaw("lower(name) LIKE '%". mb_strtolower($filter['search']). "%'");
                 });
