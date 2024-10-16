@@ -11,12 +11,15 @@ use Illuminate\Support\Facades\Cookie;
 use App\Models\Catalog\Store;
 use App\Models\Catalog\City;
 use App\Models\Catalog\DeliveryAddress;
+use App\Services\LogService;
 
 class Checkout extends Component
 {
     private CartService $cartService;
 
     private DeliveryAddressService $deliveryAddressService;
+
+    private LogService $logService;
 
     private PaymentTypeRepository $paymentTypeRepository;
 
@@ -75,6 +78,7 @@ class Checkout extends Component
         $this->cartService = app(CartService::class);
         $this->deliveryAddressService = app(DeliveryAddressService::class);
         $this->paymentTypeRepository = app(PaymentTypeRepository::class);
+        $this->logService = app(LogService::class);
     }
 
     public function mount(string $currentStep = 'delivery')
@@ -91,6 +95,10 @@ class Checkout extends Component
                 ->get();
             $this->isNewAddress = $this->deliveryAddresses->count() < 1;
             $this->selectedDeliveryAddress = $this->cartService->deliveryAddress ?? $this->deliveryAddresses->first();
+
+            if ($this->isNewAddress) {
+                $this->js('initGeoCoder()');
+            }
         } else {
             $this->deliveryAddresses = collect([]);
         }
@@ -234,42 +242,48 @@ class Checkout extends Component
             return false;
         }
 
-        $order = $this->cartService->createOrder();
-        $this->dispatch('cartDecremented');
-        $prepareOrderData = [];
+        try {
+
+            $order = $this->cartService->createOrder();
+            $this->dispatch('cartDecremented');
+            $prepareOrderData = [];
 
         // TODO: Payment action
-        if ($orderId = optional($order)->id) {
-            $this->isPaymentActive = true;
-            $prepareOrderData = [
-                'publicId' => 'test_api_00000000000000000000002',
-                'description' => 'Оплата товаров в https://nemo.com',
-                'amount' => $order->totalSum(),
-                'accountId' => optional($order->user)->id,
-                'invoiceId' => $orderId,
-                'email' => optional($order->user)->email,
-                'payer' => [
-                    'firstName' => optional($order->user)->name,
-                    'lastName' => optional($order->user)->last_name,
-                    'birth' => optional($order->user)->birthday,
-                    // 'address' => 'тестовый проезд дом тест',
-                    'address' => optional($order->deliveryAddress)->building . ', ' . optional($order->deliveryAddress)->apartment,
-                    'street' => optional($order->deliveryAddress)->street,
-                    'city' => $this->currentCity->translation()?->name,
-                    'country' => 'KZ',
-                    'phone' => optional($order->user)->phone,
-                    'postcode' => optional($order->deliveryAddress)->zip_code
-                ]
-            ];
-
-            $orderDataJson = json_encode($prepareOrderData, true);
-           
-            $this->js("pay($orderDataJson)");
-            
-            $order->payments()->create([
-                'payment_type_id' => $this->paymentTypeId,
-                'amount' => $order->totalSum()
-            ]);
+        
+            if ($orderId = optional($order)->id) {
+                $this->isPaymentActive = true;
+                $prepareOrderData = [
+                    'publicId' => 'test_api_00000000000000000000002',
+                    'description' => 'Оплата товаров в https://nemo.com',
+                    'amount' => $order->totalSum(),
+                    'accountId' => optional($order->user)->id,
+                    'invoiceId' => $orderId,
+                    'email' => optional($order->user)->email,
+                    'payer' => [
+                        'firstName' => optional($order->user)->name,
+                        'lastName' => optional($order->user)->last_name,
+                        'birth' => optional($order->user)->birthday,
+                        // 'address' => 'тестовый проезд дом тест',
+                        'address' => optional($order->deliveryAddress)->building . ', ' . optional($order->deliveryAddress)->apartment,
+                        'street' => optional($order->deliveryAddress)->street,
+                        'city' => $this->currentCity->translation()?->name,
+                        'country' => 'KZ',
+                        'phone' => optional($order->user)->phone,
+                        'postcode' => optional($order->deliveryAddress)->zip_code
+                    ]
+                ];
+    
+                $orderDataJson = json_encode($prepareOrderData, true);
+               
+                $this->js("pay($orderDataJson)");
+                
+                $order->payments()->create([
+                    'payment_type_id' => $this->paymentTypeId,
+                    'amount' => $order->totalSum()
+                ]);
+            }
+        } catch (\Exception $e) {
+            $this->logService->log('Payment error!', 'order', $e)->write();
         }
     }
     

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Catalog\Product;
 use App\Models\Language;
+use App\Models\SearchHint;
 
 class Setting extends Model
 {
@@ -26,5 +27,10 @@ class Setting extends Model
     public static function getSetting()
     {
         return self::first();
+    }
+
+    public function searchHints()
+    {
+        return $this->hasMany(SearchHint::class);
     }
 }

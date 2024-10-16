@@ -15,27 +15,23 @@
                     <div class="desktop-search-wrapper">
                         <div class="desktop-search-container">
                             <div class="desktop-search-group">
-                                {{-- <div class="desktop-search-group-title">
-                                    Результаты
-                                </div>
-                                <div class="desktop-search-group-description">
-                                    <a class="mobile-search-row" href="#">
-                                        <span>айфон</span>
-                                    </a>
-                                    <a class="mobile-search-row" href="#">
-                                        <span>айфон</span>
-                                    </a>
-                                    <a class="mobile-search-row" href="#">
-                                        <span>айфон</span>
-                                    </a>
-                                </div> --}}
+                                @if ($searchHints->count() > 0)
+                                    <div class="desktop-search-group-title">
+                                        Результаты
+                                    </div>
+                                    <div class="desktop-search-group-description">
+                                        @foreach ($searchHints as $searchHint)
+                                            <a class="mobile-search-row" href="{{ route('catalog.products.index', ['search' => $searchHint->search_hint]) }}">
+                                                <span>{{ $searchHint->search_hint }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="desktop-search-container" id="desktop_search_products">
                             <div class="desktop-search-group desktop-search-products">
-                                <div class="desktop-search-group-title">
-                                    Подходящие товары
-                                </div>
+                                <div class="desktop-search-group-title">Подходящие товары</div>
                                 <div class="desktop-search-group-description">
                                     @foreach ($products as $product)
                                         <a class="desktop-search-product" href="{{ route('catalog.products.show', $product->translation()?->slug) }}">

@@ -5,10 +5,15 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
+use App\Models\SearchHint;
 
 class MobileSearchModal extends Component
 {
-    public $search = '';
+    protected $listeners = [
+        'searchUpdated' => 'onSearchUpdated',
+    ];
+
+    public $searchHints;
 
     public $products;
 
@@ -21,8 +26,8 @@ class MobileSearchModal extends Component
 
     public function mount()
     {
-        $this->search = request('search', '');
         $this->products = collect([]);
+        $this->searchHints = collect([]);
     }
 
     public function render()
@@ -30,14 +35,18 @@ class MobileSearchModal extends Component
         return view('livewire.mobile-search-modal');
     }
 
-    public function updatedSearch()
+    public function onSearchUpdated($search)
     {
-        if (trim($this->search) === '') {
-            return false;
+        $this->searchHints = SearchHint::whereRaw(
+            "lower(search_word) LIKE '%" . mb_strtolower($search) . "%'"
+        )->get();
+
+        if ($this->searchHints->count() > 0) {
+            $search = $this->searchHints->first()?->search_hint;
         }
 
         $this->products = $this->productService->getRepository()
-            ->filter(['search' => trim($this->search)])
+            ->filter(['search' => $search])
             ->limit(3)
             ->get();
     }

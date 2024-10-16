@@ -86,11 +86,6 @@ class Product extends Model
         return $this->hasMany(ProductFile::class);
     }
 
-    public function associations()
-    {
-        return $this->hasMany(SearchAssociation::class);
-    }
-
     public function hasImages()
     {
         return $this->images->count() > 0;
