@@ -244,4 +244,36 @@ class OneCApiService extends Service
             return [];
         }
     }
+
+    public function updateOrderStatus(int $orderId, int $statusId): array
+    {
+        try {
+            $response = Http::withBasicAuth($this->login, $this->password)
+                ->post("{$this->host}/TEST/hs/excsite/PostChangeStatus", [
+                    'orderId' => (string)$orderId,
+                    'statusId' => (string)$statusId,
+                    'eventDate' => (new \DateTime)->format('Y-m-d\TH:i:s.v\Z')
+                ]);
+
+            if (!$response->successful()) {
+                $this->logService
+                    ->log('1C Order Status update API error', '1c', $response->body())
+                    ->write();
+
+                return [];
+            }
+
+            $this->logService
+                ->log('1C Order status updated.', '1c', json_encode($response->json()))
+                ->write();
+
+            return $response->json();
+        } catch (\Exception $e) {
+            $this->logService
+                ->log('1C Order Status update API error', '1c', $e)
+                ->write();
+
+            return [];
+        }
+    }
 }

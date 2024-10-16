@@ -306,7 +306,9 @@ class CartService extends Service
                 'comment' => $this->comment,
                 'store_id' => $this->shippingMethod === 'pickup' 
                     ? $this->selectedStore?->id 
-                    : $products[0]?->stocks->first()?->store_id,
+                    : $products[0]?->stocks->filter(function ($stock) {
+                        return $stock->store->city_id == Cookie::get('city_id');
+                    })->sortByDesc('available')->first()?->store_id,
                 'products' => $products
             ];
 
