@@ -220,12 +220,8 @@
     border-color: var(--red);
 }
 
-.base-input__field:invalid+.the-personal-input__error {
-    display: block;
-}
-
 .the-personal-input__error {
-    display: none;
+    display: block;
     margin-top: 4px;
     padding-left: 12px;
     color: var(--red);

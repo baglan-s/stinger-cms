@@ -8,6 +8,7 @@ use App\Repositories\Repository;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Models\Catalog\ProductPrice;
+use App\Models\SearchHint;
 
 class ProductRepository extends Repository
 {
@@ -33,6 +34,12 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->whereNull('parent_id')
+            ->whereHas('stocks', function ($query) {
+                $query->whereHas('store', function ($query) {
+                    $query->where('city_id', Cookie::get('city_id'))
+                        ->orWhere('is_distributor', true);
+                })->where('available', '>', 0);
+            })
             ->with('stocks')
             ->latest()
             ->limit($limit)
@@ -43,6 +50,12 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->whereNull('parent_id')
+            ->whereHas('stocks', function ($query) {
+                $query->whereHas('store', function ($query) {
+                    $query->where('city_id', Cookie::get('city_id'))
+                        ->orWhere('is_distributor', true);
+                })->where('available', '>', 0);
+            })
             ->with('stocks')
             ->orderBy('views', 'desc')
             ->limit($limit)
@@ -166,6 +179,13 @@ class ProductRepository extends Repository
     {
         return $this->model()
             ->when(isset($filter['search']), function ($query) use ($filter) {
+                $searchHint = SearchHint::whereRaw("lower(search_word) LIKE '%". mb_strtolower($filter['search']). "%'")
+                    ->first();
+
+                if ($searchHint) {
+                    $filter['search'] = $searchHint->search_hint;
+                }
+                
                 $query->whereHas('translations', function ($query) use ($filter) {
                     $query->whereRaw("lower(name) LIKE '%". mb_strtolower($filter['search']). "%'");
                 });
@@ -193,7 +213,10 @@ class ProductRepository extends Repository
             })
             ->when(isset($filter['available']) && $filter['available'], function ($query) {
                 $query->whereHas('stocks', function ($query) {
-                    $query->where('available', '>', 0);
+                    $query->whereHas('store', function ($query) {
+                        $query->where('city_id', Cookie::get('city_id'))
+                            ->orWhere('is_distributor', true);
+                    })->where('available', '>', 0);
                 });
             })
             ->when(isset($filter['specs']), function ($query) use ($filter) {

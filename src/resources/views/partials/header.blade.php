@@ -13,19 +13,7 @@
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 67.849 28.55 0 0 67.849h9.5ZM27.451 116l9.05-48.151h-9.05V116Z" fill="#65CFFF"></path>
                     </svg>
                 </button>
-                <div class="header__search">
-                    <div class="header-search">
-                        <form action="" class="header-search__form">
-                            <input type="text" class="header-search__input" placeholder="Поиск">
-                            <button class="header-search__button mobile-hidden outline">
-                                <!-- <img src="assets/images/icons/header/magnifying-glass-solid.svg" alt="Search"> -->
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 46" id="search-icon">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M42 17.296c0 9-7.313 16.296-16.334 16.296-3.083 0-5.967-.853-8.427-2.334L8.152 45 3 40.991 14.147 28.85a16.227 16.227 0 0 1-4.815-11.553C9.332 8.296 16.645 1 25.666 1S42 8.296 42 17.296Zm-4.083 0c0 6.75-5.485 12.222-12.25 12.222-6.767 0-12.251-5.472-12.251-12.222 0-6.75 5.485-12.222 12.25-12.222 6.766 0 12.25 5.472 12.25 12.222Z" />
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+                <livewire:catalog.search-modal />
                 <div class="header__controls-wrapp">
                     <div class="header-controls__inner">
                         <div class="header-controls__list">
@@ -115,22 +103,13 @@
     <div class="header-mobile__wrapp">
         <div class="header-mobile__scrollbar">
             <div class="header-mobile__logotype">
-                <a href="/" class="this-logotype"></a>
+                <a href="/" class="this-logotype" style="background-image: url('{{ asset($mainLogo) }}')"></a>
             </div>
             <!-- <button class="header-mobile__btn">
                 Каталог
                 <img src="assets/images/categories/lightning.svg" alt="">
             </button> -->
-            <form type="text" class="header-mobile-search__form">
-                <div class="header-mobile-search__wrapper">
-                    <input type="text" name="search-mobile" class="header-mobile-search__input" placeholder="Поиск" autocomplete="off">
-                    <button class="header-mobile-search__btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 46 46" id="search-icon">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M42 17.296c0 9-7.313 16.296-16.334 16.296-3.083 0-5.967-.853-8.427-2.334L8.152 45 3 40.991 14.147 28.85a16.227 16.227 0 0 1-4.815-11.553C9.332 8.296 16.645 1 25.666 1S42 8.296 42 17.296Zm-4.083 0c0 6.75-5.485 12.222-12.25 12.222-6.767 0-12.251-5.472-12.251-12.222 0-6.75 5.485-12.222 12.25-12.222 6.766 0 12.25 5.472 12.25 12.222Z"></path>
-                        </svg>
-                    </button>
-                </div>
-            </form>
+            <livewire:mobile-search-field />
             <div class="header-mobile__hamburger">
                 <span class="inner-header-hamburger">
                     <span class="inner-header-hamburger__wrapper">
@@ -241,47 +220,7 @@
             </div>
         </div>
         <!-- End Menu -->
-        <!-- Search modal -->
-        <div class="mobile-search__box mobile-search-box-body">
-            <div class="mobile-search-results">
-                <div class="mobile-search-wrapper">
-                    <div class="mobile-search-container">
-                        <div class="mobile-search-group">
-                            <div class="mobile-search-group-title">Результаты</div>
-                            <div class="mobile-search-group-description">
-                                <a class="mobile-search-row" href="#">
-                                    <span>айфон</span>
-                                </a>
-                                <a class="mobile-search-row" href="#">
-                                    <span>айфон</span>
-                                </a>
-                                <a class="mobile-search-row" href="#">
-                                    <span>айфон</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mobile-search-container" id="mobile_search_products">
-                        <div class="mobile-search-group mobile-search-products">
-                            <div class="mobile-search-group-title">Подходящие товары</div>
-                            <div class="mobile-search-group-description">
-                                <a class="mobile-search-product" href="#">
-                                    <div class="mobile-search-product__image" style="background-image: url('assets/images/products/hGCW9m0TgGjlCAfLByJ9Ob6g3raUJZMl5LdOyZTf.jpg')"></div>
-                                    <div class="mobile-search-product__name-holder">
-                                        <div class="mobile-search-product__name"> Смартфон Apple iPhone 13 128GB Slim... </div>
-                                        <div class="mobile-search-product__price">
-                                            <div class="mobile-search-product__price-current">349 990 ₸</div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mobile-search-close"></div>
-                </div>
-            </div>
-        </div>
-        <!-- End search modal -->
+        <livewire:mobile-search-modal />
     </div>
 </div>
 <!-- End mobile header -->

@@ -9,6 +9,7 @@ use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Models\User;
 use App\Services\Integration\SmsService;
+use App\Models\ServiceToken;
 
 class TestController extends Controller
 {
@@ -22,7 +23,6 @@ class TestController extends Controller
 
     public function index($lang = null)
     {
-        dd(config('app.order.status_new'));
         $product = $this->productService->getRepository()
             ->model()
             ->whereHas('files')
