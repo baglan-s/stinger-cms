@@ -74,6 +74,14 @@ class OrderService extends Service
         }
     }
 
+    public function updateOrderStatusOneC(Order $order): array
+    {
+        return $this->oneCApiService->updateOrderStatus(
+            $order->id,
+            $order->status->id_1c
+        );
+    }
+
     public function createOrderItem(Order $order, array $orderItem): OrderItem
     {
         return $order->items()->create($orderItem);
@@ -125,6 +133,13 @@ class OrderService extends Service
     {
         return $this->orderStatusRepository->model()
             ->where('code', $code)
+            ->first();
+    }
+
+    public function getStatusByGuid(string $guid): OrderStatus|null
+    {
+        return $this->orderStatusRepository->model()
+            ->where('guid', $guid)
             ->first();
     }
 }

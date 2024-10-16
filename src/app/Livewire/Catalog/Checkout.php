@@ -5,6 +5,7 @@ namespace App\Livewire\Catalog;
 use Livewire\Component;
 use App\Models\Catalog\Order;
 use App\Services\CartService;
+use App\Services\OrderService;
 use App\Services\DeliveryAddressService;
 use App\Repositories\PaymentTypeRepository;
 use Illuminate\Support\Facades\Cookie;
@@ -16,6 +17,8 @@ use App\Services\LogService;
 class Checkout extends Component
 {
     private CartService $cartService;
+
+    private OrderService $orderService;
 
     private DeliveryAddressService $deliveryAddressService;
 
@@ -79,6 +82,7 @@ class Checkout extends Component
         $this->deliveryAddressService = app(DeliveryAddressService::class);
         $this->paymentTypeRepository = app(PaymentTypeRepository::class);
         $this->logService = app(LogService::class);
+        $this->orderService = app(OrderService::class);
     }
 
     public function mount(string $currentStep = 'delivery')
@@ -191,9 +195,9 @@ class Checkout extends Component
 
     public function toPayment()
     {
-        // if ($this->validateDelivery()) {
-        //     return false;
-        // }
+        if ($this->validateDelivery()) {
+            return false;
+        }
 
         if ($this->shippingMethod === 'delivery') {
             if ($this->isNewAddress) {
@@ -281,6 +285,12 @@ class Checkout extends Component
                     'payment_type_id' => $this->paymentTypeId,
                     'amount' => $order->totalSum()
                 ]);
+
+                if ($paidStatus = $this->orderService->getStatusByCode(config('app.order.status_paid'))) {
+                    $order->update(['order_status_id' => $paidStatus->id]);
+                    $order->status = $paidStatus;
+                    $this->orderService->updateOrderStatusOneC($order);
+                }
             }
         } catch (\Exception $e) {
             $this->logService->log('Payment error!', 'order', $e)->write();
