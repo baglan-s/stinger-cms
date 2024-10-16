@@ -1175,6 +1175,17 @@ svg.hc-control-item__icon {
 }
 
 @media only screen and (min-width: 992px) {
+    .inner-products__mobile {
+        justify-content: center;
+        align-items: stretch;
+     }
+  
+    .main-products__card {
+        flex: 0 1 calc(33.33% - 10px);
+        display: flex;
+        flex-direction: column;
+    }
+
     .main-page-content-section__categories {
         margin-bottom: 60px;
     }
