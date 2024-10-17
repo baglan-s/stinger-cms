@@ -116,9 +116,9 @@
                                                 <li class="property__item">
                                                     <span class="property-item__title">{{ $specification->translation()?->name }}</span>
                                                     @if ($specification->multiple)
-                                                        <span class="property-item__content">{{ $specification->productValuesString() }}</span>
+                                                        <span class="property-item__content">{{ $specification->productValuesString($product->id) }}</span>
                                                     @else
-                                                        <span class="property-item__content">{{ $specification->productValues?->first()?->translation()?->name }}</span>
+                                                        <span class="property-item__content">{{ $specification->productValues()->wherePivot('product_id', $product->id)->first()?->translation()?->name }}</span>
                                                     @endif
                                                 </li>
                                             @endforeach
@@ -350,7 +350,7 @@
 
                     <div class="product-delivery__mobile delivery-address__wrap">
                         @if ($product->parent_id)
-                            <a class="parent-product-link" href="{{ route('catalog.products.show', $product->parent->translation()?->slug) }}">Посмотреть основной товар</a>
+                            <a class="parent-product-link" href="{{ route('catalog.products.show', ['slug' => $product->parent->translation()?->slug]) }}">Посмотреть основной товар</a>
                         @elseif ($product->children->count() > 0)
                             <a class="parent-product-link" href="{{ route('catalog.products.index', ['parent_id' => $product->id]) }}">Купить товар дешевле</a>
                         @endif
@@ -470,7 +470,7 @@
         <div class="product-side__center">
             @if ($product->parent_id)
                 <div class="delivery-address__wrap">
-                    <a class="parent-product-link" href="{{ route('catalog.products.show', $product->parent->translation()?->slug) }}">Посмотреть основной товар</a>
+                    <a class="parent-product-link" href="{{ route('catalog.products.show', ['slug' => $product->parent->translation()?->slug]) }}">Посмотреть основной товар</a>
                 </div>
             @elseif ($product->children->count() > 0)
                 <div class="delivery-address__wrap">

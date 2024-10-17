@@ -28,21 +28,26 @@ class BrandService extends Service
             $dbBrands = $this->repository->all();
             $synchronized = 0;
             $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            $languages = $this->languageRepository->model()->where('active', true)->get();
 
             foreach ($brands as $brand) {
                 $existedBrand = $dbBrands->where('guid', $brand['guid'])->first();
 
                 if (!$existedBrand) {
                     $existedBrand = $this->repository->create(BrandAdapter::adaptOneCBrand($brand));
-                    $existedBrand->translations()->create(
-                        BrandAdapter::adaptOneCBrandTranslation($brand, $defaultLanguage->id)
-                    );
+                    
+                    foreach ($languages as $language) {
+                        $existedBrand->translations()->create(
+                            BrandAdapter::adaptOneCBrandTranslation($brand, $language->id)
+                        );
+                    }
+
                     $dbBrands->push($existedBrand);
                 } else {
                     $existedBrand->update(BrandAdapter::adaptOneCBrand($brand));
-                    $existedBrand->translations()->where('language_id', $defaultLanguage->id)->update(
-                        BrandAdapter::adaptOneCBrandTranslation($brand, $defaultLanguage->id)
-                    );
+                    // $existedBrand->translations()->where('language_id', $defaultLanguage->id)->update(
+                    //     BrandAdapter::adaptOneCBrandTranslation($brand, $defaultLanguage->id)
+                    // );
                 }
 
                 $synchronized++;

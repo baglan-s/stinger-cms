@@ -23,7 +23,7 @@
 									<div class="header-favorites-product" wire:key="{{ $product->id }}">
 										<div class="cart-product-modal-container">
 											<a
-												href="{{ route('catalog.products.show', $product->translation()?->slug ?? '-') }}"
+												href="{{ route('catalog.products.show', ['slug' => $product->translation()?->slug ?? '-']) }}"
 												class="header-favorites-product__link"
 											>
 												<img

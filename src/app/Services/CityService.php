@@ -31,7 +31,8 @@ class CityService extends Service
     public function syncCitiesWithOneC(array $cities)
     {
         try {
-            $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            // $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            $languages = $this->languageRepository->model()->where('active', true)->get();
             $synchronized = 0;
 
             foreach ($cities as $city) {
@@ -54,7 +55,10 @@ class CityService extends Service
                 
                 if (!$existedCity) {
                     $existedCity = $this->repository->create(CityAdapter::adaptOneCCity($cityData, $priceType));
-                    $existedCity->translations()->create(CityAdapter::adaptOneCCityTranslation($cityData, $defaultLanguage->id));
+                    
+                    foreach ($languages as $language) {
+                        $existedCity->translations()->create(CityAdapter::adaptOneCCityTranslation($cityData, $language->id));
+                    }
                 } else {
                     $existedCity->update([
                         'guid' => $cityData['guid'],

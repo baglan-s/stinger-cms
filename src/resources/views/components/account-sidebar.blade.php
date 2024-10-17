@@ -7,7 +7,7 @@
       <ul class="the-personal-navigation__list">
         <li class="the-personal-navigation__item">
           <a
-            href="{{ route('account.index', auth()->user()?->id) }}"
+            href="{{ route('account.index', ['user_id' => auth()->user()?->id]) }}"
             class="the-personal-navigation__link @if(request()->routeIs('account.index')) the-personal-navigation__link--active @endif"
           >
             <svg
@@ -31,7 +31,7 @@
           </a>
         </li>
         <li class="the-personal-navigation__item">
-          <a href="{{ route('account.orders', auth()->user()?->id) }}" class="the-personal-navigation__link @if(request()->routeIs('account.orders')) the-personal-navigation__link--active @endif">
+          <a href="{{ route('account.orders', ['user_id' => auth()->user()?->id]) }}" class="the-personal-navigation__link @if(request()->routeIs('account.orders')) the-personal-navigation__link--active @endif">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -51,7 +51,7 @@
           </a>
         </li>
         <li class="the-personal-navigation__item">
-          <a href="{{ route('account.addresses.index', auth()->user()?->id) }}" class="the-personal-navigation__link @if(request()->routeIs('account.addresses.index')) the-personal-navigation__link--active @endif">
+          <a href="{{ route('account.addresses.index', ['user_id' => auth()->user()?->id]) }}" class="the-personal-navigation__link @if(request()->routeIs('account.addresses.index')) the-personal-navigation__link--active @endif">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"

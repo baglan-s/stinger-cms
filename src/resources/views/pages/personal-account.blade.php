@@ -33,7 +33,7 @@
                 </form> --}}
               </div>
             </div>
-            <form class="the-personal-user-card__form" method="POST" action="{{ route('account.update', $user->id) }}">
+            <form class="the-personal-user-card__form" method="POST" action="{{ route('account.update', ['user_id' => $user->id]) }}">
               @method('PUT')
               @csrf
               <div class="the-personal-user-card__col">

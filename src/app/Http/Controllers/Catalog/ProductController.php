@@ -22,7 +22,6 @@ class ProductController extends Controller
 
     public function show(string $slug)
     {
-        dd($slug);
         $product = $this->productService->getRepository()
             ->model()
             ->whereHas('translations', function ($query) use ($slug) {

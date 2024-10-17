@@ -84,6 +84,6 @@ class FavouriteModal extends Component
 
     public function toFavourites()
     {
-        return redirect('favourites');
+        return redirect()->route('favourites');
     }
 }

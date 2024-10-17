@@ -28,6 +28,7 @@ class ProductCategoryService extends Service
             $productCategories = $this->repository->all();
             $synchronized = 0;
             $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            $languages = $this->languageRepository->model()->where('active', true)->get();
 
             foreach ($categories as $category) {
                 // Parent category synchronization
@@ -46,9 +47,13 @@ class ProductCategoryService extends Service
                             $existedParentCategory = $this->repository->create(
                                 ProductCategoryAdapter::adaptOneCCategory($parentCategory)
                             );
-                            $existedParentCategory->translations()->create(
-                                ProductCategoryAdapter::adaptOneCCategoryTranslation($parentCategory, $defaultLanguage->id)
-                            );
+
+                            foreach ($languages as $language) {
+                                $existedParentCategory->translations()->create(
+                                    ProductCategoryAdapter::adaptOneCCategoryTranslation($parentCategory, $language->id)
+                                );
+                            }
+
                             $productCategories->push($existedParentCategory);
                         }
                     }
@@ -64,17 +69,21 @@ class ProductCategoryService extends Service
                     $existedCategory = $this->repository->create(
                         ProductCategoryAdapter::adaptOneCCategory($category)
                     );
-                    $existedCategory->translations()->create(
-                        ProductCategoryAdapter::adaptOneCCategoryTranslation($category, $defaultLanguage->id)
-                    );
+                    
+                    foreach ($languages as $language) {
+                        $existedCategory->translations()->create(
+                            ProductCategoryAdapter::adaptOneCCategoryTranslation($category, $language->id)
+                        );
+                    }
+
                     $productCategories->push($existedCategory);
                 } else {
                     $existedCategory->update(
                         ProductCategoryAdapter::adaptOneCCategory($category)
                     );
-                    $existedCategory->translations()->where('language_id', $defaultLanguage->id)->update(
-                        ProductCategoryAdapter::adaptOneCCategoryTranslation($category, $defaultLanguage->id)
-                    );
+                    // $existedCategory->translations()->where('language_id', $defaultLanguage->id)->update(
+                    //     ProductCategoryAdapter::adaptOneCCategoryTranslation($category, $defaultLanguage->id)
+                    // );
                 }
 
                 $synchronized++;
