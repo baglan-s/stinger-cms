@@ -26,7 +26,8 @@ class StoreService extends Service
     public function syncCityStoresWithOneC(array $stores, City $city)
     {
         try {
-            $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            // $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            $languages = $this->languageRepository->model()->where('active', true)->get();
             $synchronized = 0;
             $oneCStoreIds = [];
 
@@ -40,10 +41,13 @@ class StoreService extends Service
 
                 if (!$existedStore) {
                     $existedStore = $this->repository->create(StoreAdapter::adaptOneCStore($store, $city));
-                    $existedStore->translations()->create(StoreAdapter::adaptOneCStoreTranslation($store, $defaultLanguage->id));
+                    
+                    foreach ($languages as $language) {
+                        $existedStore->translations()->create(StoreAdapter::adaptOneCStoreTranslation($store, $language->id));
+                    }
                 } else {
                     $existedStore->update(StoreAdapter::adaptOneCStore($store, $city));
-                    $existedStore->translations()->where('language_id', $defaultLanguage->id)->update(StoreAdapter::adaptOneCStoreTranslation($store, $defaultLanguage->id));
+                    // $existedStore->translations()->where('language_id', $defaultLanguage->id)->update(StoreAdapter::adaptOneCStoreTranslation($store, $defaultLanguage->id));
                 }
 
                 $oneCStoreIds[] = $store['id'];

@@ -25,6 +25,8 @@ class SetLocale
 
         URL::defaults(['lang' => $locale]);
 
+        $request->route()->forgetParameter('lang');
+
         return $next($request);
     }
 }

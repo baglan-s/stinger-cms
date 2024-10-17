@@ -99,21 +99,26 @@ class OrderService extends Service
             $dbStatuses = $this->orderStatusRepository->all();
             $synchronized = 0;
             $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            $languages = $this->languageRepository->model()->where('active', true)->get();
 
             foreach ($statuses as $status) {
                 $existedStatus = $dbStatuses->where('guid', $status['guid'])->first();
 
                 if (!$existedStatus) {
                     $existedStatus = $this->orderStatusRepository->create(OrderStatusAdapter::adaptOneCOrderStatus($status));
-                    $existedStatus->translations()->create(
-                        OrderStatusAdapter::adaptOneCOrderStatusTranslation($status, $defaultLanguage->id)
-                    );
+                    
+                    foreach ($languages as $language) {
+                        $existedStatus->translations()->create(
+                            OrderStatusAdapter::adaptOneCOrderStatusTranslation($status, $language->id)
+                        );
+                    }
+
                     $dbStatuses->push($existedStatus);
                 } else {
                     $existedStatus->update(OrderStatusAdapter::adaptOneCOrderStatus($status));
-                    $existedStatus->translations()->where('language_id', $defaultLanguage->id)->update(
-                        OrderStatusAdapter::adaptOneCOrderStatusTranslation($status, $defaultLanguage->id)
-                    );
+                    // $existedStatus->translations()->where('language_id', $defaultLanguage->id)->update(
+                    //     OrderStatusAdapter::adaptOneCOrderStatusTranslation($status, $defaultLanguage->id)
+                    // );
                 }
 
                 $synchronized++;

@@ -1,6 +1,26 @@
 <!-- Start header -->
 <header class="header">
     <div class="header__inner">
+        @if ($languages->count() > 0)
+
+        <div class="h-container">
+            <div class="header-top-container">
+                <div class="d-flex align-items-center justify-content-end">
+                    <div class="header-languages d-flex align-items-center gap-2">
+                        @foreach($languages as $language)
+                            <a 
+                                href="{{ route(request()->route()->getName(), array_merge(['lang' => $language->code], request()->route()->parameters())) }}" 
+                                @class(['header-languages__lang', 'active' => $language->code === app()->getLocale()])
+                            >
+                                {{ mb_substr($language->name, 0, 3) }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @endif
         <div class="h-container">
             <div class="header__top">
                 <div class="header__logo">
@@ -151,6 +171,23 @@
                             </div>
                         </div>
                     </div>
+                    @if ($languages->count() > 0)
+
+                    <div class="d-flex align-items-center justify-content-end pb-3">
+                        <div class="header-languages d-flex align-items-center gap-2">
+                            @foreach($languages as $language)
+                                <a 
+                                    href="{{ route(request()->route()->getName(), array_merge(['lang' => $language->code], request()->route()->parameters())) }}" 
+                                    @class(['header-languages__lang', 'active' => $language->code === app()->getLocale()])
+                                >
+                                    {{ mb_substr($language->name, 0, 3) }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    @endif
+
                     @if (isset($menus) && !empty($menus))
 
                         @foreach ($menus as $menu)

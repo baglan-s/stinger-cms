@@ -1,13 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\SetLocale;
 
 
 // Route::get('{slug?}', [App\Http\Controllers\TempPageController::class, 'index']);
-Route::prefix('')
-// Route::prefix('{lang?}')
-//     ->where(['lang' => '[a-zA-Z]{2}'])
-//     ->middleware([App\Http\Middleware\SetLocale::class])
+Route::get('/', function () {
+    return redirect(app()->getLocale());
+});
+
+Route::prefix('{lang?}')
+    ->where(['lang' => '[a-zA-Z]{2}'])
+    ->middleware([SetLocale::class])
     ->group(function () {
         Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::get('test', [App\Http\Controllers\TestController::class, 'index']);
@@ -61,9 +65,9 @@ Route::prefix('')
                     ->name('logout');
             });
 
-        Route::get('comparison', [App\Http\Controllers\Pages\ComparisonController::class, 'index']);
-        Route::get('favourites', [App\Http\Controllers\Pages\FavouriteProductController::class, 'index']);
-        Route::get('shops', [App\Http\Controllers\Pages\ShopController::class, 'index']);
+        Route::get('comparison', [App\Http\Controllers\Pages\ComparisonController::class, 'index'])->name('comparison');
+        Route::get('favourites', [App\Http\Controllers\Pages\FavouriteProductController::class, 'index'])->name('favourites');
+        Route::get('shops', [App\Http\Controllers\Pages\ShopController::class, 'index'])->name('shops');
         
     });
 
@@ -78,8 +82,3 @@ Route::get('test-sms', [App\Http\Controllers\TestController::class, 'testSms']);
 Route::get('auth-check', [App\Http\Controllers\Cabinet\UserController::class, 'authCheck'])->name('user.auth.check');
 Route::post('send-feedback', [App\Http\Controllers\FeedbackController::class, 'sendFeedback']);
 Route::get('test-payment', [App\Http\Controllers\Checkout\OnlinePaymentController::class, 'index']);
-
-
-// Route::get('/', function () {
-//     return redirect(app()->getLocale());
-// });
