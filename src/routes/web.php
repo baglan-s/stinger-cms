@@ -80,6 +80,6 @@ Route::post('send-feedback', [App\Http\Controllers\FeedbackController::class, 's
 Route::get('test-payment', [App\Http\Controllers\Checkout\OnlinePaymentController::class, 'index']);
 
 
-Route::get('/', function () {
-    return redirect(app()->getLocale());
-});
+// Route::get('/', function () {
+//     return redirect(app()->getLocale());
+// });
