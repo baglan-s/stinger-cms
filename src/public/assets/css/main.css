@@ -396,7 +396,7 @@ img {
     top: 9px;
     color: #fff;
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
     line-height: 20px;
 }
@@ -761,7 +761,6 @@ button {
 }
 
 #brands-carousel .swiper-slide a {
-    padding: 20px;
     display: flex;
     justify-content: center;
 }
@@ -1173,9 +1172,21 @@ svg.hc-control-item__icon {
     .main-inner-products-block {
         margin-bottom: initial;
     }
+
+    .inner-products__mobile {
+        justify-content: center;
+        align-items: stretch;
+     }
+  
+    .main-products__card {
+        flex: 0 1 calc(33.33% - 10px);
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 @media only screen and (min-width: 992px) {
+
     .main-page-content-section__categories {
         margin-bottom: 60px;
     }
@@ -1355,7 +1366,7 @@ svg.hc-control-item__icon {
     }
     .inner-product-discount__counting {
         top: 13px;
-        font-size: 14px;
+        font-size: 28px;
         list-style: 28px;
     }
     .inner-product-card__favorite,
