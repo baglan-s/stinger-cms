@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    // $('#phone-1').mask('+7 (999) 999-99-99', {
-    //     placeholder: "_"
-    // });
 
     $('#submit-btn, #submit-btn-1').on('click', function(e) {
         let activeTab = $('.tab-pane.active');  
@@ -111,12 +108,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let deliveryDate = document.getElementById('deliveryDate')
 
-deliveryDate.addEventListener('change',(e)=>{
-  let startDateVal = e.target.value
-  document.getElementById('deliverytDateSelected').innerText = startDateVal
-})
-
-
-
-
-
+if (deliveryDate) {
+    deliveryDate.addEventListener('change',(e)=>{
+        let startDateVal = e.target.value
+        document.getElementById('deliverytDateSelected').innerText = startDateVal
+    })
+}

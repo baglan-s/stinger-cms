@@ -63,6 +63,54 @@ class OneCApiService extends Service
         }
     }
 
+    public function paymentTypes(): array
+    {
+        try {
+            $response = Http::withBasicAuth($this->login, $this->password)
+                ->get("{$this->host}/TEST/hs/excsite/GetTypesOfPayments");
+
+            if (!$response->successful()) {
+                $this->logService
+                    ->log('1C PaymentTypes API error', '1c', $response->body())
+                    ->write();
+
+                return [];
+            }
+
+            return $response->json();
+        } catch (\Exception $e) {
+            $this->logService
+                ->log('1C PaymentTypes API error', '1c', $e)
+                ->write();
+
+            return [];
+        }
+    }
+
+    public function orderStatuses(): array
+    {
+        try {
+            $response = Http::withBasicAuth($this->login, $this->password)
+                ->get("{$this->host}/TEST/hs/excsite/GetStatuses");
+
+            if (!$response->successful()) {
+                $this->logService
+                    ->log('1C OrderStatuses API error', '1c', $response->body())
+                    ->write();
+
+                return [];
+            }
+
+            return $response->json();
+        } catch (\Exception $e) {
+            $this->logService
+                ->log('1C OrderStatuses API error', '1c', $e)
+                ->write();
+
+            return [];
+        }
+    }
+
     public function cities(array $cityIds = [], array $storeIds = []): array
     {
         try {
@@ -183,10 +231,46 @@ class OneCApiService extends Service
                 return [];
             }
 
+            $this->logService
+                ->log('1C Order created.', '1c', json_encode($response->json()))
+                ->write();
+
             return $response->json();
         } catch (\Exception $e) {
             $this->logService
                 ->log('1C Order API error', '1c', $e)
+                ->write();
+
+            return [];
+        }
+    }
+
+    public function updateOrderStatus(int $orderId, int $statusId): array
+    {
+        try {
+            $response = Http::withBasicAuth($this->login, $this->password)
+                ->post("{$this->host}/TEST/hs/excsite/PostChangeStatus", [
+                    'orderId' => (string)$orderId,
+                    'statusId' => (string)$statusId,
+                    'eventDate' => (new \DateTime)->format('Y-m-d\TH:i:s.v\Z')
+                ]);
+
+            if (!$response->successful()) {
+                $this->logService
+                    ->log('1C Order Status update API error', '1c', $response->body())
+                    ->write();
+
+                return [];
+            }
+
+            $this->logService
+                ->log('1C Order status updated.', '1c', json_encode($response->json()))
+                ->write();
+
+            return $response->json();
+        } catch (\Exception $e) {
+            $this->logService
+                ->log('1C Order Status update API error', '1c', $e)
                 ->write();
 
             return [];

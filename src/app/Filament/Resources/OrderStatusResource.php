@@ -73,6 +73,9 @@ class OrderStatusResource extends Resource
                     ->label(__('admin.crud.create.code'))
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('guid')
+                    ->label(__('GUID'))
+                    ->maxLength(255),
                 Tabs::make('translations')
                     ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs)

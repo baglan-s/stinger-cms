@@ -120,6 +120,10 @@ class StoreResource extends Resource
                 Forms\Components\Toggle::make('is_public')
                     ->label(__('admin.crud.create.is_public'))
                     ->required(),
+                Forms\Components\Toggle::make('is_distributor')
+                    ->label(__('admin.crud.create.is_distributor'))
+                    ->default(false)
+                    ->required(),
                 Tabs::make('translations')
                     ->label(__('admin.crud.create.translations'))
                     ->tabs($tabs)

@@ -18,17 +18,20 @@ class DeliveryAddressService extends Service
     /**
      * Create a new delivery address
      *
-     * @param DeliveryAddressCreateRequest $request
+     * @param DeliveryAddressCreateRequest|array $request
      * @return mixed
      * @throws \Exception
      */
-    public function createAddress(DeliveryAddressCreateRequest $request)
+    public function createAddress(DeliveryAddressCreateRequest|array $request)
     {
         try {
-            $data = $request->validated();
-            $data['user_id'] = $request->user()->id;
+            $data = is_array($request) ? $request : $request->validated();
 
-            return $this->repository->create($data);
+            if (!isset($data['user_id'])) {
+                $data['user_id'] = $request->user()->id;
+            }
+
+            return $this->repository->model()->firstOrCreate($data);
         } catch (\Exception $e) {
             $this->logService
                 ->log('Error creating delivery address', 'single', $e)

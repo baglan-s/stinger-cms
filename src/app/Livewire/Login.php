@@ -70,7 +70,7 @@ class Login extends Component
             Auth::login($user);
         }
 
-        return redirect()->route('personal.account', compact('user'));
+        return redirect()->route('account.index', compact('user'));
     }
 
     public function sendSms(AuthService $authService)

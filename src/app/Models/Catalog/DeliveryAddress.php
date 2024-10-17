@@ -21,6 +21,8 @@ class DeliveryAddress extends Model
 
     public function getFullAddress()
     {
-        return "{$this->city}, {$this->street}, {$this->building}, {$this->appartment}";
+        $address = "{$this->city}, {$this->street}, {$this->building}";
+
+        return $this->apartment ? "$address, {$this->apartment}" : $address;
     }
 }

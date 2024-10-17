@@ -1718,13 +1718,22 @@ margin-top: 20px;
       font-size: 20px;
    }
 
+   .catalog-products__list {
+      justify-content: center;
+      align-items: stretch;
+   }
 
+   .main-products__card {
+      flex: 0 1 calc(33.33% - 10px);
+      display: flex;
+      flex-direction: column;
+    }
 
 }
 
 @media screen and (max-width: 701px) {
    .inner-product-card{
-      width: 244px;
+      width: 164px;
    }
 
    .inner-products__mobile.hide-desktop .inner-product-card {

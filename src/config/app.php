@@ -128,6 +128,12 @@ return [
     'price_types' => [
         'region' => env('REGION_PRICE_TYPE_ID'),
         'rrc' => env('RRC_PRICE_TYPE_ID'),
+    ],
+
+    'order' => [
+        'status_new' => env('ORDER_STATUS_NEW'),
+        'status_paid' => env('ORDER_STATUS_PAID'),
+        'status_canceled' => env('ORDER_STATUS_CANCELED'),
     ]
 
 ];

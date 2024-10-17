@@ -328,10 +328,10 @@
                                 <span>Купить в 1 клик</span>
                                 <svg viewBox="0 0 24.00 24.00"  xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"  stroke-width="0.288"></g><g id="SVGRepo_iconCarrier"> <path d="M7 17L17 7M17 7H8M17 7V16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                             </button>
-                            @if($localStock)
+                            @if($distributorStock)
+                                @include('partials.kaspi-btn', ['product' => $product, 'kaspiMerchantCode' => $kaspiMerchantCode, 'kaspiIndex' => $distributorCity?->kaspi_index])   
+                            @elseif($localStock) 
                                 @include('partials.kaspi-btn', ['product' => $product, 'kaspiMerchantCode' => $kaspiMerchantCode, 'kaspiIndex' => $currentCity->kaspi_index])
-                            @elseif($almaty['stock']) 
-                                @include('partials.kaspi-btn', ['product' => $product, 'kaspiMerchantCode' => $kaspiMerchantCode, 'kaspiIndex' => $almaty['almatyCityKaspiIndex']])   
                             @elseif($product->kaspi_link)
                             <a href="{{ $product->kaspi_link }}" target="_blank" class="base-red-button">
                                 <svg width="429" height="524" viewBox="0 0 429 524" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -355,7 +355,7 @@
                             <a class="parent-product-link" href="{{ route('catalog.products.index', ['parent_id' => $product->id]) }}">Купить товар дешевле</a>
                         @endif
 
-                        @if ($product->cityStocks->sum('available') > 0)
+                        @if ($product->stocks->sum('available') > 0)
                             @php($cityGroups = $product->stocksGroupedByCity())
                             @foreach ($cityGroups as $key => $group)
                                 <p class="city-group-title">{{ $key }}</p>
@@ -446,10 +446,10 @@
                     <span>Купить в 1 клик</span>
                     <svg viewBox="0 0 24.00 24.00"  xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"  stroke-width="0.288"></g><g id="SVGRepo_iconCarrier"> <path d="M7 17L17 7M17 7H8M17 7V16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                 </button>
-                @if($localStock)
+                @if($distributorStock)
+                    @include('partials.kaspi-btn', ['product' => $product, 'kaspiMerchantCode' => $kaspiMerchantCode, 'kaspiIndex' => $distributorCity?->kaspi_index])
+                @elseif($localStock)
                     @include('partials.kaspi-btn', ['product' => $product, 'kaspiMerchantCode' => $kaspiMerchantCode, 'kaspiIndex' => $currentCity->kaspi_index])
-                @elseif($almaty['stock'])
-                    @include('partials.kaspi-btn', ['product' => $product, 'kaspiMerchantCode' => $kaspiMerchantCode, 'kaspiIndex' => $almaty['almatyCityKaspiIndex']])
                 @elseif($product->kaspi_link)
                 <a href="{{ $product->kaspi_link }}" target="_blank" class="base-red-button">
                     <svg width="429" height="524" viewBox="0 0 429 524" fill="none" xmlns="http://www.w3.org/2000/svg">

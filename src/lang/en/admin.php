@@ -91,6 +91,8 @@ return [
                 'main_images' => 'Главное изображение',
                 'additional_images' => 'Дополнительное изображение',
                 'is_public' => 'Публичный',
+                'is_distributor' => 'Распределительный центр',
+                'has_delivery' => 'Есть доставка',
                 'author' => 'Автор',
                 'vacancies' => [
                     'vacancy' => 'Вакансию',
@@ -118,6 +120,11 @@ return [
                 'cities' => [
                     'city' => 'Город',
                     'price_types' => 'Типы цен'
+                ],
+                'payments' => [
+                    'title' => 'Платежи',
+                    'types' => 'Типы платежей',
+                    'type' => 'Тип'
                 ],
                 'orders'=> [
                     'order' => 'Заказ',
@@ -189,6 +196,11 @@ return [
                         'product' => [
                             'product' => 'Товар',
                             'product_min_amount' => 'Минимальное количество товара (больше, меньше)'
+                        ],
+                        'search_hints' => [
+                            'title' => 'Поисковые подсказки',
+                            'search_hint' => 'Подсказка для поиска',
+                            'search_word' => 'Поисковое слово'
                         ]
                     ],
                     'posts' => [

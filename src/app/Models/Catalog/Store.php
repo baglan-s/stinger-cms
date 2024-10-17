@@ -8,6 +8,7 @@ use App\Models\Catalog\StoreImage;
 use App\Models\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Catalog\StoreTranslation;
+use App\Models\Catalog\ProductStock;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Store extends Model
@@ -28,5 +29,10 @@ class Store extends Model
     public function images()
     {
         return $this->hasMany(StoreImage::class);
+    }
+
+    public function stocks()
+    {
+        return $this->hasMany(ProductStock::class);
     }
 }

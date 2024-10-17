@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\EmailCodeNotification;
 use App\Repositories\EmailCodeMessageRepository;
+use App\Http\Requests\UserUpdateRequest;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -30,14 +32,30 @@ class UserController extends Controller
         $this->logService = $logService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request, $user_id)
     {
-        $userId = $request->user_id;
-        $user = $this->authService->userRepository->getById($userId, [
-            'id', 'name', 'email', 'phone', 'email_verified_at', 'last_name'
+        $user = $this->authService->userRepository->getById($request->user()->id, [
+            'id', 'name', 'email', 'phone', 'birthdate', 'email_verified_at', 'last_name'
         ]);
 
+        if ($user->birthdate) {
+            $user->birthdate = Carbon::parse($user->birthdate);
+        }
+
         return view('pages.personal-account', compact('user'));
+    }
+
+    public function update(UserUpdateRequest $request, $user_id)
+    {
+        $day = $request->birthdate_parts['day'] ?? '1';
+        $month = $request->birthdate_parts['month'] ?? '01';
+        $year = $request->birthdate_parts['year'] ?? '2024';
+        $data = $request->validated();
+        $data['birthdate'] = Carbon::parse($day . '-' . $month . '-' . $year)->format('Y-m-d H:i:s');
+
+        $request->user()->update($data);
+
+        return redirect()->route('account.index', $request->user()->id);
     }
 
     /**
@@ -179,7 +197,7 @@ class UserController extends Controller
             if ($isAuth) {
                 $user = $this->authService->user();
                 $userName = $user->name;
-                $personalAccountUrl = route('personal.account', ['user_id' => $user->id]);
+                $personalAccountUrl = route('account.index', ['user_id' => $user->id]);
             }
             return response()->json([
                 'status' => 'success',
@@ -194,7 +212,8 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Internal server error'
+                // 'message' => 'Internal server error'
+                'message' => $e->getMessage()
             ]);
         }
     }

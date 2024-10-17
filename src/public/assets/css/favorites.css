@@ -190,6 +190,14 @@ img {
 @media only screen and (max-width: 768px) {
   .favorites-page__list {
     grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    align-items: stretch;
+  }
+
+ .main-products__card {
+    flex: 0 1 calc(33.33% - 10px);
+    display: flex;
+    flex-direction: column;
   }
 }
 

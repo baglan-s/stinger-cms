@@ -41,6 +41,7 @@ class EditOrderStatus extends EditRecord
     {
         $orderStatus->update([
             'code' => $data['code'],
+            'guid' => $data['guid'] ?? null,
         ]);
 
         foreach ($data['translations'] as $translation) {

@@ -22,19 +22,19 @@ class ProductController extends Controller
 
     public function show(string $slug)
     {
+        dd($slug);
         $product = $this->productService->getRepository()
             ->model()
             ->whereHas('translations', function ($query) use ($slug) {
                 $query->where('slug', $slug);
             })
             ->with([
-                'cityStocks' => function ($query) {
+                'stocks' => function ($query) {
                     $query->whereHas('store', function ($query) {
                         $query->where('city_id', Cookie::get('city_id'))
-                            ->orWhere('city_id', 7);
+                            ->orWhere('is_distributor', true);
                     });
                 },
-                'stocks',
                 'stocks.store',
                 'stocks.store.city',
                 'translations',
@@ -57,7 +57,7 @@ class ProductController extends Controller
 
         return view('pages.catalog.product', [
             'product' => $product,
-            'similarProducts' => $this->productService->getRepository()->similar($product->product_category_id)
+            'similarProducts' => $product->product_category_id ? $this->productService->getRepository()->similar($product->product_category_id): $this->productService->getRepository()->latest()
         ]);
     }
 

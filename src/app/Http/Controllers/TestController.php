@@ -9,6 +9,7 @@ use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Models\User;
 use App\Services\Integration\SmsService;
+use App\Models\ServiceToken;
 
 class TestController extends Controller
 {
@@ -37,6 +38,11 @@ class TestController extends Controller
         // $this->productCategoryService->syncCategoriesWithOneC(
         //     $this->oneCApiService->categories()
         // );
+    }
+
+    public function second()
+    {
+        
     }
 
     public function testSms()

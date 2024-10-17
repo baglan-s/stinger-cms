@@ -44,15 +44,25 @@ $(document).ready(function() {
         isVisibleDesktopSearchResults = !isVisibleDesktopSearchResults;
     });
 
-    $('.header-mobile-search__input').on('click', function() {
-        $('.mobile-search-results').fadeIn();
+    // $('.header-search__input').on('change', function() {
+    //     $('.desktop-search-results').fadeIn();
 
-        if (isVisibleMobileSearchResults) {
-            elemFadeOut('.mobile-search-results');
-        }
+    //     if (isVisibleDesktopSearchResults) {
+    //         elemFadeOut('.desktop-search-results');
+    //     }
 
-        isVisibleMobileSearchResults = !isVisibleMobileSearchResults;
-    });
+    //     isVisibleDesktopSearchResults = !isVisibleDesktopSearchResults;
+    // });
+
+    // $('.header-mobile-search__input').on('click', function() {
+    //     $('.mobile-search-results').fadeIn();
+
+    //     if (isVisibleMobileSearchResults) {
+    //         elemFadeOut('.mobile-search-results');
+    //     }
+
+    //     isVisibleMobileSearchResults = !isVisibleMobileSearchResults;
+    // });
 
     $(document).click(function(event) {
         if (!$(event.target).closest('.catalog-in__header, .header__button, .header-search__input, .header-mobile-search__input').length) {

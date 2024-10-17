@@ -179,6 +179,7 @@
     width: 100%;
 
     padding: 20px;
+    position: relative;
 }
 .cart-reset{
     font-size: 14px;
@@ -223,6 +224,43 @@
     justify-content: space-between;
     gap: 5px;
 }
+li.order-item.disabled, li.order-item-mobile.disabled {
+    position: relative;
+}
+
+.order-item-wrapper {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 5;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+    padding: 20px;
+}
+
+li.order-item.disabled .order-item-wrapper, li.order-item-mobile.disabled .order-item-wrapper {
+    display: flex;
+}
+
+.order-item-wrapper .order-disabled-link {
+    color: #e91e63;
+    font-size: 14px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.order-item-wrapper .order-disabled-link a {
+    color: #03a9f4;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
 .order-item .order-item-image {
     width: 180px;
 }
@@ -485,7 +523,13 @@
 }
 
 .base-button.register {
-    padding: 0;
+    padding: 10px;
+    line-height: 1.5;
+}
+
+.cart-button:disabled {
+    background-color: #f0f4f9 !important;
+    color: #778ba5 !important;
 }
 
 .cart-contact-form-new__delivery {
@@ -608,7 +652,6 @@
 .delivery_2-address-center{
     display: flex;
     gap: 10px;
-    height: 30px;
     margin-top: 20px;
 }
 .delivery_2-address-center input{
@@ -629,6 +672,54 @@
     font-weight: 700;
     line-height: 1.2;
     color: var(--black);
+}
+
+.cart-delivery {
+    padding: 30px 0;
+}
+
+.cart-delivery .form-check input {
+    margin-left: 0;
+}
+
+.cart-delivery .form-check:last-child {
+    margin-bottom: 16px;
+}
+
+.delivery-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-open, .address-toggle {
+    color: #03a9f4;
+    background-color: transparent;
+    border: none;
+}
+
+.address-toggle {
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.map-container {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+}
+
+.map-container.active {
+    display: block;
+}
+
+.map-container #map {
+    width: 100%;
+    height: 100%;
 }
 
 .cart-pay{
@@ -667,13 +758,12 @@
     background-color: var(--gray);
     color: var(--black);
     font-weight: 700;
-
-
+    margin-right: 20px;
     border-radius: 10px;
     padding: 10px;
 }
 
-.pay-item-btn.active{
+.pay-item-btn.active, .pay-item-btn:hover{
     background-color: var(--black);
     color: var(--white);
 }
@@ -804,6 +894,49 @@
     width: 30%!important;
 }
 
+.cart-shipping-info .shipping-method {
+    padding: 20px 0;
+}
+
+.shipping-method__tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background-color: #f0f4f9;
+    border-radius: 24px;
+    padding: 5px;
+}
+
+.shipping-method__tabs button {
+    padding: 5px 10px;
+    border: none;
+    color: #778ba5;
+    transition: all 0.2 ease-in;
+    border-radius: 24px;
+    width: 49%;
+    cursor: pointer;
+}
+
+.shipping-method__tabs button.active {
+    background-color: #778ba5;
+    color: #fff;
+}
+
+.tab-content__text {
+    font-size: 14px;
+    color: #778ba5;
+}
+
+.shipping-method__content select {
+    font-size: 14px;
+    color: #222;
+}
+
+.shipping-method__content select:focus {
+    box-shadow: none;
+    outline: none;
+}
+
 .cart-accordion .accordion-item{
     border-bottom: none;
 }
@@ -896,7 +1029,7 @@
     font-weight: 400;
     line-height: 1.2;
     color: var(--semi-black);
-    margin-top: 30px;
+    margin-top: 5px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
@@ -924,10 +1057,13 @@
 
 
 
-
+.cart-block {
+    position: relative;
+}
 .cart-block-mobile{
     background-color: var(--white);
     padding: 0 10px;
+    position: relative;
 }
 
 .cart input, 
@@ -940,9 +1076,10 @@
     border-color: var(--red);
 }
 
-.invalid-feedback {
-    display: none;
+.invalid-feedbacks {
     color: var(--red);
+    font-size: 13px;
+    margin-top: 10px;
 }
 
 .is-invalid + .invalid-feedback {
@@ -952,6 +1089,97 @@
     width: 100%;
 }
 
+.notification-togglers {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-toggler {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 20px;
+    min-width: 280px;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+    width: calc(33.3% - 10px);
+    min-height: 82px;
+}
+
+.form-switch__text{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.37
+ }
+ 
+ .catalog-menu__switch{
+    display: flex;
+    justify-content: space-between;
+ }
+ 
+ 
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+  }
+  
+ 
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    top: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+  }
+  
+ 
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
 
 
 
@@ -1064,13 +1292,6 @@
         max-width: 600px;
         width: 100%;
     }
-    
-   
-
-
-
-
-
 
 }
 
@@ -1083,7 +1304,7 @@
         flex-direction: column;
     }
     .cart-block-wrap{
-        display: none;
+        display: none !important;
     }
     form .cart-block-wrap{
         display: block;

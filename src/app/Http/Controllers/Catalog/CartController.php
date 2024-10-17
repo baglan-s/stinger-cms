@@ -12,8 +12,10 @@ class CartController extends Controller
         return view('pages.catalog.cart');
     }
 
-    public function checkout()
+    public function checkout(Request $request)
     {
-        return view('pages.catalog.checkout');
+        return view('pages.catalog.checkout', [
+            'step' => $request->get('step')
+        ]);
     }
 }
