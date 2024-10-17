@@ -40,6 +40,11 @@ class TestController extends Controller
         // );
     }
 
+    public function second()
+    {
+        
+    }
+
     public function testSms()
     {
         $phone = '+77024441143'; 

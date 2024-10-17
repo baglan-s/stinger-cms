@@ -212,7 +212,8 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Internal server error'
+                // 'message' => 'Internal server error'
+                'message' => $e->getMessage()
             ]);
         }
     }
