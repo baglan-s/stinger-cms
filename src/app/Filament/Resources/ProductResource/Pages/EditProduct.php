@@ -44,8 +44,8 @@ class EditProduct extends EditRecord
 
         foreach ($product->specifications as $specification) {
             $data['specifications'][$specification->id] = $specification->multiple 
-                ? $specification->productValues?->pluck('id')?->toArray()
-                : $specification->productValues->first()->id ?? null;
+                ? $specification->productValues()->wherePivot('product_id', $product->id)->pluck('specification_values.id')?->toArray()
+                : $specification->productValues()->wherePivot('product_id', $product->id)->first()->id ?? null;
         }
     
         return $data;
@@ -107,7 +107,16 @@ class EditProduct extends EditRecord
                 $specification = $productSpecifications->where('id', $specId)->first();
                 
                 if ($specification) {
-                    $specification->productValues()->sync(is_array($specValue) ? $specValue : [$specValue]);
+                    $specification->productValues()
+                        ->wherePivot('product_id', $product->id)->delete();
+
+                    if (is_array($specValue)) {
+                        foreach ($specValue as $valueId) {
+                            $specification->productValues()->attach($valueId, ['product_id' => $product->id]);
+                        }
+                    } else {
+                        $specification->productValues()->attach($specValue, ['product_id' => $product->id]);
+                    }
                 }
             }
         }
