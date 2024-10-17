@@ -24,7 +24,7 @@
                         <div class="mobile-search-group-title">Подходящие товары</div>
                         <div class="mobile-search-group-description">
                             @foreach ($products as $product)
-                                <a class="mobile-search-product" href="{{ route('catalog.products.show', $product->translation()?->slug) }}">
+                                <a class="mobile-search-product" href="{{ route('catalog.products.show', ['slug' => $product->translation()?->slug]) }}">
                                     <div class="mobile-search-product__image" style="background-image: url({{ $product->getDefaultImage() }})"></div>
                                     <div class="mobile-search-product__name-holder">
                                         <div class="mobile-search-product__name">{{ $product->translation()?->name }}</div>

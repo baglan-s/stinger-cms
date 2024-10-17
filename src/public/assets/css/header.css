@@ -2,6 +2,21 @@
     width: 100%;
 }
 
+.header-languages {
+    padding: 10px 16px;
+}
+
+.header-languages__lang {
+    font-size: 14px;
+    color: #778ba5;
+    font-weight: 400;
+}
+
+.header-languages__lang.active {
+    font-weight: 600;
+    color: #03a9f4;
+}
+
 .h-container {
     max-width: 1292px;
     width: 100%;
@@ -1625,7 +1640,7 @@ a {
         position: relative;
         max-width: 1366px;
         margin: 0 auto;
-        padding: 25px 0 15px;
+        padding: 10px 0 15px;
     }
     .h-container {
         padding: 0 16px;

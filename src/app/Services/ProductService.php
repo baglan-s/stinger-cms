@@ -35,7 +35,8 @@ class ProductService extends Service
         try {
             $dbProducts = $this->repository->all();
             $synchronized = 0;
-            $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            // $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            $languages = $this->languageRepository->model()->where('active', true)->get();
             $productCategories = $this->productCategoryRepository->model()
                 ->select(['id', 'guid'])
                 ->get();
@@ -64,10 +65,14 @@ class ProductService extends Service
                                 $parentProductBrand,
                                 $this->repository->model()
                             ));
-                            $parentProduct->translations()->create(ProductAdapter::adaptOneCProductTranslation(
-                                $productByGuid, 
-                                $defaultLanguage->id, 
-                            ));
+
+                            foreach ($languages as $language) {
+                                $parentProduct->translations()->create(ProductAdapter::adaptOneCProductTranslation(
+                                    $productByGuid, 
+                                    $language->id, 
+                                ));
+                            }
+                            
                             $dbProducts->push($parentProduct);
 
                             if ($parentProductBrand->id && $parentProductCategory->id && $parentProductCategory->brands()->where('brands.id', $parentProductBrand->id)->count() === 0) {
@@ -85,10 +90,14 @@ class ProductService extends Service
                             $brand, 
                             $parentProduct ?? $this->repository->model()
                         ));
-                    $existedProduct->translations()->create(ProductAdapter::adaptOneCProductTranslation(
-                        $product, 
-                        $defaultLanguage->id,
-                    ));
+                    
+                    foreach ($languages as $language) {
+                        $existedProduct->translations()->create(ProductAdapter::adaptOneCProductTranslation(
+                            $product, 
+                            $language->id,
+                        ));
+                    }
+
                     $dbProducts->push($existedProduct);
                 } else {
                     $existedProduct->update(ProductAdapter::adaptOneCProduct(
@@ -97,10 +106,10 @@ class ProductService extends Service
                         $brand, 
                         $parentProduct ?? $this->repository->model()
                     ));
-                    $existedProduct->translations()->where('language_id', $defaultLanguage->id)->update(ProductAdapter::adaptOneCProductTranslation(
-                        $product, 
-                        $defaultLanguage->id,
-                    ));
+                    // $existedProduct->translations()->where('language_id', $defaultLanguage->id)->update(ProductAdapter::adaptOneCProductTranslation(
+                    //     $product, 
+                    //     $defaultLanguage->id,
+                    // ));
                 }
 
                 if ($brand->id && $productCategory->id && $productCategory->brands()->where('brands.id', $brand->id)->count() === 0) {

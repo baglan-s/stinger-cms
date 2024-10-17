@@ -3,7 +3,7 @@
 
 <div class="main-page-content-section-inner__side">
     <div class="main-page-content-section-inner__product">
-        <a href="{{ route('catalog.products.show', $product->translation()?->slug ?? '-') }}" target="_blank" class="main-page-content-section-inner-product">
+        <a href="{{ route('catalog.products.show', ['slug' => $product->translation()?->slug ?? '-']) }}" target="_blank" class="main-page-content-section-inner-product">
             <div class="main-page-content-section-inner-product__main">
                 @if ($product->getDiscount() > 0)
                     <div class="main-page-content-section-inner-product__discount">

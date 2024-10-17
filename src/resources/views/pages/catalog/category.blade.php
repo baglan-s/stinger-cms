@@ -21,7 +21,7 @@
                 @foreach ($category->children as $category)
 
                     <div class="col-lg-3 col-md-2 col-12">
-                        <a href="{{ route('catalog.categories.show', $category->translation()?->slug) }}" class="category-block">
+                        <a href="{{ route('catalog.categories.show', ['slug' => $category->translation()?->slug ?? '-']) }}" class="category-block">
                             <div class="category-image">
                                 <img src="{{ asset($category->getImage()) }}" alt="">
                             </div>

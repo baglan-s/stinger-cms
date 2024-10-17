@@ -77,6 +77,6 @@ class ComparisonModal extends Component
 
     public function toComparison()
     {
-        return redirect('comparison');
+        return redirect()->route('comparison');
     }
 }

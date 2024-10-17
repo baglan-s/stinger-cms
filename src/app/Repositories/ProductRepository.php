@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Models\Catalog\ProductPrice;
 use App\Models\SearchHint;
+use App\Repositories\LanguageRepository;
 
 class ProductRepository extends Repository
 {
@@ -16,6 +17,8 @@ class ProductRepository extends Repository
 
     private array $favouriteProductIds = [];
     private array $comparisonProductIds = [];
+
+    private LanguageRepository $languageRepository;
 
     public function __construct()
     {
@@ -28,6 +31,8 @@ class ProductRepository extends Repository
             Cookie::get('comparison_products', json_encode([])),
             true
         );
+
+        $this->languageRepository = app(LanguageRepository::class);
     }
 
     public function latest(int $limit = 10)
@@ -187,7 +192,8 @@ class ProductRepository extends Repository
                 }
                 
                 $query->whereHas('translations', function ($query) use ($filter) {
-                    $query->whereRaw("lower(name) LIKE '%". mb_strtolower($filter['search']). "%'");
+                    $query->whereRaw("lower(name) LIKE '%". mb_strtolower($filter['search']). "%'")
+                        ->where('language_id', $this->languageRepository->getByCode(app()->getLocale())?->id);
                 });
             })
             ->when(isset($filter['category_id']), function ($query) use ($filter) {

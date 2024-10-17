@@ -148,7 +148,7 @@
                                             @foreach ($order->items as $item)
                                                 <div class="the-personal-orders-products__row">
                                                     <div class="the-personal-orders-products__cell">
-                                                        <a href="{{ route('catalog.products.show', $item->product->translation()?->slug) }}" class="the-personal-orders-products__link">
+                                                        <a href="{{ route('catalog.products.show', ['slug' => $item->product->translation()?->slug]) }}" class="the-personal-orders-products__link">
                                                             <div class="the-personal-orders-products__image">
                                                                 <img src="{{ $item->product->getDefaultImage() }}" alt="" />
                                                             </div>

@@ -34,7 +34,7 @@
                                 <div class="desktop-search-group-title">Подходящие товары</div>
                                 <div class="desktop-search-group-description">
                                     @foreach ($products as $product)
-                                        <a class="desktop-search-product" href="{{ route('catalog.products.show', $product->translation()?->slug) }}">
+                                        <a class="desktop-search-product" href="{{ route('catalog.products.show', ['slug' => $product->translation()?->slug]) }}">
                                             <div class="desktop-search-product__image" style="background-image: url('{{ asset($product->getDefaultImage()) }}')"></div>
                                             <div class="desktop-search-product__name-holder">
                                                 <div class="desktop-search-product__name">{{ $product->translation()?->name }}</div>

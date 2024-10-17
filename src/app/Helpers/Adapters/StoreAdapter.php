@@ -13,6 +13,7 @@ class StoreAdapter
             'guid' => $store['guid'],
             'id_1c' => $store['id'] ?? null,
             'active' =>!$store['notShowed'],
+            'is_distributor' => $store['isDistributor'] ?? false,
             'city_id' => $city->id,
             'sort' => 0
         ];

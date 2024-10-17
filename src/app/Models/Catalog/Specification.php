@@ -56,11 +56,13 @@ class Specification extends Model
         );
     }
 
-    public function productValuesString()
+    public function productValuesString(int $productId)
     {
         $values = [];
 
-        foreach ($this->productValues as $value) {
+        $specValues = $this->productValues()->wherePivot('product_id', $productId)->get();
+
+        foreach ($specValues as $value) {
             $values[] = $value->translation()?->name;
         }
 

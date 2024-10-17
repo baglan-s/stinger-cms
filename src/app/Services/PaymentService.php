@@ -27,22 +27,27 @@ class PaymentService extends Service
         try {
             $dbTypes = $this->paymentTypeRepository->all();
             $synchronized = 0;
-            $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            // $defaultLanguage = $this->languageRepository->getByCode(config('app.locale'));
+            $languages = $this->languageRepository->model()->where('active', true)->get();
 
             foreach ($types as $type) {
                 $existedType = $dbTypes->where('guid', $type['guid'])->first();
 
                 if (!$existedType) {
                     $existedType = $this->paymentTypeRepository->create(PaymentTypeAdapter::adaptOneCPaymentType($type));
-                    $existedType->translations()->create(
-                        PaymentTypeAdapter::adaptOneCPaymentTypeTranslation($type, $defaultLanguage->id)
-                    );
+                    
+                    foreach ($languages as $language) {
+                        $existedType->translations()->create(
+                            PaymentTypeAdapter::adaptOneCPaymentTypeTranslation($type, $language->id)
+                        );
+                    }
+
                     $dbTypes->push($existedType);
                 } else {
                     $existedType->update(PaymentTypeAdapter::adaptOneCPaymentType($type));
-                    $existedType->translations()->where('language_id', $defaultLanguage->id)->update(
-                        PaymentTypeAdapter::adaptOneCPaymentTypeTranslation($type, $defaultLanguage->id)
-                    );
+                    // $existedType->translations()->where('language_id', $defaultLanguage->id)->update(
+                    //     PaymentTypeAdapter::adaptOneCPaymentTypeTranslation($type, $defaultLanguage->id)
+                    // );
                 }
 
                 $synchronized++;

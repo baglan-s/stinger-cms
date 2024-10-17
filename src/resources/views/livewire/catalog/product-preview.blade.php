@@ -20,7 +20,7 @@
                 @include('partials.comparison-btn')
             </div>
             <div class="inner-product-card__image">
-                <a href="{{ route('catalog.products.show', $product->translation()?->slug ?? '-') }}" class="inner-product-card__image-url" tabindex="-1">
+                <a href="{{ route('catalog.products.show', ['slug' => $product->translation()?->slug ?? '-']) }}" class="inner-product-card__image-url" tabindex="-1">
                     <img src="{{ asset($product->getDefaultImage()) }}" alt="" class="inner-product-card__image-product" lazy="loaded">
                     <!-- <img src="assets/images/products/itvom43zllix3dky899fozzccxfcu1hl.jpg" alt="" class="inner-product-card__image-hover"> -->
                     <div class="inner-product-card__preload">
@@ -38,14 +38,14 @@
                         <span class="label-lowered">Уценка</span>
                     @endif
                 </div>
-                <a href="{{ route('catalog.products.show', $product->translation()?->slug ?? '-') }}" class="inner-product-card__title">{{ $product->translation()?->name }}</a>
+                <a href="{{ route('catalog.products.show', ['slug' => $product->translation()?->slug ?? '-']) }}" class="inner-product-card__title">{{ $product->translation()?->name }}</a>
                 @if($product->cityStocks->sum('available') <= 0)
                     <small class="availability-label">Нет в наличии</small>
                 @endif
             </div>
         </div>
         <div class="inner-product-card__bottom">
-            <a href="{{ route('catalog.products.show', $product->translation()?->slug ?? '-') }}" class="inner-product-card__cost">
+            <a href="{{ route('catalog.products.show', ['slug' => $product->translation()?->slug ?? '-']) }}" class="inner-product-card__cost">
                 <div class="inner-product-card-cost">
                     @if ($product->getOldPrice() > 0)
                     <div class="inner-product-card-cost__old">{{ $product->getOldPrice() }} тг</div>
